@@ -16,11 +16,11 @@ public  class BasicConnection {
 
 	public BasicConnection()  {
 		DataSource ds=new DataSource();
-		ds.setIpAddress("10.230.28.204");
-		ds.setUserName("dbwlhr");
-		ds.setPassword("dbwlhr");
+		ds.setIpAddress("127.0.0.1");
+		ds.setUserName("rpt");
+		ds.setPassword("1");
 		ds.setPort("1521");
-		ds.setDataName("hrdb");
+		ds.setDataName("orcl");
 		ds.setDataType(1);
 		init(ds);
 	}

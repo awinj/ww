@@ -23,14 +23,19 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
         <module name="leadata" />
+        <module name="web" />
         <module name="windao" />
+        <module name="winwf" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="almq" target="1.6" />
       <module name="leadata" target="1.5" />
       <module name="mq" target="1.6" />
+      <module name="web" target="1.5" />
       <module name="windao" target="1.5" />
+      <module name="winwf" target="1.5" />
+      <module name="ww" target="1.6" />
     </bytecodeTargetLevel>
   </component>
 </project>

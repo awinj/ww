@@ -16,17 +16,17 @@
             <version>3.2.6</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.deppon.dpboot</groupId>
-            <artifactId>dpboot-utils-serializer</artifactId>
-            <version>1.0.2</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.deppon.dpboot</groupId>-->
+            <!--<artifactId>dpboot-utils-serializer</artifactId>-->
+            <!--<version>1.0.2</version>-->
+        <!--</dependency>-->
 
-        <dependency>
-            <groupId>com.deppon.dpboot</groupId>
-            <artifactId>dpboot-mq-client</artifactId>
-            <version>1.0.4</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.deppon.dpboot</groupId>-->
+            <!--<artifactId>dpboot-mq-client</artifactId>-->
+            <!--<version>1.0.4</version>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>awin.dao</groupId>
             <artifactId>awindao</artifactId>

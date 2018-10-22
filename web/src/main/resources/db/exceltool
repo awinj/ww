@@ -1,0 +1,10 @@
+="private "&IF(OR(B6="key",B6="text",B6="boolean",B6="time"),"String",IF(B6="number","Double",IF(B6="int","Integer","String")))&" "&A6&" ;"
+
+
+
+=A6&" "&IF(B6="key","char(20)",IF(B6="text","varchar2(100)",IF(B6="boolean","char(1)",IF(B6="time","char(19)",IF(B6="int","smallint",IF(B6="number","number(18,8)","varchar2(100)"))))))&IF(E6=1,"  not null,",",")
+
+
+="comment on column"&" "&C4&","&A6&" is"& " '"&C6&"';"
+
+=IF(E6=1,"  constraint "&B6&" PRIMARY KEY ( "&B6&" ) ",",")

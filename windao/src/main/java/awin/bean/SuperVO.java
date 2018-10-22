@@ -1,18 +1,13 @@
 package awin.bean;
 
-import awin.bean.util.BeanHelper;
-
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
-
 public abstract class SuperVO extends ValueObject implements IStateful{
+
 
 
 	private boolean dirty = false;
 	private int status = 0;
+	private String ts;
+	private String dr;
 
 	public Object clone()
 	{
@@ -38,6 +33,10 @@ public abstract class SuperVO extends ValueObject implements IStateful{
 		return vo;
 	}
 
+	public  String getParentPk()
+	{
+		return null;
+	}
 
 	public boolean isDirty() {
 		return dirty;
@@ -47,14 +46,36 @@ public abstract class SuperVO extends ValueObject implements IStateful{
 		this.dirty = dirty;
 	}
 
+	/**
+	 * VOState
+	 * @return
+	 */
 	public int getStatus() {
 		return status;
 	}
 
+	/**
+	 * VOState
+	 * @param status
+	 */
 	public void setStatus(int status) {
 		this.status = status;
 	}
 
 
+	public String getTs() {
+		return ts;
+	}
 
+	public void setTs(String ts) {
+		this.ts = ts;
+	}
+
+	public String getDr() {
+		return dr;
+	}
+
+	public void setDr(String dr) {
+		this.dr = dr;
+	}
 }

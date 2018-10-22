@@ -15,5 +15,7 @@ public class DAOException extends BaseException {
 	{
 		super(msg,e);
 	}
+
+
 }
 

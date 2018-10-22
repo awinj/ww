@@ -23,6 +23,7 @@
     <modules>
         <module>winwf</module>
         <module>windao</module>
+        <module>web</module>
     </modules>
 
 
