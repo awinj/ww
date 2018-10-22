@@ -1,4 +1,4 @@
-="private "&IF(OR(B6="key",B6="text",B6="boolean",B6="time"),"String",IF(B6="number","Double",IF(B6="int","Integer","String")))&" "&A6&" ;"
+="private "&IF(OR(C3="key",C3="text",C3="boolean",C3="time"),"String",IF(C3="number","BigDecimal","String"))&" "&B3&" ;"
 
 
 

@@ -12,11 +12,12 @@ import org.apache.commons.dbcp.BasicDataSourceFactory;
 public  class BasicConnection {
 
 
-	BasicDataSource dataSource;
+	private BasicDataSource dataSource;
 
 	public BasicConnection()  {
 		DataSource ds=new DataSource();
 		ds.setIpAddress("127.0.0.1");
+		ds.setIpAddress("192.168.0.108");
 		ds.setUserName("rpt");
 		ds.setPassword("1");
 		ds.setPort("1521");
@@ -71,7 +72,7 @@ public  class BasicConnection {
 
 	public Connection getConnection() throws ConnectionException
 	{
-		Connection conn=null;
+		Connection conn;
 		try {
 			conn = dataSource.getConnection();
 		} catch (Exception e) {

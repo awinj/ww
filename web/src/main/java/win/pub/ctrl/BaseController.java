@@ -41,7 +41,7 @@ public abstract class BaseController {
         try {
             List data=getDao().query(c);
             queryData.setData(data);
-
+            queryData.setCount(data.size());
         } catch (DAOException e) {
             e.printStackTrace();
         }

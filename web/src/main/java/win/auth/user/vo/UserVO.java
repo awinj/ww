@@ -2,6 +2,8 @@ package win.auth.user.vo;
 
 import win.pub.vo.DocVO;
 
+import java.math.BigDecimal;
+
 /**
  * Created by aWin on 2018-09-07.
  */
@@ -17,7 +19,7 @@ public class UserVO extends DocVO {
     private String sex ;
     private String city ;
     private String sign ;
-    private Double score ;
+    private BigDecimal score ;
 
 
 
@@ -111,11 +113,11 @@ public class UserVO extends DocVO {
         this.sign = sign;
     }
 
-    public Double getScore() {
+    public BigDecimal getScore() {
         return score;
     }
 
-    public void setScore(Double score) {
+    public void setScore(BigDecimal score) {
         this.score = score;
     }
 }
