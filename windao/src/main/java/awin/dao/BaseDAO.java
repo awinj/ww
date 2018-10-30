@@ -16,7 +16,6 @@ public class BaseDAO {
 		return getPersistence().insert(vo);
 	}
 
-	
 	public int update(SuperVO vo) throws DAOException {
 		return getPersistence().update(vo);
 	}
@@ -35,7 +34,10 @@ public class BaseDAO {
 
 		return getResultSetUtil().toBeanList(c, getPersistence().queryByWhere(c,whereSql));
 	}
-	
+	public <T extends SuperVO> List<T> queryByPager(Class<T> c,String whereSql,Integer index,Integer pageSize) throws DAOException {
+		return getResultSetUtil().toBeanList(c,getPersistence().queryByPager(c,whereSql,index,pageSize));
+	}
+
 	private ResultSetUtil getResultSetUtil()
 	{
 		if(resultSetUtil==null)

@@ -29,7 +29,13 @@ public class SelectString extends SqlString{
 		select(temp);
 		return this;
 	}
-	
+	public SelectString append(String str)
+	{
+		if(sql!=null)
+			sql.append(str);
+		return this;
+	}
+
 	
 	public SelectString from(String fromPara) throws FromParaNullException
 	{

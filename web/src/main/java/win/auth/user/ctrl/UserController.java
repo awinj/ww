@@ -28,11 +28,11 @@ public class UserController extends BaseController {
     }
 
     @Override
-    @RequestMapping(value = "query",produces="text/html; charset=UTF-8")
+    @RequestMapping("query")
     @ResponseBody
-    public String query(Integer curr,Integer nums   )
+    public String query(Integer index,Integer pageSize   )
     {
-        return super.queryData(UserVO.class,curr,nums);
+        return super.queryData(UserVO.class,index,pageSize);
     }
 
 

@@ -39,12 +39,9 @@ public abstract class BaseController {
     {
         QueryData queryData=new QueryData();
         try {
-            List data=getDao().query(c);
+            List data=getDao().queryByPager(c,null,index-1,pageSize);//前台从第一页开始，数据库从第0页开始
             queryData.setData(data);
-            UserVO tmp=new UserVO();
-            tmp.setUserName("哇官方说法");
-            data.add(tmp);
-            queryData.setCount(data.size());
+            queryData.setCount(16);
         } catch (DAOException e) {
             e.printStackTrace();
         }

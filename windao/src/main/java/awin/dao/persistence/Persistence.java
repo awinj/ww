@@ -123,6 +123,37 @@ public  class Persistence {
 		 }
 	 }
 
+	/**
+	 *
+	 * @param c VO 类
+	 * @param index 页码
+	 * @param pageSize 每页条数
+	 * @return
+	 */
+	 public ResultSet queryByPager(Class c,String where,Integer index,Integer pageSize) throws DAOException {
+		if(index==null)
+			index=0;
+		 if(pageSize==null)
+		 	pageSize=10;
+
+		  IORM vo=BeanHelper.createBean(c);
+		if(vo!=null)
+		{
+			try {
+				String tmptable=new SelectString().select(vo.getAttrNames()).append(" ,rownum as rowno").from(vo.getTableName()).where(where).toString();
+				String sql=new SelectString().select(vo.getAttrNames()).from("("+tmptable+") t").where("t.rowno >="+index*pageSize+" and t.rowno <" +(index+1)*pageSize).toString();
+				return query(sql);
+			} catch (FromParaNullException e) {
+				throw new DAOException(e.getMessage(),e);
+			}
+		}
+		else
+		{
+			throw new DAOException("暂不支持本类型:"+String.valueOf(c));
+		}
+
+	 }
+
 
 
 
