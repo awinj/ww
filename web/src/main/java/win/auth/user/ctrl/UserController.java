@@ -28,7 +28,7 @@ public class UserController extends BaseController {
     }
 
     @Override
-    @RequestMapping("query")
+    @RequestMapping(value = "query",produces="text/html; charset=UTF-8")
     @ResponseBody
     public String query(Integer curr,Integer nums   )
     {

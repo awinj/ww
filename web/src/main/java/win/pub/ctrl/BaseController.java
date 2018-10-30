@@ -41,6 +41,9 @@ public abstract class BaseController {
         try {
             List data=getDao().query(c);
             queryData.setData(data);
+            UserVO tmp=new UserVO();
+            tmp.setUserName("哇官方说法");
+            data.add(tmp);
             queryData.setCount(data.size());
         } catch (DAOException e) {
             e.printStackTrace();
