@@ -1,20 +1,19 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: aWin
-  Date: 2018-09-08
-  Time: 10:17
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-  <title>Title1</title>
-  <%@ include  file="pub/head.jsp" %>
-</head>
-<body>
-欢迎进入系统
+<div class="layui-header header header-demo" autumn="">
+  <div class="layui-main">
 
-</body>
-</html>
+    <ul class="layui-nav">
+      <li class="layui-nav-item ">
+        <a href="/doc/">文档<!-- <span class="layui-badge-dot"></span> --></a>
+      </li>
+      <li class="layui-nav-item layui-this">
+        <a href="/demo/">示例<!--  --></a>
+      </li>
 
-<%@ include  file="pub/htmlend.jsp" %>
+
+
+
+
+
+      <span class="layui-nav-bar" style="left: 0px; width: 0px; opacity: 0;"></span></ul>
+  </div>
+</div>
