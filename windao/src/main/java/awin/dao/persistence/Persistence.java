@@ -155,6 +155,23 @@ public  class Persistence {
 	 }
 
 
+	 public ResultSet queryCount(Class c,String where) throws DAOException {
+         IORM vo=BeanHelper.createBean(c);
+         if(vo!=null)
+         {
+             try {
+                 String sql=new SelectString().select(" count(1) ").from(vo.getTableName()).where(where).toString();
+                 return query(sql);
+             } catch (FromParaNullException e) {
+                 throw new DAOException(e.getMessage(),e);
+             }
+         }
+         else
+         {
+             throw new DAOException("暂不支持本类型:"+String.valueOf(c));
+         }
+
+     }
 
 
 

@@ -41,7 +41,7 @@ public abstract class BaseController {
         try {
             List data=getDao().queryByPager(c,null,index-1,pageSize);//前台从第一页开始，数据库从第0页开始
             queryData.setData(data);
-            queryData.setCount(16);
+            queryData.setCount(16);  //TODO 查询总数
         } catch (DAOException e) {
             e.printStackTrace();
         }
