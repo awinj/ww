@@ -6,6 +6,7 @@ import awin.dao.BaseDAO;
 import awin.dao.exception.DAOException;
 import win.pub.vo.AggVO;
 import win.pub.vo.MutiAggVO;
+import win.pub.vo.QueryData;
 
 import java.util.List;
 
@@ -87,5 +88,20 @@ public class PubServer implements IVOServer {
         rowCount+=delete(aggVO.getParentVO());
         rowCount+=delete((List<SuperVO>) aggVO.getAllChildrenVO().values());
         return rowCount;
+    }
+
+
+    public <T extends SuperVO> QueryData  queryData(Class<T> c,String where, Integer index ,Integer pageSize)
+    {
+        QueryData queryData=new QueryData();
+        try {
+            List data=getDao().queryByPager(c,where,index-1,pageSize);//前台从第一页开始，数据库从第0页开始
+            Integer count=getDao().queryCount(c,null);
+            queryData.setData(data);
+            queryData.setCount(count);
+        } catch (DAOException e) {
+            e.printStackTrace();
+        }
+        return queryData;
     }
 }

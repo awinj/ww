@@ -9,6 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 import win.auth.user.vo.UserVO;
 import win.pub.model.PageModel;
+import win.pub.srv.PubServer;
 import win.pub.util.JsonUtil;
 import win.pub.vo.AggVO;
 import win.pub.vo.QueryData;
@@ -35,17 +36,9 @@ public abstract class BaseController {
     }
     public abstract String query(Integer curr,Integer nums  );
 
-    public <T extends SuperVO> String  queryData(Class<T> c, Integer index ,Integer pageSize)
+    public <T extends SuperVO> String  queryData(Class<T> c,String where, Integer index ,Integer pageSize)
     {
-        QueryData queryData=new QueryData();
-        try {
-            List data=getDao().queryByPager(c,null,index-1,pageSize);//前台从第一页开始，数据库从第0页开始
-            Integer count=getDao().queryCount(c,null);
-            queryData.setData(data);
-            queryData.setCount(count);
-        } catch (DAOException e) {
-            e.printStackTrace();
-        }
+        QueryData queryData=getServer().queryData(c,where,index,pageSize);
         return JsonUtil.beanToJson(queryData);
     }
 
@@ -80,11 +73,11 @@ public abstract class BaseController {
         return result;
     }
 
-    private BaseDAO dao;
-    protected BaseDAO getDao()
+    PubServer server;
+    private PubServer getServer()
     {
-        if(dao==null)
-            dao=new BaseDAO();
-        return dao;
+        if(server==null)
+            server=new PubServer();
+        return server;
     }
 }

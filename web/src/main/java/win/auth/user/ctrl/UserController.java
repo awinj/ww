@@ -20,6 +20,7 @@ import java.util.List;
 @RequestMapping("auth/user")
 public class UserController extends BaseController {
 
+    private static String whereStr;//存储查询条件，以便点击下一页时能根据查询条件分页
 
     @Override
     @RequestMapping("index")
@@ -32,7 +33,7 @@ public class UserController extends BaseController {
     @ResponseBody
     public String query(Integer index,Integer pageSize   )
     {
-        return super.queryData(UserVO.class,index,pageSize);
+        return super.queryData(UserVO.class,whereStr,index,pageSize);
     }
 
 
