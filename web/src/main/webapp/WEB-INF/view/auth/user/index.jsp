@@ -48,7 +48,7 @@
     <div class="layui-side layui-bg-black">
         <div class="layui-side-scroll">
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
-            <ul class="layui-nav layui-nav-tree"  lay-filter="demo">
+            <ul class="layui-nav layui-nav-tree "  lay-filter="demo">
                 <li class="layui-nav-item layui-nav-itemed">
                     <a class="javascript:;" href="javascript:;">基本元素<span class="layui-nav-more"></span></a>
                     <dl class="layui-nav-child">
@@ -77,8 +77,44 @@
 
     <div class="layui-body">
         <!-- 内容主体区域 -->
-        <div class="win_content">
+        <div class="layui-card">
+        <div class="layui-form layui-card-header layuiadmin-card-header-auto" lay-filter="app-content-workorder">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">工单号</label>
+                    <div class="layui-input-block">
+                        <input name="orderid" class="layui-input" type="text" placeholder="请输入" autocomplete="off">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">工单标题</label>
+                    <div class="layui-input-block">
+                        <input name="title" class="layui-input" type="text" placeholder="请输入" autocomplete="off">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">业务性质</label>
+                    <div class="layui-input-block">
+                        <input name="attr" class="layui-input" type="text" placeholder="请输入" autocomplete="off">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">受理人</label>
+                    <div class="layui-input-block">
+                        <input name="accept" class="layui-input" type="text" placeholder="请输入" autocomplete="off">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <button class="layui-btn layuiadmin-btn-order" lay-filter="LAY-app-order-search" lay-submit="">
+                        <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="layui-card-body">
+
             <table class="layui-hide" id="demo" lay-filter="test"></table>
+        </div>
         </div>
     </div>
 
