@@ -2,23 +2,16 @@ package win.pub.ctrl;
 
 
 import awin.bean.SuperVO;
-import awin.dao.BaseDAO;
-import awin.dao.exception.DAOException;
-import org.springframework.ui.Model;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.Controller;
-import win.auth.user.vo.UserVO;
-import win.pub.model.PageModel;
 import win.pub.srv.PubServer;
 import win.pub.util.JsonUtil;
 import win.pub.vo.AggVO;
 import win.pub.vo.QueryData;
 import win.pub.vo.Result;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by aWin on 2018-09-04.
@@ -34,10 +27,17 @@ public abstract class BaseController {
         view.setViewName("auth/user/index");
         return view;
     }
-    public abstract String query(Integer curr,Integer nums  );
+    public abstract String query(String condition, Integer curr, Integer nums  );
 
-    public <T extends SuperVO> String  queryData(Class<T> c,String where, Integer index ,Integer pageSize)
+    public <T extends SuperVO> String  queryData(Class<T> c,String condition, Integer index ,Integer pageSize)
     {
+        //TODO 将condition 转换为查询条件
+        Map con= JsonUtil.jsonToBean(condition, HashMap.class);
+        String where="";
+        if(condition!=null&&condition.length()>0)
+        {
+            where="usercode like 'wsw_' or usercode like 'wsw__'" ;
+        }
         QueryData queryData=getServer().queryData(c,where,index,pageSize);
         return JsonUtil.beanToJson(queryData);
     }

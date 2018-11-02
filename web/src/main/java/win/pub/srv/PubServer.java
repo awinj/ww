@@ -96,7 +96,7 @@ public class PubServer implements IVOServer {
         QueryData queryData=new QueryData();
         try {
             List data=getDao().queryByPager(c,where,index-1,pageSize);//前台从第一页开始，数据库从第0页开始
-            Integer count=getDao().queryCount(c,null);
+            Integer count=getDao().queryCount(c,where);
             queryData.setData(data);
             queryData.setCount(count);
         } catch (DAOException e) {

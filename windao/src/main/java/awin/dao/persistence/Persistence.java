@@ -141,7 +141,7 @@ public  class Persistence {
 		{
 			try {
 				String tmptable=new SelectString().select(vo.getAttrNames()).append(" ,rownum as rowno").from(vo.getTableName()).where(where).toString();
-				String sql=new SelectString().select(vo.getAttrNames()).from("("+tmptable+") t").where("t.rowno >="+index*pageSize+" and t.rowno <" +(index+1)*pageSize).toString();
+				String sql=new SelectString().select(vo.getAttrNames()).from("("+tmptable+") t").where("t.rowno >"+index*pageSize+" and t.rowno <=" +(index+1)*pageSize).toString();
 				return query(sql);
 			} catch (FromParaNullException e) {
 				throw new DAOException(e.getMessage(),e);
