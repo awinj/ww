@@ -33,52 +33,29 @@
 
             <div class="layui-card">
                 <div id="querypanl"></div>
-                <%--<div class="layui-form layui-card-header layuiadmin-card-header-auto"--%>
-                     <%--lay-filter="app-content-workorder">--%>
-                    <%--<div class="layui-form-item">--%>
-                        <%--<div class="layui-inline">--%>
-                            <%--<label class="layui-form-label">用户名</label>--%>
-                            <%--<div class="layui-input-block">--%>
-                                <%--<input name="userName" class="layui-input" type="text" placeholder="请输入"--%>
-                                       <%--autocomplete="off">--%>
-                            <%--</div>--%>
-                        <%--</div>--%>
-                        <%--<div class="layui-inline">--%>
-                            <%--<label class="layui-form-label">用户编码</label>--%>
-                            <%--<div class="layui-input-block">--%>
-                                <%--<input name="userCode" class="layui-input" type="text" placeholder="请输入"--%>
-                                       <%--autocomplete="off">--%>
-                            <%--</div>--%>
-                        <%--</div>--%>
-                        <%--<div class="layui-inline">--%>
-                            <%--<label class="layui-form-label">手机号</label>--%>
-                            <%--<div class="layui-input-block">--%>
-                                <%--<input name="attr" class="layui-input" type="text" placeholder="请输入" autocomplete="off">--%>
-                            <%--</div>--%>
-                        <%--</div>--%>
-                        <%--<div class="layui-inline">--%>
-                            <%--<label class="layui-form-label">性别</label>--%>
-                            <%--<div class="layui-input-block">--%>
-                                <%--<input name="accept" class="layui-input" type="text" placeholder="请输入"--%>
-                                       <%--autocomplete="off">--%>
-                            <%--</div>--%>
-                        <%--</div>--%>
-                        <%--<div class="layui-inline">--%>
-                            <%--<button class="layui-btn layuiadmin-btn-order" lay-filter="LAY-app-order-search"--%>
-                                    <%--lay-submit="">--%>
-                                <%--<i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>--%>
-                            <%--</button>--%>
-                        <%--</div>--%>
-                    <%--</div>--%>
-                <%--</div>--%>
-
                 <div class="layui-card-body">
                     <table class="layui-hide" id="data_table" lay-filter="data"></table>
                 </div>
             </div>
         </div>
     </div>
+    <div id="#add">
+        <form class="layui-form" action="">
+            <div class="layui-form-item">
+                <label class="layui-form-label">单行输入框</label>
+                <div class="layui-input-block">
+                    <input name="title" class="layui-input" type="text" placeholder="请输入标题" autocomplete="off" lay-verify="title">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">验证必填项</label>
+                <div class="layui-input-block">
+                    <input name="username" class="layui-input" type="text" placeholder="请输入" autocomplete="off" lay-verify="required">
+                </div>
+            </div>
 
+        </form>
+    </div>
     <%@ include file="../../pub/footer.jsp" %>
 
 </div>

@@ -24,22 +24,13 @@
             <li class="layui-nav-item layui-nav-itemed">
                 <a class="javascript:;" href="javascript:;">基本元素<span class="layui-nav-more"></span></a>
                 <dl class="layui-nav-child">
-                    <dd><a href="index">列表一</a></dd>
-                    <dd><a href="index">列表二</a></dd>
-                    <dd><a href="index">列表三</a></dd>
-                    <dd><a href="index">超链接</a></dd>
+                    <dd><a href="/ww/auth/user/index">用户管理</a></dd>
+                    <dd><a href="/ww/auth/role/index">角色管理</a></dd>
+                    <dd><a href="/ww/auth/func/index">功能菜单</a></dd>
+                    <dd><a href="/ww/auth/power/index">权限分配</a></dd>
                 </dl>
             </li>
-            <li class="layui-nav-item">
-                <a href="javascript:;">解决方案</a>
-                <dl class="layui-nav-child">
-                    <dd><a href="index">列表一</a></dd>
-                    <dd><a href="index">列表二</a></dd>
-                    <dd><a href="index">超链接</a></dd>
-                </dl>
-            </li>
-            <li class="layui-nav-item"><a href="index">云市场</a></li>
-            <li class="layui-nav-item"><a href="index">发布商品</a></li>
+
 
             <li class="layui-nav-item" style="height: 30px; text-align: center"></li>
         </ul>

@@ -29,10 +29,9 @@
 
 
 
-<script src="/ww/pub/js/winpub.js" type="application/javascript"></script>
 <script src="/ww/pub/js/winref.js" type="application/javascript"></script>
 <script type="application/javascript">
     var currpath=window.location.pathname;
-    currpath="index";
-    $("  [href='index']").filter(".layui-nav-child a").addClass("layui-this");
+//    currpath="index";
+    $("  [href='"+currpath+"']").filter(".layui-nav-child a").addClass("layui-this");
 </script>
