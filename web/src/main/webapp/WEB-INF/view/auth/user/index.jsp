@@ -39,23 +39,6 @@
             </div>
         </div>
     </div>
-    <div id="#add">
-        <form class="layui-form" action="">
-            <div class="layui-form-item">
-                <label class="layui-form-label">单行输入框</label>
-                <div class="layui-input-block">
-                    <input name="title" class="layui-input" type="text" placeholder="请输入标题" autocomplete="off" lay-verify="title">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">验证必填项</label>
-                <div class="layui-input-block">
-                    <input name="username" class="layui-input" type="text" placeholder="请输入" autocomplete="off" lay-verify="required">
-                </div>
-            </div>
-
-        </form>
-    </div>
     <%@ include file="../../pub/footer.jsp" %>
 
 </div>
@@ -85,7 +68,7 @@
         {field: 'ts', title: '时间戳', hide: true},
         {field: 'dr', title: '删除标志', hide: true}
     ]];
-    loadtable("#data_table","data",table_cols);
+    loadTable("#data_table","data",table_cols);
 
 
     var query_cols=[
@@ -97,6 +80,70 @@
         {field: 'sex', title: '性别',},
         {field: 'city', title: '城市',}
     ];
-    loadquerypanl('#querypanl',query_cols);
+    loadQueryPanl('#querypanl',query_cols);
+
+
+    var formfields=[ //表头
+        {field: 'pk_user', title: '主键', fixed: 'left', hide: true},
+        {field: 'userCode', title: '用户编码',},
+        {field: 'userName', title: '用户名',},
+        {field: 'password', title: '密码', hide: true},
+        {field: 'isLocked', title: '是否锁定', 'width': 85},
+        {field: 'telephone', title: '手机'},
+        {field: 'email', title: '邮箱',},
+        {field: 'sex', title: '性别',},
+        {field: 'city', title: '城市',},
+        {field: 'sign', title: '签名',},
+        {field: 'score', title: '分数',},
+        {field: 'creator', title: '创建人', hide: true},
+        {field: 'creationTime', title: '创建时间', hide: true},
+        {field: 'modifier', title: '修改人', hide: true},
+        {field: 'modifyTime', title: '修改时间', hide: true},
+        {field: 'ts', title: '时间戳', hide: true},
+        {field: 'dr', title: '删除标志', hide: true}
+    ]
+
+    function doAdd() {
+
+        var html=createForm(formfields);
+        layer.open({
+            type:1,
+            content: html,
+            area: ['1000px', 'auto'],
+            btn: ['保存', '取消'],
+            yes: function(index, layero){
+                //按钮【按钮一】的回调
+
+                console.log(res);
+            },
+            cancel: function(){
+                //右上角关闭回调
+
+                //return false 开启该代码可禁止点击该按钮关闭
+            }
+        });
+    }
+
+
+    function doUpdate(selectedData) {
+        var html=createForm(formfields,selectedData);
+        layer.open({
+            type:1,
+            content: html,
+            area: ['1000px', 'auto'],
+            btn: ['保存', '取消'],
+            yes: function(index, layero){
+                //按钮【按钮一】的回调
+
+                console.log(res);
+            },
+            cancel: function(){
+                //右上角关闭回调
+
+                //return false 开启该代码可禁止点击该按钮关闭
+            }
+        });
+    }
+
 </script>
 <%@ include file="../../pub/htmlend.jsp" %>

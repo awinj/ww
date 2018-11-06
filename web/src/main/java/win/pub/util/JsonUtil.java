@@ -13,6 +13,13 @@ public class JsonUtil {
         return JSON.toJSONString(obj);
     }
 
+    /**
+     *
+     * @param json json 字符串
+     * @param c
+     * @param <T>
+     * @return
+     */
     public static <T> T jsonToBean(String json,Class<T> c)
     {
         T obj = JSON.parseObject(json, c);
