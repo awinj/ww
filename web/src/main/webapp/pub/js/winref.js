@@ -239,3 +239,134 @@ function layuiRefdoc(dispfield,pkfield,refdata,isMuti) {
 //     return str;
 //
 // }
+
+
+// $.fn.serializeObject = function()
+// {
+//     var o = {};
+//     var a = this.serializeArray();
+//     $.each(a, function() {
+//         if (o[this.name]) {
+//             if (!o[this.name].push) {
+//                 o[this.name] = [o[this.name]];
+//             }
+//             o[this.name].push(this.value || '');
+//         } else {
+//             o[this.name] = this.value || '';
+//         }
+//     });
+//     return o;
+// };
+
+
+
+
+//
+//
+// function createForm(fields) {
+//     var html='<div id="formdiv" >';
+//     html+='<form class="layui-form" id="formpanl" action="">';
+//
+//     if(fields!=null&&fields.length>0)
+//     {
+//         var showCount=fields.length; //显示的字段数量。用于决定采用哪种布局
+//         if(showCount/3<3)
+//         {
+//             for(var i=0;i<fields.length;i++)
+//             {
+//                 var field=fields[i];
+//                 html+='<div class="layui-form-item">';
+//                 html+='     <div class="layui-inline" >';
+//                 html+='         <label class="layui-form-label">'+field.title+'</label>';
+//                 html+='         <div class="layui-input-inline">';
+//                 html+='             <input name="'+field.field+'" class="layui-input" type="text" placeholder="请输入'+field.title+'" autocomplete="off" lay-verify="'+field.field+'">';
+//                 html+='         </div>';
+//                 html+='     </div>';
+//                 html+='</div>';
+//             }
+//         }
+//         else
+//         {
+//             html+='<div class="layui-form-item">';
+//             html+='     <div class="layui-inline">';
+//             for(var i=0;i<fields.length;i++)
+//             {
+//                 var field=fields[i];
+//                 html+='         <label class="layui-form-label" style="margin-top: 15px">'+field.title+'</label>';
+//                 html+='         <div class="layui-input-inline" style="margin-top: 15px">';
+//                 html+='             <input name="'+field.field+'" class="layui-input" type="text" placeholder="请输入'+field.title+'" autocomplete="off" lay-verify="'+field.field+'">';
+//                 html+='         </div>';
+//             }
+//             html+='     </div>';
+//             html+='</div>';
+//         }
+//     }
+//     else
+//     {
+//         html+="模板加载出错"
+//     }
+//
+//
+//     html+='</form>';
+//     html+='</div>';
+//
+//
+//     return html;
+//
+// }
+//
+//
+// function createForm(fields,selectedData) {
+//     var html='<div id="#formdiv" >';
+//     html+='<form class="layui-form" id="#formpanl" action="">';
+//     if(selectedData==null||selectedData.length<=0)
+//         selectedData=[];
+//     if(fields!=null&&fields.length>0)
+//     {
+//         var showCount=fields.length; //显示的字段数量。用于决定采用哪种布局
+//         if(showCount/3<3)
+//         {
+//             for(var i=0;i<fields.length;i++)
+//             {
+//                 var field=fields[i];
+//                 var fieldval=selectedData[field.field]==null?"":selectedData[field.field];
+//                 html+='<div class="layui-form-item">';
+//                 html+='     <div class="layui-inline" >';
+//                 html+='         <label class="layui-form-label">'+field.title+'</label>';
+//                 html+='         <div class="layui-input-inline">';
+//                 html+='             <input name="'+field.field+'" class="layui-input" type="text" placeholder="请输入'+field.title+'" autocomplete="off" lay-verify="'+field.field+'"  value="'+fieldval+'">';
+//                 html+='         </div>';
+//                 html+='     </div>';
+//                 html+='</div>';
+//             }
+//         }
+//         else
+//         {
+//             html+='<div class="layui-form-item">';
+//             html+='     <div class="layui-inline">';
+//             for(var i=0;i<fields.length;i++)
+//             {
+//                 var field=fields[i];
+//                 var fieldval=selectedData[field.field]==null?"":selectedData[field.field];
+//                 html+='         <label class="layui-form-label" style="margin-top: 15px">'+field.title+'</label>';
+//                 html+='         <div class="layui-input-inline" style="margin-top: 15px">';
+//                 html+='             <input name="'+field.field+'" class="layui-input" type="text" placeholder="请输入'+field.title+'" autocomplete="off" lay-verify="'+field.field+'"  value="'+fieldval+'">';
+//                 html+='         </div>';
+//             }
+//             html+='     </div>';
+//             html+='</div>';
+//         }
+//     }
+//     else
+//     {
+//         html+="模板加载出错"
+//     }
+//
+//
+//     html+='</form>';
+//     html+='</div>';
+//
+//
+//     return html;
+//
+// }
