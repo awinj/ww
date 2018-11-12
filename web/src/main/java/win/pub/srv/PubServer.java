@@ -25,12 +25,17 @@ public class PubServer implements IVOServer {
     }
 
     public SuperVO save(SuperVO vo) throws DAOException {
-        if(vo.getStatus()== VOState.ADD)
+//        if(vo.getStatus()== VOState.ADD)
+        if(vo==null)
+            return null;
+        String pkval=(String)vo.getAttrValue(vo.getPrimaryKey());
+        if(pkval==null||"".equals(pkval.trim()))
         {
-            String pk= getDao().insert(vo);
-            vo.setAttrValue(vo.getPrimaryKey(),pk);
+            pkval= getDao().insert(vo);
+            vo.setAttrValue(vo.getPrimaryKey(),pkval);
         }
-        else if(vo.getStatus()== VOState.EDIT)
+//        else if(vo.getStatus()== VOState.EDIT)
+        else
         {
             getDao().update(vo);
         }
@@ -38,6 +43,10 @@ public class PubServer implements IVOServer {
     }
 
     public List<SuperVO> save(List<SuperVO> vos) throws DAOException {
+        if(vos==null||vos.size()<=0)
+        {
+            return null;
+        }
         for(int i=0;i<vos.size();i++)
         {
             save(vos.get(i));

@@ -82,7 +82,8 @@ function loadTable(id, layfilter, cols) {
         });
         //监听提交
         form.on('submit(form_save)', function(data){
-            layer.msg(JSON.stringify(data.field));
+            // layer.msg(JSON.stringify(data.field));
+            doSave(data.field);
             layer.close(1);
             return false;
         });
@@ -135,7 +136,7 @@ function doAdd() {
     layer.open({
         type:1,
         content: $('#formdiv'),
-        area: ['1000px', 'auto'],
+        area:  '60%',
     });
 }
 
@@ -145,7 +146,7 @@ function doUpdate(selectedData) {
     layer.open({
         type:1,
         content: $('#formdiv'),
-        area: ['1000px', 'auto'],
+        area:  '60%',
     });
 }
 

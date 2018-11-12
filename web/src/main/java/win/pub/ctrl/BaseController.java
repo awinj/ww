@@ -2,6 +2,7 @@ package win.pub.ctrl;
 
 
 import awin.bean.SuperVO;
+import awin.dao.exception.DAOException;
 import org.springframework.web.servlet.ModelAndView;
 import win.pub.srv.PubServer;
 import win.pub.util.JsonUtil;
@@ -16,7 +17,7 @@ import java.util.Map;
 /**
  * Created by aWin on 2018-09-04.
  */
-public abstract class BaseController {
+public abstract class BaseController<T extends AggVO>{
 
 
 
@@ -43,14 +44,19 @@ public abstract class BaseController {
     }
 
 
-    public ModelAndView add(AggVO aggVO)
+    public ModelAndView add(T aggVO)
     {
         return null;
     }
 
-    public ModelAndView save(AggVO aggVO)
+    public Result save(T aggVO)
     {
-        return null;
+        try {
+             getServer().save(aggVO);
+        } catch (DAOException e) {
+            return  null;
+        }
+        return  null;
     }
 
     public Result delete(List<String> pks)

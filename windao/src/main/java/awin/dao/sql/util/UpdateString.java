@@ -39,10 +39,17 @@ public class UpdateString extends SqlString {
         {
             if(!isNullOrEmpty(field[i]))
             {
-                getSql().append(field[i]).append(" ='"+value[i]+"' ,");
+                if(value[i]==null){
+                    getSql().append(field[i]).append(" =null ,");
+                }
+                else {
+                    getSql().append(field[i]).append(" ='"+value[i]+"' ,");
+                }
+
             }
         }
-        getSql().substring(0,getSql().length()-1);//去除最后的逗号
+        getSql().deleteCharAt(getSql().length()-1);
+//        getSql().substring(0,getSql().length()-1);//去除最后的逗号
         return this;
     }
 

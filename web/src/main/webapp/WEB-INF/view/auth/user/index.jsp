@@ -23,7 +23,7 @@
 
     </style>
 </head>
-<body class="layui-layout-body">
+<body class="layui-layout-body site">
 <div class="layui-layout layui-layout-admin">
 
     <%@ include file="../../pub/nav.jsp" %>
@@ -52,7 +52,7 @@
 //                {field: 'pk_user', title: 'ID', width:80, sort: true, fixed: 'left',hide:true}
         {type: 'checkbox', fixed: 'left'},
         {field: 'pk_user', title: '主键', fixed: 'left', hide: true},
-        {field: 'userCode', title: '用户编码',},
+        {field: 'userCode', title: '用户编码'},
         {field: 'userName', title: '用户名',},
         {field: 'password', title: '密码', hide: true},
         {field: 'isLocked', title: '是否锁定', 'width': 85},
@@ -82,6 +82,28 @@
 //        {field: 'city', title: '城市',}
     ];
     loadQueryPanl('#querypanl',query_cols);
+
+
+    function doSave(data) {
+        var aggVO={
+            parentVO:data
+        };
+
+        $.ajax({
+            url:'/ww/auth/user/save',
+            type:'post',
+            dataType:'json',
+            contentType:'application/json;charset=UTF-8',
+            data:JSON.stringify(aggVO),
+            success:function (result) {
+                layer.msg("保存成功");
+            },
+            error:function (result) {
+                layer.msg("保存失败");
+            }
+        });
+
+    }
 
 
 </script>

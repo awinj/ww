@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * Created by aWin on 2018-09-04.
  */
-public abstract class AggVO<P extends SuperVO,C extends SuperVO> {
+public  class AggVO<P extends SuperVO,C extends SuperVO> {
 
     private P parentVO;
 

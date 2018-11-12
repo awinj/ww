@@ -17,6 +17,7 @@
 <%--<script src="/ww/pub/js/bootstrap.min.js" type="application/javascript"></script>--%>
 
 <link rel="stylesheet" href="/ww/pub/layui/css/layui.css">
+<link rel="stylesheet" href="/ww/pub/css/winpub.css">
 <%--<link rel="stylesheet" href="/ww/pub/layui/css/admin.css">--%>
 <script src="/ww/pub/layui/layui.js"></script>
 

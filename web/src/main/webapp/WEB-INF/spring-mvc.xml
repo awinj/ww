@@ -20,10 +20,28 @@
     <mvc:default-servlet-handler/>
 
     <!--指定视图解析器-->
-    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+    <bean id="internalResourceViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <!-- 视图的路径 -->
         <property name="prefix" value="/WEB-INF/view/"/>
         <!-- 视图名称后缀  -->
         <property name="suffix" value=".jsp"/>
+
+    </bean>
+
+    <bean id="contentViewResolver" class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+        <property name="viewResolvers">
+            <list>
+
+                <ref bean="internalResourceViewResolver"></ref>
+
+            </list>
+        </property>
+        <property name="defaultViews">
+            <list>
+                <bean
+                        class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">
+                </bean>
+            </list>
+        </property>
     </bean>
 </beans>
