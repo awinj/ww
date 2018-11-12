@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/leadata/leadata.iml" filepath="$PROJECT_DIR$/leadata/leadata.iml" />
+      <module fileurl="file://$PROJECT_DIR$/util/util.iml" filepath="$PROJECT_DIR$/util/util.iml" />
       <module fileurl="file://$PROJECT_DIR$/web/web.iml" filepath="$PROJECT_DIR$/web/web.iml" />
       <module fileurl="file://$PROJECT_DIR$/windao/windao.iml" filepath="$PROJECT_DIR$/windao/windao.iml" />
       <module fileurl="file://$PROJECT_DIR$/winwf/winwf.iml" filepath="$PROJECT_DIR$/winwf/winwf.iml" />

@@ -10,6 +10,7 @@
         <option value="$PROJECT_DIR$/windao/pom.xml" />
         <option value="$PROJECT_DIR$/leadata/pom.xml" />
         <option value="$PROJECT_DIR$/web/pom.xml" />
+        <option value="$PROJECT_DIR$/util/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

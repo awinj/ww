@@ -59,7 +59,7 @@
     </filter-mapping>
 
     <!--<error-page>-->
-        <!--<location>/pub/error.html</location>-->
+        <!--<location>/date/error.html</location>-->
     <!--</error-page>-->
 
     <welcome-file-list>
