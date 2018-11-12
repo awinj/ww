@@ -57,9 +57,9 @@ public  class BasicConnection {
 		}
 		p.setProperty("username", ds.getUserName());
 		p.setProperty("password", ds.getPassword());
-		p.setProperty("maxActive", "100");
+		p.setProperty("maxActive", "10");
 		p.setProperty("maxIdle", "20");
-		p.setProperty("maxWait", "10000");
+		p.setProperty("maxWait", "100");
 		try {
 			dataSource = (BasicDataSource) BasicDataSourceFactory.createDataSource(p);
 		}

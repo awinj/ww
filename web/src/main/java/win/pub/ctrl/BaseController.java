@@ -3,6 +3,7 @@ package win.pub.ctrl;
 
 import awin.bean.SuperVO;
 import awin.dao.exception.DAOException;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.servlet.ModelAndView;
 import win.pub.srv.PubServer;
 import win.pub.util.JsonUtil;
@@ -32,14 +33,19 @@ public abstract class BaseController<T extends AggVO>{
 
     public <T extends SuperVO> String  queryData(Class<T> c,String condition, Integer index ,Integer pageSize)
     {
-        //TODO 将condition 转换为查询条件
-        Map con= JsonUtil.jsonToBean(condition, HashMap.class);
-        String where="";
-        if(condition!=null&&condition.length()>0)
+        //TODO 将查询条件组装放到dao层，并参数化，防止sql注入
+        StringBuffer where=new StringBuffer("1=1 ");
+        Map<String,Object> con= JsonUtil.jsonToBean(condition, HashMap.class);
+        if(con!=null)
         {
-            where="usercode like 'wsw_' or usercode like 'wsw__'" ;
+            for(String key : con.keySet())
+            {
+                Object val=con.get(key);
+                if(val!=null&&val.toString().trim().length()>0)
+                    where.append(" and ").append(key).append("='"+val+"'");
+            }
         }
-        QueryData queryData=getServer().queryData(c,where,index,pageSize);
+        QueryData queryData=getServer().queryData(c,where.toString(),index,pageSize);
         return JsonUtil.beanToJson(queryData);
     }
 
@@ -51,12 +57,18 @@ public abstract class BaseController<T extends AggVO>{
 
     public Result save(T aggVO)
     {
+        Result result=new Result();
         try {
-             getServer().save(aggVO);
+             AggVO ret=getServer().save(aggVO);
+            result.setCode("1");
+            result.setData(ret);
+            result.setMsg("保存成功");
         } catch (DAOException e) {
-            return  null;
+            e.printStackTrace();
+            result.setCode("0");
+            result.setMsg("保存失败");
         }
-        return  null;
+        return  result;
     }
 
     public Result delete(List<String> pks)

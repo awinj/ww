@@ -16,6 +16,7 @@ import awin.dao.exception.*;
 import awin.dao.persistence.type.SQLParameter;
 import awin.dao.sql.util.*;
 import awin.logger.Logger;
+import awin.pub.Generator;
 
 public  class Persistence {
 
@@ -33,10 +34,10 @@ public  class Persistence {
 			 String[] columns=getValidNames(vo,type);
 			 String sql= new InsertString().insert(vo.getTableName()).values(columns);
 			 Object pk=vo.getAttrValue(vo.getPrimaryKey());
-			 if(pk==null)
+			 if(pk==null||pk.toString().length()<=0)
 			 {
-					//TODO  生成主键
-                 pk="主键";
+                 pk= Generator.genUniqueVal();
+				 vo.setAttrValue(vo.getPrimaryKey(),pk);
 			 }
 			 PreparedStatement stmt =getBasicConnection().getConnection().prepareStatement(sql);
 			 stmt.clearParameters();

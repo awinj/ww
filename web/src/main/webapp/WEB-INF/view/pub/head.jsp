@@ -22,5 +22,5 @@
 <script src="/ww/pub/layui/layui.js"></script>
 
 
-<script src="/ww/pub/js/winpub.js" type="application/javascript"></script>
+<script src="/ww/pub/js/winpub.js?" type="application/javascript"></script>
 

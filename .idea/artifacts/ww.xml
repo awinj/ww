@@ -6,6 +6,7 @@
         <element id="directory" name="classes">
           <element id="module-output" name="web" />
           <element id="module-output" name="windao" />
+          <element id="module-output" name="util" />
         </element>
         <element id="directory" name="lib">
           <element id="library" level="project" name="Maven: org.springframework:spring-core:4.3.3.RELEASE" />

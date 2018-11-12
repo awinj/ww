@@ -43,8 +43,9 @@
         <div class="layui-form-item">
             <label class="layui-form-label">性别</label>
             <div class="layui-input-block">
-                <input name="sex" title="男" type="radio" checked="" value="男">
-                <input name="sex" title="女" type="radio" value="女">
+                <input name="sex" title="男" type="radio" checked="" value="男" />
+                <input name="sex" title="女" type="radio" value="女" />
+
             </div>
         </div>
         <div class="layui-form-item">
@@ -82,16 +83,16 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">是否锁定</label>
+            <label class="layui-form-label">已锁定</label>
             <div class="layui-input-inline">
-                <input name="close" type="checkbox" lay-skin="switch" lay-text="ON|OFF">
+                <input name="isLocked" type="checkbox" lay-skin="switch" lay-text="是|否" value="Y">
             </div>
         </div>
         <div class="layui-form-item layui-hide">
             <label class="layui-form-label">分数</label>
             <div class="layui-input-inline">
                 <input name="score" class="layui-input" type="text" placeholder="请输入分数" value="0" autocomplete="off"
-                       lay-verify="number"/>
+                       lay-verify="nullOrNumber"/>
             </div>
         </div>
         <div class="layui-form-item">
@@ -106,7 +107,7 @@
                 <label class="layui-form-label">创建时间</label>
                 <div class="layui-input-inline">
                     <input name="creationTime" class="layui-input" type="text" placeholder="yyyy-MM-dd" value=""
-                           autocomplete="off" lay-verify="date"/>
+                           autocomplete="off" lay-verify="nullOrDate"/>
                 </div>
             </div>
         </div>
@@ -122,7 +123,7 @@
                 <label class="layui-form-label">修改时间</label>
                 <div class="layui-input-inline">
                     <input name="modifyTime" class="layui-input" type="text" placeholder="yyyy-MM-dd" value=""
-                           autocomplete="off" lay-verify="date"/>
+                           autocomplete="off" lay-verify="nullOrDate"/>
                 </div>
             </div>
         </div>
@@ -139,3 +140,4 @@
         </div>
     </form>
 </div>
+

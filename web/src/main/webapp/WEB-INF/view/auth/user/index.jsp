@@ -55,7 +55,7 @@
         {field: 'userCode', title: '用户编码'},
         {field: 'userName', title: '用户名',},
         {field: 'password', title: '密码', hide: true},
-        {field: 'isLocked', title: '是否锁定', 'width': 85},
+        {field: 'isLocked', title: '已锁定', 'width': 85},
         {field: 'telephone', title: '手机'},
         {field: 'email', title: '邮箱',},
         {field: 'sex', title: '性别',},

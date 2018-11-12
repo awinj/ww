@@ -84,9 +84,48 @@ function loadTable(id, layfilter, cols) {
         form.on('submit(form_save)', function(data){
             // layer.msg(JSON.stringify(data.field));
             doSave(data.field);
-            layer.close(1);
+            closelayer();
+            table.reload("data_table");
             return false;
         });
+
+        form.on('radio',function (data) {
+            console.log(data.elem); //得到radio原始DOM对象
+            console.log(data.value); //被点击的radio的value值
+        })
+
+
+        form.verify({
+            nullOrNumber: function(value, item){ //value：表单的值、item：表单的DOM对象  ^[0-9]*$
+                if(value!="") {
+                    if (!new RegExp("^[0-9]*$").test(value) )
+                        return "必须为数字";
+                }
+            },
+            
+            nullOrPhone:function (value,item) {   //^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$
+                if(value!="") {
+                    if (!new RegExp("^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$").test(value) )
+                        return "手机号格式不正确";
+                }
+            },
+
+            nullOrEmail:function (value,item) {
+                if(value!="") {
+                    if (!new RegExp("^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$").test(value))
+                        return "邮箱格式不正确";
+                }
+            },
+
+            nullOrDate:function (value,item) {
+                if(value!="") {
+                    if (!new RegExp("^\\d{4}-\\d{1,2}-\\d{1,2}").test(value))
+                        return "日期格式不正确";
+                }
+            },
+           
+        });
+
 
 
     });
@@ -132,7 +171,7 @@ function doDelete(title,selectedData) {
 
 
 function doAdd() {
-    $("#formdiv input").val("");//清空表单
+    clearForm("#formdiv");//清空表单
     layer.open({
         type:1,
         content: $('#formdiv'),
@@ -142,6 +181,7 @@ function doAdd() {
 
 
 function doUpdate(selectedData) {
+    clearForm("#formdiv");//清空表单
     setFormValue(selectedData);
     layer.open({
         type:1,
@@ -150,7 +190,9 @@ function doUpdate(selectedData) {
     });
 }
 
-
+function clearForm(id) {
+    !$(id + " input").not(":radio").not(":checkbox").val("");//清空表单,排除radio，否则导致radio取值取不了
+}
 
 
 function setFormValue(data){

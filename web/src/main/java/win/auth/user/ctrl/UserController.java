@@ -39,8 +39,7 @@ public class UserController extends BaseController<UserAggVO> {
     @ResponseBody
     public String query(String condition, Integer index, Integer pageSize  )
     {
-
-        return super.queryData(UserVO.class,whereStr,index,pageSize);
+        return super.queryData(UserVO.class,condition,index,pageSize);
     }
 
 
@@ -53,6 +52,7 @@ public class UserController extends BaseController<UserAggVO> {
 
     @Override
     @RequestMapping(value = "save",method = RequestMethod.POST)
+    @ResponseBody       //如果不作为ResponseBody的话，则会报404
     public Result save(@RequestBody UserAggVO aggVO) {
         return super.save(aggVO);
     }
