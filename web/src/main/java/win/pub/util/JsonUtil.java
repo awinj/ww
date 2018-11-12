@@ -15,7 +15,7 @@ public class JsonUtil {
 
     /**
      *
-     * @param json json 字符串
+     * @param json parse 字符串
      * @param c
      * @param <T>
      * @return

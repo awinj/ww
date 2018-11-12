@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <div style="display: none" id="formdiv">
-    <form class="layui-form" id="formpanl" action="" lay-filter="form_filter">
+    <form class="layui-form" id="formpanl" action="save" lay-filter="form_filter">
         <div class="layui-form-item">
             <div class="layui-inline">
                 <label class="layui-form-label" style="margin-top: 15px">主键</label>

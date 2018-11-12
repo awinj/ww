@@ -23,6 +23,7 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
         <module name="leadata" />
+        <module name="util" />
         <module name="web" />
         <module name="windao" />
         <module name="winwf" />
@@ -32,6 +33,7 @@
       <module name="almq" target="1.6" />
       <module name="leadata" target="1.5" />
       <module name="mq" target="1.6" />
+      <module name="util" target="1.5" />
       <module name="web" target="1.5" />
       <module name="windao" target="1.5" />
       <module name="winwf" target="1.5" />

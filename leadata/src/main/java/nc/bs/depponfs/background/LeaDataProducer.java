@@ -205,19 +205,19 @@
 //        } catch (Throwable e) {
 //            throw new Exception("生产者start失败，请检查服务是否正常");
 //        }
-//        String json=JSON.toJSONString("test");
+//        String parse=JSON.toJSONString("test");
 //
 //        try {
 //
-//            Message msg = new Message(MQConfig.Topic,MQConfig.Tag,(json).getBytes(MQConfig.CharsetName) );
+//            Message msg = new Message(MQConfig.Topic,MQConfig.Tag,(parse).getBytes(MQConfig.CharsetName) );
 //
 //
 //
-//            Boolean result =  producer.send(MQConfig.Topic, MQConfig.Tag, "", json, null);
+//            Boolean result =  producer.send(MQConfig.Topic, MQConfig.Tag, "", parse, null);
 ////            SendResult sendResult = producer.send(msg);
 //            if(result)
 //            {
-//                System.out.println("消息发送成功："+json);
+//                System.out.println("消息发送成功："+parse);
 //                //回写状态数据状态
 //                //更新t_intern_wadate ,t_lea_wadata 的字段kingdee7 为 已推送   TODO
 //                //更新最新同步时间   TODO
