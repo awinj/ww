@@ -7,9 +7,21 @@ import awin.util.date.DateUtil;
  */
 public class Generator {
     private static int seed=1001;
+    private static String datetime="";
+    private static final String prefix="ww";
+
+
     public static String genUniqueVal()
     {
-        seed++;
-        return "DF"+DateUtil.getCurrentTime2()+seed;
+        if(datetime.equals(DateUtil.getCurrentTime2()))
+        {
+            seed++;
+        }
+        else
+        {
+            datetime=DateUtil.getCurrentTime2();
+            seed=1001;
+        }
+        return prefix+datetime+seed;
     }
 }
