@@ -12,6 +12,7 @@ import win.pub.vo.BusinessException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * Created by aWin on 2018-09-04.
@@ -34,8 +35,9 @@ public class LoginController  {
             try
             {
                 int state=loginServer.login(model);
-
-                response.addCookie(CookieUtil.createTicket(model.getUserName()));
+                HttpSession session = request.getSession();
+                session.setAttribute("userName","wsw");
+//                response.addCookie(CookieUtil.createTicket(model.getUserName()));
                 return new ModelAndView("redirect:index");
             }
             catch (BusinessException e)
