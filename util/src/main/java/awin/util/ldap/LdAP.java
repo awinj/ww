@@ -14,7 +14,7 @@ import javax.naming.directory.SearchResult;
 import javax.naming.ldap.InitialLdapContext;
 import javax.naming.ldap.LdapContext;
 
-public class LdAPTest {
+public class LdAP {
 	public static void main(String[] args) {
 		
 		
