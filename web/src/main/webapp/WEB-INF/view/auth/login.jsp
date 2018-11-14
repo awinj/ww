@@ -15,10 +15,32 @@
 
 <form action="" method="post">
   <div>
-    用户名：<input id="userName" autocomplete="off" type="text" name="userName"  onclick="layuiRefdoc('#userName','#pk',false,false)" value=${model.userName}>
-      <input id="pk" type="text"  >
-    密码：<input type="password" name="password" value=${model.password} >
-    <input type="submit" value="登录">  ${model.msg}
+
+
+        <div class="layui-form-item">
+          <div class="layui-inline">
+            <label class="layui-form-label">用户名</label>
+            <div class="layui-input-inline">
+              <input name="userName" class="layui-input"  autocomplete="off" lay-verify="required" value=${model.userName}>
+            </div>
+          </div>
+          <div class="layui-inline">
+            <label class="layui-form-label">密码</label>
+            <div class="layui-input-inline">
+              <input name="password" class="layui-input" type="password" autocomplete="off" lay-verify="password|required" value=${model.password}>
+            </div>
+          </div>
+          <div class="layui-inline">
+            <button class="layui-btn layui-btn-primary">登陆</button>
+          </div>
+        </div>
+
+
+
+
+
+
+
   </div>
 </form>
 

@@ -34,9 +34,9 @@ public class LoginController  {
         {
             try
             {
-                int state=loginServer.login(model);
+                String pk_user=loginServer.login(model); //返回登陆用户的主键
                 HttpSession session = request.getSession();
-                session.setAttribute("userName","wsw");
+                session.setAttribute("pk_user",pk_user);
 //                response.addCookie(CookieUtil.createTicket(model.getUserName()));
                 return new ModelAndView("redirect:index");
             }

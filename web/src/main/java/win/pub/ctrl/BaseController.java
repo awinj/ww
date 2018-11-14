@@ -26,7 +26,7 @@ public abstract class BaseController<T extends AggVO>{
     public ModelAndView index()
     {
         ModelAndView view=new ModelAndView();
-        view.setViewName("auth/user/index");
+        view.setViewName("index");
         return view;
     }
     public abstract String query(String condition, Integer curr, Integer nums  );

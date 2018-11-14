@@ -7,21 +7,14 @@ import awin.bean.SuperVO;
  */
 public  class PowerVO extends SuperVO {
 
-    private String pk_power;
+    private String pk_power ;
+    private String powerCode ;
+    private String powerName ;
+    private String powerType ;
+    private String url ;
+    private String memo ;
+    private String enable ;
 
-    private String powerCode;
-
-    private String powerName;
-
-    /**
-     * 资源类型，0（功能）
-     */
-    private String powerType;
-
-    /**
-     * 资源描述，可空
-     */
-    private String powerMemo;
 
 
     public String getTableName() {
@@ -32,4 +25,60 @@ public  class PowerVO extends SuperVO {
         return "pk_power";
     }
 
+
+    public String getPk_power() {
+        return pk_power;
+    }
+
+    public void setPk_power(String pk_power) {
+        this.pk_power = pk_power;
+    }
+
+    public String getPowerCode() {
+        return powerCode;
+    }
+
+    public void setPowerCode(String powerCode) {
+        this.powerCode = powerCode;
+    }
+
+    public String getPowerName() {
+        return powerName;
+    }
+
+    public void setPowerName(String powerName) {
+        this.powerName = powerName;
+    }
+
+    public String getPowerType() {
+        return powerType;
+    }
+
+    public void setPowerType(String powerType) {
+        this.powerType = powerType;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getMemo() {
+        return memo;
+    }
+
+    public void setMemo(String memo) {
+        this.memo = memo;
+    }
+
+    public String getEnable() {
+        return enable;
+    }
+
+    public void setEnable(String enable) {
+        this.enable = enable;
+    }
 }

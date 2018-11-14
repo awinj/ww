@@ -7,17 +7,61 @@ import win.pub.vo.DocVO;
  */
 public class RoleVO extends DocVO {
 
-    private String pk_role;
+    private String pk_role ;
+    private String roleCode ;
+    private String roleName ;
+    private String roleType ;
+    private String memo ;
+    private String enable ;
 
-    private String roleName;
 
-    private String roleCode;
+    public String getPk_role() {
+        return pk_role;
+    }
 
-    /**
-     * 角色描述，可空
-     */
-    private String roleMemo;
+    public void setPk_role(String pk_role) {
+        this.pk_role = pk_role;
+    }
 
+    public String getRoleCode() {
+        return roleCode;
+    }
+
+    public void setRoleCode(String roleCode) {
+        this.roleCode = roleCode;
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
+
+    public String getRoleType() {
+        return roleType;
+    }
+
+    public void setRoleType(String roleType) {
+        this.roleType = roleType;
+    }
+
+    public String getMemo() {
+        return memo;
+    }
+
+    public void setMemo(String memo) {
+        this.memo = memo;
+    }
+
+    public String getEnable() {
+        return enable;
+    }
+
+    public void setEnable(String enable) {
+        this.enable = enable;
+    }
 
     public String getTableName() {
         return "auth_role";

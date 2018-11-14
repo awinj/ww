@@ -3,9 +3,8 @@ package awin.dao.persistence;
 import awin.bean.util.BeanHelper;
 import awin.dao.exception.BaseException;
 import awin.dao.exception.DAOException;
-import awin.pub.Parser;
+import awin.util.parse.ParseUtil;
 
-import java.lang.reflect.Method;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -97,7 +96,7 @@ public class ResultSetUtil {
      * @return
      */
     public String firstToString(ResultSet rs) throws DAOException {
-        return Parser.toString(firstToObject(rs));
+        return ParseUtil.parseString(firstToObject(rs));
     }
 
     /**
@@ -107,7 +106,7 @@ public class ResultSetUtil {
      * @return
      */
     public Integer firstToInt(ResultSet rs) throws DAOException {
-        return Parser.parseInt(firstToObject(rs));
+        return ParseUtil.parseInt(firstToObject(rs));
     }
 
     public Object firstToObject(ResultSet rs) throws DAOException {

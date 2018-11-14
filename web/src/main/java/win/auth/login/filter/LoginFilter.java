@@ -2,6 +2,7 @@ package win.auth.login.filter;
 
 import org.springframework.web.filter.OncePerRequestFilter;
 import win.auth.login.pub.CookieUtil;
+import win.auth.login.pub.LoginUtil;
 
 import javax.servlet.*;
 import javax.servlet.http.Cookie;
@@ -16,7 +17,7 @@ import java.io.IOException;
 public class LoginFilter extends OncePerRequestFilter {
 
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
-        filterChain.doFilter(httpServletRequest,httpServletResponse);
+//        filterChain.doFilter(httpServletRequest,httpServletResponse);
         String[] notFilter = new String[] { "login","static","css","js"};
         String uri = httpServletRequest.getRequestURI();
         boolean doFilter = true;
@@ -27,7 +28,6 @@ public class LoginFilter extends OncePerRequestFilter {
                 break;
             }
         }
-
         if(doFilter)
         {
 //            Cookie[] cookies = httpServletRequest.getCookies();
@@ -43,8 +43,9 @@ public class LoginFilter extends OncePerRequestFilter {
 //                    }
 //                }
 //            }
-            String userName=(String)session.getAttribute("userName");
-            if(userName==null||userName.length()<=0)
+            LoginUtil.setSession(session);
+            String pk_user=LoginUtil.getUserID();
+            if(LoginUtil.getUserID()==null||pk_user.length()<=0)
             {
                 httpServletResponse.sendRedirect("/ww/auth/login");
             }

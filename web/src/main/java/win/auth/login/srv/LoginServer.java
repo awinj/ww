@@ -20,16 +20,17 @@ public class LoginServer {
         return baseDAO;
     }
 
-    public int login(LoginModel model) throws BusinessException
+    public String login(LoginModel model) throws BusinessException
     {
         if(model!=null&&model.validate())
         {
             //TODO
-            return 1;
+
+            return "1";
         }
         else
         {
-            return 0;
+            return "0";
         }
     }
 

@@ -1,37 +1,33 @@
-package win.auth.user.ctrl;
+package win.auth.role.ctrl;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import win.auth.user.vo.UserAggVO;
+import win.auth.role.vo.RoleAggVO;
+import win.auth.role.vo.RoleVO;
 import win.auth.user.vo.UserVO;
 import win.pub.ctrl.BaseController;
-import win.pub.util.JsonUtil;
-import win.pub.vo.AggVO;
-import win.pub.vo.QueryData;
 import win.pub.vo.Result;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
- * Created by aWin on 2018-09-05.
+ * Created by aWin on 2018-11-14.
  */
 @Controller
-@RequestMapping("auth/user")
-public class UserController extends BaseController<UserAggVO> {
+@RequestMapping("auth/role")
+public class RoleController extends BaseController<RoleAggVO> {
+
 
 
     @Override
     @RequestMapping("index")
     public ModelAndView index() {
         ModelAndView view=new ModelAndView();
-        view.setViewName("auth/user/index");
+        view.setViewName("auth/role/index");
         return view;
     }
 
@@ -40,7 +36,7 @@ public class UserController extends BaseController<UserAggVO> {
     @ResponseBody
     public String query(String condition, Integer index, Integer pageSize  )
     {
-        return super.queryData(UserVO.class,condition,index,pageSize);
+        return super.queryData(RoleVO.class,condition,index,pageSize);
     }
 
 
@@ -54,7 +50,7 @@ public class UserController extends BaseController<UserAggVO> {
     @Override
     @RequestMapping(value = "save",method = RequestMethod.POST)
     @ResponseBody       //如果不作为ResponseBody的话，则会报404
-    public Result save(@RequestBody UserAggVO aggVO) {
+    public Result save(@RequestBody RoleAggVO aggVO) {
         return super.save(aggVO);
     }
 }

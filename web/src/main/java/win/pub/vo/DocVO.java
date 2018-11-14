@@ -1,6 +1,8 @@
 package win.pub.vo;
 
 import awin.bean.SuperVO;
+import win.auth.login.pub.LoginUtil;
+import awin.util.date.DateUtil;
 
 /**
  * Created by aWin on 2018-09-11.
@@ -17,6 +19,8 @@ public abstract class DocVO extends SuperVO {
 
 
     public String getCreator() {
+        if(creator==null||creator.length()<=0)
+            return LoginUtil.getUserID();
         return creator;
     }
 
@@ -25,14 +29,18 @@ public abstract class DocVO extends SuperVO {
     }
 
     public String getCreationTime() {
+        if(creationTime==null||creationTime.length()<=0)
+            return DateUtil.getCurrentTime();
         return creationTime;
     }
 
     public void setCreationTime(String creationTime) {
-        this.creationTime = creationTime;
+       this.creationTime = creationTime;
     }
 
     public String getModifier() {
+        if(modifier==null||modifier.length()<=0)
+            return LoginUtil.getUserID();
         return modifier;
     }
 
@@ -41,6 +49,8 @@ public abstract class DocVO extends SuperVO {
     }
 
     public String getModifyTime() {
+        if(creationTime==null||creationTime.length()<=0)
+            return DateUtil.getCurrentTime();
         return modifyTime;
     }
 

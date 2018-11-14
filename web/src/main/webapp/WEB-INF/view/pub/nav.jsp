@@ -26,8 +26,8 @@
                 <dl class="layui-nav-child">
                     <dd><a href="/ww/auth/user/index">用户管理</a></dd>
                     <dd><a href="/ww/auth/role/index">角色管理</a></dd>
-                    <dd><a href="/ww/auth/func/index">功能菜单</a></dd>
-                    <dd><a href="/ww/auth/power/index">权限分配</a></dd>
+                    <dd><a href="/ww/auth/power/index">功能菜单</a></dd>
+                    <%--<dd><a href="/ww/auth/power/index">权限分配</a></dd>--%>
                 </dl>
             </li>
 
