@@ -1,6 +1,6 @@
 package win.auth.user.vo;
 
-import awin.bean.pub.BooleanExt;
+import awin.lang.BooleanExt;
 import win.pub.vo.DocVO;
 
 import java.math.BigDecimal;

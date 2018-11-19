@@ -27,9 +27,17 @@ public class JsonUtil {
 
         ObjectMapper objectMapper = new ObjectMapper();
 
-        String json ;
+        String json;
         try {
+            objectMapper.writerFor(Boolean.class);
+
+            //解除依赖，替代方案为在BooleanExt类增加注解
+//            SimpleModule module = new SimpleModule();
+//            module.addSerializer(BooleanExt.class, new BooleanExtSerializer());
+//            module.addDeserializer(BooleanExt.class, new BooleanExtDeserializer());
+//            objectMapper.registerModule(module);
             json = objectMapper.writeValueAsString(obj);
+
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e.getMessage() + "/n转化成实体失败");
         }
@@ -39,6 +47,8 @@ public class JsonUtil {
 
     public static <T> T jsonToBean(String json, Class<T> c) {
         ObjectMapper objectMapper = new ObjectMapper();
+        if(json==null)
+            return null;
         T obj;
         try {
             obj = objectMapper.readValue(json, c);

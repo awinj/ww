@@ -1,6 +1,6 @@
 package win.auth.role.vo;
 
-import awin.bean.pub.BooleanExt;
+import awin.lang.BooleanExt;
 import win.pub.vo.DocVO;
 
 /**

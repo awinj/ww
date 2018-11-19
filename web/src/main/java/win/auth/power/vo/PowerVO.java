@@ -1,7 +1,7 @@
 package win.auth.power.vo;
 
 import awin.bean.SuperVO;
-import awin.bean.pub.BooleanExt;
+import awin.lang.BooleanExt;
 
 /**
  * Created by aWin on 2018-09-08.

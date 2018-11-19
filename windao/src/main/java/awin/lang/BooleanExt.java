@@ -1,10 +1,16 @@
-package awin.bean.pub;
+package awin.lang;
+
+import awin.util.parse.JsonUtil;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
  * Created by aWin on 2018-11-19.
  *
  * @Description:
  */
+@JsonSerialize(using =BooleanExtSerializer.class)
+@JsonDeserialize(using = BooleanExtDeserializer.class)
 public class BooleanExt {
 
     public static final BooleanExt TRUE = new BooleanExt(true);
@@ -70,5 +76,22 @@ public class BooleanExt {
     {
         if (o == null) return 1;
         return toString().compareTo(o.toString());
+    }
+
+
+    public static void main(String[] args)
+    {
+        BooleanExt b=new BooleanExt(false);
+        BooleanExt b1=new BooleanExt(false);
+        BooleanExt b2=new BooleanExt(false);
+        System.out.println(JsonUtil.beanToJson("fsfd"));
+//        System.out.println(JsonUtil.beanToJson(new BooleanExt[]{b,b1,b2}));
+
+        Object obj= JsonUtil.jsonToBean("[\"N\",\"N\",\"N\"]",BooleanExt[].class);
+
+//        BooleanExt b=new BooleanExt(false);
+//        BooleanExt b1=new BooleanExt(false);
+//        BooleanExt b2=new BooleanExt(false);
+        System.out.println(JsonUtil.beanToJson("fsfd"));
     }
 }

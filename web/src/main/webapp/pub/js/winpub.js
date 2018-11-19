@@ -191,7 +191,9 @@ function doUpdate(selectedData) {
 }
 
 function clearForm(id) {
-    !$(id + " input").not(":radio").not(":checkbox").val("");//清空表单,排除radio，否则导致radio取值取不了
+    $(id + " input").not(":radio").not(":checkbox").val("");//清空表单,排除radio，否则导致radio取值取不了
+
+    $(id + " input :checkbox").val(false);
 }
 
 

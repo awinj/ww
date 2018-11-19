@@ -1,6 +1,6 @@
 package awin.bean;
 
-import awin.bean.pub.BooleanExt;
+import awin.lang.BooleanExt;
 
 public abstract class SuperVO extends ValueObject implements IStateful{
 
