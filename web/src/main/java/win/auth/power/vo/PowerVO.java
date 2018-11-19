@@ -1,6 +1,7 @@
 package win.auth.power.vo;
 
 import awin.bean.SuperVO;
+import awin.bean.pub.BooleanExt;
 
 /**
  * Created by aWin on 2018-09-08.
@@ -13,7 +14,7 @@ public  class PowerVO extends SuperVO {
     private String powerType ;
     private String url ;
     private String memo ;
-    private String enable ;
+    private BooleanExt enable ;
 
 
 
@@ -74,11 +75,11 @@ public  class PowerVO extends SuperVO {
         this.memo = memo;
     }
 
-    public String getEnable() {
+    public BooleanExt getEnable() {
         return enable;
     }
 
-    public void setEnable(String enable) {
+    public void setEnable(BooleanExt enable) {
         this.enable = enable;
     }
 }

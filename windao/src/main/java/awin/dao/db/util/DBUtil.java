@@ -51,8 +51,8 @@ public class DBUtil {
 //						.toString());
 //			} else if (param instanceof UFTime) {
 //				statement.setString(i + 1, ((UFTime) param).toString());
-//			} else if (param instanceof UFBoolean) {
-//				statement.setString(i + 1, ((UFBoolean) param).toString());
+//			} else if (param instanceof BooleanExt) {
+//				statement.setString(i + 1, ((BooleanExt) param).toString());
 //			} else if (param instanceof UFDate) {
 //				statement.setString(i + 1, ((UFDate) param).toString());
 //			} else if (param instanceof UFDateTime) {

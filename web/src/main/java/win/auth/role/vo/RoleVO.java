@@ -1,5 +1,6 @@
 package win.auth.role.vo;
 
+import awin.bean.pub.BooleanExt;
 import win.pub.vo.DocVO;
 
 /**
@@ -12,7 +13,7 @@ public class RoleVO extends DocVO {
     private String roleName ;
     private String roleType ;
     private String memo ;
-    private String enable ;
+    private BooleanExt enable ;
 
 
     public String getPk_role() {
@@ -55,11 +56,11 @@ public class RoleVO extends DocVO {
         this.memo = memo;
     }
 
-    public String getEnable() {
+    public BooleanExt getEnable() {
         return enable;
     }
 
-    public void setEnable(String enable) {
+    public void setEnable(BooleanExt enable) {
         this.enable = enable;
     }
 

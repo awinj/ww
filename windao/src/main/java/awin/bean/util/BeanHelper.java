@@ -1,6 +1,7 @@
 package awin.bean.util;
 
 import awin.bean.IORM;
+import awin.bean.pub.BooleanExt;
 
 import java.lang.reflect.Method;
 import java.util.*;
@@ -77,10 +78,19 @@ public class BeanHelper {
     public static Object getProperty(Object bean, String propertyName) {
         try {
             Method method = getInstance().getMethod(bean, propertyName, false);
-            if ((propertyName != null) && (method == null))
+            Class returnType=method.getReturnType();
+            if(propertyName==null)
                 return null;
-            if (method == null) {
+            if(method==null)
                 return null;
+            Object ret=method.invoke(bean, NULL_ARGUMENTS);
+
+            //如果是UFBoolean类型的，如果是空值默认返回true，
+            // 这样使得通过orm保存到数据库中的数据不会存在空值影响查询效率
+            if(BooleanExt.class.equals(returnType))
+            {
+                if(ret==null)
+                    ret=new BooleanExt(true);
             }
             return method.invoke(bean, NULL_ARGUMENTS);
         } catch (Exception e) {
