@@ -1,5 +1,7 @@
 package awin.bean;
 
+import awin.bean.pub.BooleanExt;
+
 public abstract class SuperVO extends ValueObject implements IStateful{
 
 
@@ -7,7 +9,7 @@ public abstract class SuperVO extends ValueObject implements IStateful{
 	private boolean dirty = false;
 	private int status = 0;
 	private String ts;
-	private String dr;
+	private BooleanExt dr;
 
 	public Object clone()
 	{
@@ -25,6 +27,7 @@ public abstract class SuperVO extends ValueObject implements IStateful{
 				}
 				catch (Exception ex)
 				{
+					ex.printStackTrace();
 				}
 			}
 		}
@@ -71,11 +74,11 @@ public abstract class SuperVO extends ValueObject implements IStateful{
 		this.ts = ts;
 	}
 
-	public String getDr() {
+	public BooleanExt getDr() {
 		return dr;
 	}
 
-	public void setDr(String dr) {
+	public void setDr(BooleanExt dr) {
 		this.dr = dr;
 	}
 }

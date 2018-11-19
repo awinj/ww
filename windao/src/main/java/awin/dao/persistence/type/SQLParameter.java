@@ -160,7 +160,7 @@ public class SQLParameter implements Serializable {
 	 * 
 	 * @param param
 	 */
-//	public void addParam(UFBoolean param) {
+//	public void addParam(BooleanExt param) {
 //		if (param == null) {
 //			addNullParam(Types.VARCHAR);
 //		} else {
@@ -324,7 +324,7 @@ public class SQLParameter implements Serializable {
 	 * @param param
 	 *            UFBoolean对象
 	 */
-//	public void replace(int index, UFBoolean param) {
+//	public void replace(int index, BooleanExt param) {
 //		paramList.remove(index);
 //		if (param == null)
 //			paramList.add(SQLTypeFactory.getNullType(Types.VARCHAR));

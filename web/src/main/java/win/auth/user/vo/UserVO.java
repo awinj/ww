@@ -1,5 +1,6 @@
 package win.auth.user.vo;
 
+import awin.bean.pub.BooleanExt;
 import win.pub.vo.DocVO;
 
 import java.math.BigDecimal;
@@ -13,7 +14,7 @@ public class UserVO extends DocVO {
     private String userCode ;
     private String userName ;
     private String password ;
-    private String isLocked ;
+    private BooleanExt isLocked ;
     private String telephone ;
     private String email ;
     private String sex ;
@@ -65,11 +66,11 @@ public class UserVO extends DocVO {
         this.password = password;
     }
 
-    public String getIsLocked() {
+    public BooleanExt getIsLocked() {
         return isLocked;
     }
 
-    public void setIsLocked(String isLocked) {
+    public void setIsLocked(BooleanExt isLocked) {
         this.isLocked = isLocked;
     }
 
