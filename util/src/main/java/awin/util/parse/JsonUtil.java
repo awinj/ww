@@ -29,8 +29,6 @@ public class JsonUtil {
 
         String json;
         try {
-            objectMapper.writerFor(Boolean.class);
-
             //解除依赖，替代方案为在BooleanExt类增加注解
 //            SimpleModule module = new SimpleModule();
 //            module.addSerializer(BooleanExt.class, new BooleanExtSerializer());
