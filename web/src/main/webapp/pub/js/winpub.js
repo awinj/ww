@@ -26,7 +26,7 @@ function loadTable(id, layfilter, cols) {
             id:'data_table',
             elem: id,
             title: '用户',
-            toolbar: 'default',
+            toolbar: '#toolbar',
             url: 'query', //数据接口
             request: {
                 pageName: 'index', //页码的参数名称，默认：page
@@ -65,6 +65,7 @@ function loadTable(id, layfilter, cols) {
                     var data = checkStatus.data;
                     doDelete(null,data);
                     break;
+                default : doElse(obj.event,checkStatus.data);
             };
         });
 
@@ -190,10 +191,13 @@ function doUpdate(selectedData) {
     });
 }
 
+//增删改查之外的按钮事件。
+function doElse(event,data) {
+
+}
+
 function clearForm(id) {
     $(id + " input").not(":radio").not(":checkbox").val("");//清空表单,排除radio，否则导致radio取值取不了
-
-    $(id + " input :checkbox").val(false);
 }
 
 

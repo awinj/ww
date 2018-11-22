@@ -2,11 +2,12 @@ package win.auth.power.vo;
 
 import awin.bean.SuperVO;
 import awin.lang.BooleanExt;
+import win.pub.vo.DocVO;
 
 /**
  * Created by aWin on 2018-09-08.
  */
-public  class PowerVO extends SuperVO {
+public  class PowerVO extends DocVO {
 
     private String pk_power ;
     private String powerCode ;

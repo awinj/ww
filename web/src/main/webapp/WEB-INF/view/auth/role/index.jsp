@@ -46,7 +46,13 @@
 </body>
 
 </html>
-
+<script id="toolbar" type="text/html">
+    <div class="layui-btn-container">
+        <div title="增加"  class="layui-inline" lay-event="add"><i class="layui-icon layui-icon-add-1"></i></div>
+        <div title="修改"  class="layui-inline" lay-event="update"><i class="layui-icon layui-icon-edit"></i></div>
+        <div title="删除"  class="layui-inline" lay-event="delete"><i class="layui-icon layui-icon-delete"></i></div>
+    </div>
+</script>
 <script>
     var table_cols=[[ //表头
 //                {field: 'pk_user', title: 'ID', sort: true, fixed: 'left',hide:true}

@@ -63,7 +63,8 @@
         <div class="layui-form-item">
             <label class="layui-form-label">是否启用</label>
             <div class="layui-input-inline">
-                <input name="isLocked" type="checkbox" lay-skin="switch" lay-text="是|否" value="Y">
+                <input name="enable" title="是" type="radio" checked="" value="Y" />
+                <input name="enable" title="否" type="radio" value="N" />
             </div>
         </div>
 

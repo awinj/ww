@@ -1,3 +1,4 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--
   Created by IntelliJ IDEA.
   User: aWin
@@ -40,13 +41,45 @@
         </div>
     </div>
     <%@ include file="../../pub/footer.jsp" %>
-
 </div>
 <%@ include file="form.jsp"%>
+
+
+<div id="treedemo" style="display: none">
+    <ul class="tree" >
+
+        <li><input type="checkbox"><span>根目录
+            <ul class="tree level1" >
+                <li> <input type="checkbox"><span>一级目录</span> </li>
+                <li><input type="checkbox"><span>一级目录</span></li>
+                <li><input type="checkbox"><span>一级目录</span></li>
+                <li>
+                    <ul class="tree level2" >
+                        <li><input type="checkbox"><span>二级目录</span></li>
+                        <li><input type="checkbox"><span>二级目录</span></li>
+                        <li><input type="checkbox"><span>二级目录</span></li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li><input type="checkbox"><span>根目录</span></li>
+        <li><input type="checkbox"><span>根目录</span></li>
+        <li><input type="checkbox"><span>根目录</span></li>
+
+
+    </ul>
+</div>
 </body>
 
 </html>
-
+<script id="toolbar" type="text/html">
+    <div class="layui-btn-container">
+            <div title="增加" class="layui-inline" lay-event="add"><i class="layui-icon layui-icon-add-1"></i></div>
+            <div title="修改" class="layui-inline" lay-event="update"><i class="layui-icon layui-icon-edit"></i></div>
+            <div title="分配" class="layui-inline" lay-event="assigne"><i>分配</i>分配</div>
+            <div title="删除" class="layui-inline" lay-event="delete"><i class="layui-icon layui-icon-delete"></i></div>
+    </div>
+</script>
 <script>
     var table_cols=[[ //表头
 //                {field: 'pk_user', title: 'ID', width:80, sort: true, fixed: 'left',hide:true}
@@ -69,6 +102,11 @@
         {field: 'ts', title: '时间戳', hide: true},
         {field: 'dr', title: '删除标志', hide: true}
     ]];
+
+
+
+
+
     loadTable("#data_table","data",table_cols);
 
 
@@ -103,6 +141,14 @@
             }
         });
 
+    }
+
+    function doElse(event,data) {
+        layer.open({
+            type:1,
+            content: $('#treedemo'),
+            area:  '60%',
+        });
     }
 
 

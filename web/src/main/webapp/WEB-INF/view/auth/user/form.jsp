@@ -85,7 +85,8 @@
         <div class="layui-form-item">
             <label class="layui-form-label">已锁定</label>
             <div class="layui-input-inline">
-                <input name="isLocked" type="checkbox" lay-skin="switch" lay-text="是|否" value="Y">
+                <input name="isLocked" title="是" type="radio" checked="" value="Y" />
+                <input name="isLocked" title="否" type="radio" value="N" />
             </div>
         </div>
         <div class="layui-form-item layui-hide">
