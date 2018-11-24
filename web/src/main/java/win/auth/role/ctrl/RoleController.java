@@ -7,9 +7,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import win.auth.role.vo.RoleAggVO;
+import win.auth.role.vo.RoleMapMeta;
 import win.auth.role.vo.RoleVO;
 import win.auth.user.vo.UserVO;
 import win.pub.ctrl.BaseController;
+import win.pub.util.table.TableUtil;
 import win.pub.vo.Result;
 
 import java.util.List;
@@ -39,7 +41,13 @@ public class RoleController extends BaseController<RoleAggVO> {
         return super.queryData(RoleVO.class,condition,index,pageSize);
     }
 
-
+    @RequestMapping("availableRole")
+    @ResponseBody
+    public String availableRole()
+    {
+        List<RoleVO> datas=getServer().queryData(RoleVO.class,"dr='N'");
+        return new TableUtil().transHtml4Data(datas,new RoleMapMeta());
+    }
 
     @Override
     @RequestMapping(value = "delete",method = RequestMethod.POST)

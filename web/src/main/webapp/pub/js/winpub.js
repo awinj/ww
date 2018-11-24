@@ -15,6 +15,25 @@ function selectAll(obj) {
 
 
 
+function httpPost(url,jsonStr)
+{
+    $.ajax({
+        url:url,
+        type:'post',
+        dataType:'json',
+        contentType:'application/json;charset=UTF-8',
+        data:jsonStr,
+        async:false,//同步
+        success:function (result) {
+            return result;
+        },
+        error:function (result) {
+            layer.msg("网络异常");
+        }
+    });
+}
+
+
 //加载tables数据，其中查询接口必须为query
 function loadTable(id, layfilter, cols) {
     layui.use(['table', 'element','form'], function () {

@@ -144,26 +144,31 @@
             parentVO:data
         };
 
-        $.ajax({
-            url:'/ww/auth/user/save',
-            type:'post',
-            dataType:'json',
-            contentType:'application/json;charset=UTF-8',
-            data:JSON.stringify(aggVO),
-            success:function (result) {
-                layer.msg("保存成功");
-            },
-            error:function (result) {
-                layer.msg("保存失败");
-            }
-        });
+//        $.ajax({
+//            url:'/ww/auth/user/save',
+//            type:'post',
+//            dataType:'json',
+//            contentType:'application/json;charset=UTF-8',
+//            data:JSON.stringify(aggVO),
+//            success:function (result) {
+//                layer.msg("保存成功");
+//            },
+//            error:function (result) {
+//                layer.msg("保存失败");
+//            }
+//        });
+        var result=httpPost('/ww/auth/user/save',JSON.stringify(aggVO));
+        if(result!=null)
+            layer.msg(result.msg);
 
     }
 
     function doElse(event,data) {
+
+        var result=httpPost("/ww/auth/role/availableRole")
         layer.open({
             type:1,
-            content: $('#tree'),
+            content: result,
             area:  '40%',
         });
     }

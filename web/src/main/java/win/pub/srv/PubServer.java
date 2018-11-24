@@ -113,4 +113,14 @@ public class PubServer implements IVOServer {
         }
         return queryData;
     }
+
+    public <T extends SuperVO> List<T> queryData(Class<T> c,String where)
+    {
+        try {
+            return  getDao().queryByWhere(c,where);
+        } catch (DAOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

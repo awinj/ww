@@ -92,7 +92,7 @@ public abstract class BaseController<T extends AggVO>{
     }
 
     PubServer server;
-    private PubServer getServer()
+    protected PubServer getServer()
     {
         if(server==null)
             server=new PubServer();
