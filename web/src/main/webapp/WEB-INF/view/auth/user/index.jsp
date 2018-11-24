@@ -45,29 +45,46 @@
 <%@ include file="form.jsp"%>
 
 
-<div id="treedemo" style="display: none">
-    <ul class="tree" >
-
-        <li><input type="checkbox"><span>根目录
-            <ul class="tree level1" >
-                <li> <input type="checkbox"><span>一级目录</span> </li>
-                <li><input type="checkbox"><span>一级目录</span></li>
-                <li><input type="checkbox"><span>一级目录</span></li>
-                <li>
-                    <ul class="tree level2" >
-                        <li><input type="checkbox"><span>二级目录</span></li>
-                        <li><input type="checkbox"><span>二级目录</span></li>
-                        <li><input type="checkbox"><span>二级目录</span></li>
+<div id="tree" style="display: none">
+    <ul class="wintree" >
+        <li class="node">
+            <div >
+                <div class="extend"><span>+</span></div>
+                <input type="checkbox">
+                <label>根目录</label>
+            </div>
+            <ul  >
+                <li><input type="checkbox"><label>一级目录</label></li>
+                <li><input type="checkbox"><label>一级目录</label></li>
+                <%--<li> <div class="extend"><span>+</span></div><input type="checkbox"><label>一级目录</label></li>--%>
+                <li class="node">
+                    <div ><div class="extend"><span>+</span></div><input type="checkbox"><label>一级目录</label></div>
+                    <ul  >
+                        <li><input type="checkbox"><label>二级目录</label></li>
+                        <li><input type="checkbox"><label>二级目录</label></li>
+                        <li><input type="checkbox"><label>二级目录</label></li>
+                        <li class="node">
+                            <div ><div class="extend"><span>+</span></div><input type="checkbox"><label>二级目录</label></div>
+                            <ul  >
+                                <li><input type="checkbox"><label>三级目录</label></li>
+                                <li><input type="checkbox"><label>三级目录</label></li>
+                                <li><input type="checkbox"><label>三级目录</label></li>
+                            </ul>
+                        </li>
                     </ul>
                 </li>
+                <li><input type="checkbox"><label>一级目录</label></li>
+                <li><input type="checkbox"><label>一级目录</label></li>
             </ul>
         </li>
-        <li><input type="checkbox"><span>根目录</span></li>
-        <li><input type="checkbox"><span>根目录</span></li>
-        <li><input type="checkbox"><span>根目录</span></li>
+        <li>
+            <input type="checkbox"><label>根目录</label>
+        </li>
 
 
     </ul>
+    <input class="tree_ok" type="button" value="确认" />
+    <input class="tree_cancel" type="button" value="取消">
 </div>
 </body>
 
@@ -146,11 +163,10 @@
     function doElse(event,data) {
         layer.open({
             type:1,
-            content: $('#treedemo'),
-            area:  '60%',
+            content: $('#tree'),
+            area:  '40%',
         });
     }
-
 
 </script>
 <%@ include file="../../pub/htmlend.jsp" %>

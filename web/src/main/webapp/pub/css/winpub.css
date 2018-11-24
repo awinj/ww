@@ -12,24 +12,82 @@
     margin: 15px;
 }
 
-.tree li
-{
-  line-height: 28px;
-   font:  14px Helvetica Neue, Helvetica, PingFang SC, Tahoma, Arial, sans-serif;
-    color: #666;
+/*.treenode{*/
+    /*overflow: hidden;*/
+/*}*/
+.wintree label ,input{
+    display: block;
+    float: left;
+
 }
-.tree input[type=checkbox]
+.wintree li
 {
-    margin:0 5px;
+    font:  14px Helvetica Neue, Helvetica, PingFang SC, Tahoma, Arial, sans-serif;
+    color: #666;
+    margin: 3px 0;
+    overflow: hidden;
+}
+.wintree input[type=checkbox]
+{
+    margin:0 5px 0 2px;
     width: 18px;
     height: 18px;
     border: 1px solid #d2d2d2;
 }
-.tree .level1
-{
-    margin-left: 20px;
+.wintree{
+    margin-left: 30px;
 }
-.tree .level2
+.wintree ul
 {
-    margin-left: 40px;
+    margin-left: 30px;
+}
+.wintree .extend
+{
+    float: left;
+    font-size: 30px;
+    width: 18px;
+    height: 18px;
+    overflow: hidden;
+    cursor: pointer;
+}
+.wintree .extend span{
+    display: block;
+    margin-top: -7px;
+}
+
+ .node{
+    margin-left: -18px !important;
+}
+
+.node div{
+    overflow: hidden;
+}
+.tree_ok{
+    display: inline-block;
+    height: 38px;
+    line-height: 38px;
+    padding: 0 18px;
+    background-color: #009688;
+    color: #fff;
+    white-space: nowrap;
+    text-align: center;
+    font-size: 14px;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+}
+.tree_cancel
+{
+    display: inline-block;
+    height: 38px;
+    line-height: 38px;
+    padding: 0 18px;
+    background-color: #fff;
+    color: #555;
+    white-space: nowrap;
+    text-align: center;
+    font-size: 14px;
+    border: 1px solid #C9C9C9;
+    border-radius: 2px;
+    cursor: pointer;
 }

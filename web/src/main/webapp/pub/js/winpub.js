@@ -213,3 +213,12 @@ function setFormValue(data){
 function closelayer() {
     layer.closeAll();
 }
+
+
+
+
+
+function nodeExtend(obj) {
+    var id=obj.id;
+    $("#"+id+" ul").toggle();
+}

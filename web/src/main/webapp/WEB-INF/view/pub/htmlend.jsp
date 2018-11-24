@@ -34,4 +34,21 @@
     var currpath=window.location.pathname;
 //    currpath="index";
     $("  [href='"+currpath+"']").filter(".layui-nav-child a").addClass("layui-this");
+
+
+
+    $('.extend').click(function () {
+//        var ext=$(this).children("span").html();
+//        if(ext=="+")
+//            ext="—";
+//        else
+//            ext="+";
+//        $(this).children("span").html(ext);
+        //用切换class 切换收缩的样式
+        $(this).parent().next().toggle();
+    });
+    $(".wintree input:checkbox").click(function () {
+        var checked=$(this).prop("checked");
+        $(this).parent().parent().find("ul li input:checkbox").prop("checked",checked);
+    })
 </script>
