@@ -81,4 +81,9 @@ public abstract class SuperVO extends ValueObject implements IStateful{
 	public void setDr(BooleanExt dr) {
 		this.dr = dr;
 	}
+
+	public String getPrimaryVal()
+	{
+		return (String)getAttrValue(getPrimaryKey());
+	}
 }
