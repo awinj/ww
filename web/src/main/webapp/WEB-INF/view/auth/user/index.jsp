@@ -165,7 +165,7 @@
 
     function doElse(event,data) {
 
-        var result=httpPost("/ww/auth/role/availableRole")
+        var result=httpPost("/ww/auth/role/availableRole",null,"html");
         layer.open({
             type:1,
             content: result,

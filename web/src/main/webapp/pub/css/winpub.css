@@ -75,6 +75,8 @@
     border: none;
     border-radius: 2px;
     cursor: pointer;
+    float: right;
+    margin: 20px 30px 20px 0;
 }
 .tree_cancel
 {
@@ -90,4 +92,7 @@
     border: 1px solid #C9C9C9;
     border-radius: 2px;
     cursor: pointer;
+    float: right;
+
+    margin: 20px 30px 20px 0;
 }

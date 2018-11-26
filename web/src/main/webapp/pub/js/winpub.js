@@ -15,23 +15,29 @@ function selectAll(obj) {
 
 
 
-function httpPost(url,jsonStr)
+function httpPost(url,jsonStr,reqDataType)
 {
+    var ret=null;
+    if(reqDataType==null)
+        reqDataType='json';
     $.ajax({
         url:url,
         type:'post',
-        dataType:'json',
+        dataType:reqDataType,
         contentType:'application/json;charset=UTF-8',
         data:jsonStr,
         async:false,//同步
         success:function (result) {
-            return result;
+            ret= result;
         },
         error:function (result) {
             layer.msg("网络异常");
         }
     });
+    return ret;
 }
+
+
 
 
 //加载tables数据，其中查询接口必须为query

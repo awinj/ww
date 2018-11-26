@@ -62,7 +62,7 @@
         {field: 'roleName', title: '角色名称'},
         {field: 'roleType', title: '角色类型'},
         {field: 'memo', title: '备注'},
-        {field: 'enable', title: '是否锁定'},
+        {field: 'enable', title: '是否启用'},
         {field: 'creator', title: '创建人',hide:true},
         {field: 'creationTime', title: '创建时间',hide:true},
         {field: 'modifier', title: '修改人',hide:true},
