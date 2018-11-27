@@ -1,6 +1,7 @@
 package awin.bean;
 
 import awin.lang.BooleanExt;
+import awin.util.date.DateUtil;
 
 public abstract class SuperVO extends ValueObject implements IStateful{
 
@@ -67,6 +68,8 @@ public abstract class SuperVO extends ValueObject implements IStateful{
 
 
 	public String getTs() {
+		if(ts==null||ts.length()<=0)
+			return DateUtil.getCurrentTime();
 		return ts;
 	}
 

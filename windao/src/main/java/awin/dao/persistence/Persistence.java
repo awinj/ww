@@ -95,16 +95,32 @@ public  class Persistence {
 		}
 	}
 
+	/**
+	 * 必须为静态的sql,如果通过外界传入的参数进行拼接成的sql，会有sql注入的风险
+	 * @param sql 静态的可执行sql查询语句。
+	 * @return
+	 * @throws DAOException
+	 */
 	public ResultSet query(String sql) throws DAOException
-	 {
-		 try {
-			 Statement stmt =getBasicConnection().getConnection().createStatement();
-			 return stmt.executeQuery(sql);
-		 } catch (Exception e) {
-			 throw new DAOException(e.getMessage(),e);
-		 }
-	 }
+	{
+		try {
+			Statement stmt =getBasicConnection().getConnection().createStatement();
+			return stmt.executeQuery(sql);
+		} catch (Exception e) {
+			throw new DAOException(e.getMessage(),e);
+		}
+	}
 
+	public ResultSet query(String sql,SQLParameter parameter) throws DAOException
+	{
+		try {
+			PreparedStatement stmt =getBasicConnection().getConnection().prepareStatement(sql);
+			DBUtil.setStatementParameter(stmt, parameter);//j将参数传入到语句中
+			return stmt.executeQuery();
+		} catch (Exception e) {
+			throw new DAOException(e.getMessage(),e);
+		}
+	}
 
 	 public ResultSet queryByWhere(Class c,String where)throws DAOException
 	 {

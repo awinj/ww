@@ -6,6 +6,7 @@ import awin.bean.SuperVO;
 import awin.dao.exception.DAOException;
 import awin.dao.persistence.Persistence;
 import awin.dao.persistence.ResultSetUtil;
+import awin.dao.persistence.type.SQLParameter;
 
 public class BaseDAO {
 
@@ -45,7 +46,7 @@ public class BaseDAO {
 	}
 
 	/**
-	 *
+	 *	必须为静态的sql,如果通过外界传入的参数进行拼接成的sql，会有sql注入的风险
 	 * @param c 返回实体的类型
 	 * @param sql sql语句
 	 * @param <T>
@@ -55,6 +56,11 @@ public class BaseDAO {
 	public <T > List<T> query(Class<T> c,String sql) throws  DAOException {
 
 		return getResultSetUtil().toBeanList(c, getPersistence().query(sql));
+	}
+
+	public <T > List<T> query(Class<T> c, String sql, SQLParameter parameter) throws  DAOException {
+
+		return getResultSetUtil().toBeanList(c, getPersistence().query(sql,parameter));
 	}
 
 	/**
