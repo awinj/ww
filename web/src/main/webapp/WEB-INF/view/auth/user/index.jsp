@@ -171,6 +171,15 @@
             content: result,
             area:  '40%',
         });
+        $("input[name='refchk']:checked").each(function () {
+            var eleid=$(this).prop("id");
+            if(eleid!='selecAll')
+            {
+                selectPks.push($(this).val());
+                if($(this).parent()!=null&&$(this).parent().next()!=null)
+                    selectNames.push($(this).parent().next().html());
+            }
+        });
     }
 
 </script>
