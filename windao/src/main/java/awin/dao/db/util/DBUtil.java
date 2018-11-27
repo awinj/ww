@@ -4,6 +4,7 @@ import awin.dao.persistence.type.SQLParameter;
 import awin.dao.persistence.type.BlobParamType;
 import awin.dao.persistence.type.ClobParamType;
 import awin.dao.persistence.type.NullParamType;
+import awin.lang.BooleanExt;
 import awin.logger.Logger;
 
 import java.math.BigDecimal;
@@ -51,9 +52,11 @@ public class DBUtil {
 //						.toString());
 //			} else if (param instanceof UFTime) {
 //				statement.setString(i + 1, ((UFTime) param).toString());
-//			} else if (param instanceof BooleanExt) {
-//				statement.setString(i + 1, ((BooleanExt) param).toString());
-//			} else if (param instanceof UFDate) {
+//			}
+			else if (param instanceof BooleanExt) {
+				statement.setString(i + 1, ((BooleanExt) param).toString());
+			}
+// else if (param instanceof UFDate) {
 //				statement.setString(i + 1, ((UFDate) param).toString());
 //			} else if (param instanceof UFDateTime) {
 //				statement.setString(i + 1, ((UFDateTime) param).toString());
