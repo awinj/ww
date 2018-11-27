@@ -1,4 +1,4 @@
-drop table auth_user
+drop table auth_user;
 create table auth_user
 (
 pk_user char(20) not null ,
@@ -21,7 +21,7 @@ dr char(1),
 
   constraint pk_user PRIMARY KEY ( pk_user )
 
-)
+);
 
 
 comment on column auth_user.pk_user is '主键';
@@ -120,4 +120,51 @@ comment on column auth_power.modifier is '修改人';
 comment on column auth_power.modifyTime is '修改时间';
 comment on column auth_power.ts is '时间戳';
 comment on column auth_power.dr is '删除标志';
+
+
+
+
+
+--------------------------------------------------
+
+create table auth_user_role
+(
+pk_user_role char(20),
+pk_user char(20),
+pk_role char(20),
+ts char(19),
+dr char(1),
+
+ constraint pk_user_role PRIMARY KEY ( pk_user_role )
+ );
+
+
+comment on column auth_user_role.pk_user_role is '主键';
+comment on column auth_user_role.pk_user is '用户主键';
+comment on column auth_user_role.pk_role is '角色主键';
+comment on column auth_user_role.ts is '时间戳';
+comment on column auth_user_role.dr is '删除标志';
+
+
+
+-------------------------------------------------------------
+
+create table auth_role_power
+(
+pk_role_power char(20),
+pk_power char(20),
+pk_role char(20),
+ts char(19),
+dr char(1),
+
+ constraint pk_role_power PRIMARY KEY ( pk_role_power )
+
+ );
+
+comment on column auth_role_power.pk_role_power is '主键';
+comment on column auth_role_power.pk_power is '功能主键';
+comment on column auth_role_power.pk_role is '角色主键';
+comment on column auth_role_power.ts is '时间戳';
+comment on column auth_role_power.dr is '删除标志';
+
 
