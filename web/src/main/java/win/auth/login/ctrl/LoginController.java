@@ -1,18 +1,24 @@
 package win.auth.login.ctrl;
 
+import awin.dao.exception.DAOException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import win.auth.login.model.LoginModel;
 import win.auth.login.pub.CookieUtil;
 import win.auth.login.srv.LoginServer;
+import win.auth.power.vo.PowerVO;
+import win.pub.util.tree.TreeInitialize;
+import win.pub.util.tree.TreeNode;
 import win.pub.vo.BusinessException;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  * Created by aWin on 2018-09-04.
@@ -75,6 +81,24 @@ public class LoginController  {
     {
         return "index";
     }
+
+    @RequestMapping("/nav")
+    @ResponseBody
+    public ModelAndView nav() {
+        try {
+            ModelAndView modelAndView = new ModelAndView("pub/nav");
+
+            List<PowerVO> powers = loginServer.getPowerByUser("1");
+            TreeInitialize<PowerVO> treeInitialize = new TreeInitialize<PowerVO>();
+            List<TreeNode<PowerVO>> ret = treeInitialize.trans2Tree(powers);
+            modelAndView.addObject(ret);
+            return modelAndView;
+        } catch (DAOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 
 
 }

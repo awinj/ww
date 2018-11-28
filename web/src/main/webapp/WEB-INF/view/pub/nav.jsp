@@ -22,7 +22,7 @@
         <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
         <ul class="layui-nav layui-nav-tree " lay-filter="demo">
             <li class="layui-nav-item layui-nav-itemed">
-                <a class="javascript:;" href="javascript:;">基本元素<span class="layui-nav-more"></span></a>
+                <a class="javascript:;" href="javascript:;">用户角色<span class="layui-nav-more"></span></a>
                 <dl class="layui-nav-child">
                     <dd><a href="/ww/auth/user/index">用户管理</a></dd>
                     <dd><a href="/ww/auth/role/index">角色管理</a></dd>

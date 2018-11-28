@@ -85,6 +85,7 @@ comment on column auth_role.modifyTime is '修改时间';
 comment on column auth_role.ts is '时间戳';
 comment on column auth_role.dr is '删除标志';
 --------------------------------------------------------------------------
+drop table auth_power;
 create table auth_power
 (
 pk_power char(20)  not null,
@@ -93,6 +94,10 @@ powerName varchar2(100)  not null,
 powerType varchar2(100),
 url varchar2(100),
 memo varchar2(100),
+pk_parent char(20),
+route varchar2(100),
+isDir char(1),
+
 enable char(1),
 creator varchar2(100),
 creationTime char(19),
@@ -114,6 +119,10 @@ comment on column auth_power.powerType is '功能类型';
 comment on column auth_power.url is '地址';
 comment on column auth_power.memo is '备注';
 comment on column auth_power.enable is '是否锁定';
+comment on column auth_power.pk_parent is '上级节点';
+comment on column auth_power.route is '路径';
+comment on column auth_power.isDir is '是否目录';
+
 comment on column auth_power.creator is '创建人';
 comment on column auth_power.creationTime is '创建时间';
 comment on column auth_power.modifier is '修改人';
