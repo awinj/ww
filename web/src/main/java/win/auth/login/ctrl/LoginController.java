@@ -18,6 +18,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -83,7 +84,6 @@ public class LoginController  {
     }
 
     @RequestMapping("/nav")
-    @ResponseBody
     public ModelAndView nav() {
         try {
             ModelAndView modelAndView = new ModelAndView("pub/nav");
@@ -91,7 +91,12 @@ public class LoginController  {
             List<PowerVO> powers = loginServer.getPowerByUser("1");
             TreeInitialize<PowerVO> treeInitialize = new TreeInitialize<PowerVO>();
             List<TreeNode<PowerVO>> ret = treeInitialize.trans2Tree(powers);
-            modelAndView.addObject(ret);
+            ret=new ArrayList<TreeNode<PowerVO>>();
+            PowerVO powerVO=new PowerVO();
+            powerVO.setPowerName("wsw");
+            TreeNode<PowerVO> node=new TreeNode<PowerVO>(powerVO);
+            ret.add(node);
+            modelAndView.addObject("navs",ret);
             return modelAndView;
         } catch (DAOException e) {
             e.printStackTrace();
