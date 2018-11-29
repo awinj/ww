@@ -1,5 +1,7 @@
 package awin.util.ldap;
 
+import awin.logger.Logger;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -64,7 +66,7 @@ public class LdAP {
 			}
 			ctx.close();
 		}catch (NamingException e) {
-			e.printStackTrace();
+			Logger.Error(e.getMessage(),e);
 			System.err.println("Problem searching directory: " + e);
 		}
 	}

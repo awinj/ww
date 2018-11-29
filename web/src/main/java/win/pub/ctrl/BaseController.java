@@ -3,6 +3,7 @@ package win.pub.ctrl;
 
 import awin.bean.SuperVO;
 import awin.dao.exception.DAOException;
+import awin.logger.Logger;
 import awin.util.parse.JsonUtil;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.servlet.ModelAndView;
@@ -64,7 +65,7 @@ public abstract class BaseController<T extends AggVO>{
             result.setData(ret);
             result.setMsg("保存成功");
         } catch (DAOException e) {
-            e.printStackTrace();
+            Logger.Error(e.getMessage(),e);
             result.setCode("0");
             result.setMsg("保存失败");
         }

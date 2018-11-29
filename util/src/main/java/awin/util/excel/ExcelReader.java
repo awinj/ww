@@ -3,6 +3,7 @@
  */
 package awin.util.excel;
 
+import awin.logger.Logger;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -136,7 +137,7 @@ public class ExcelReader {
 			try {
 				is.close();
 			} catch (IOException e) {
-				e.printStackTrace();
+				Logger.Error(e.getMessage(),e);
 			}
      }
 }

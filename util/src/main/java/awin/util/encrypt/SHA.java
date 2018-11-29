@@ -1,5 +1,7 @@
 package awin.util.encrypt;
 
+import awin.logger.Logger;
+
 import java.security.MessageDigest;
 
 public class SHA {
@@ -15,7 +17,7 @@ public class SHA {
             ret = new String(messageDigest.digest());
             System.out.println("SHA加密后:" + ret);
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.Error(e.getMessage(),e);
         }
         return ret;
     }
@@ -25,7 +27,7 @@ public class SHA {
             String inputStr = "简单加密";
             getResult(inputStr);
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.Error(e.getMessage(),e);
         }
 
     }

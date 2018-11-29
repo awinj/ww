@@ -3,6 +3,7 @@ package awin.dao.persistence;
 import awin.bean.util.BeanHelper;
 import awin.dao.exception.BaseException;
 import awin.dao.exception.DAOException;
+import awin.logger.Logger;
 import awin.util.parse.ParseUtil;
 
 import java.sql.ResultSet;
@@ -46,9 +47,9 @@ public class ResultSetUtil {
         } catch (SQLException e) {
             throw new DAOException(e.getMessage(), e);
         } catch (InstantiationException e) {
-            e.printStackTrace();
+            Logger.Error(e.getMessage(),e);
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            Logger.Error(e.getMessage(),e);
         }
         return list;
     }

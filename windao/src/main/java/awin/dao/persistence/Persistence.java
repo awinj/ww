@@ -255,7 +255,7 @@ public  class Persistence {
 						rsColumns.close();
 					}
 				} catch (SQLException e) {
-                    e.printStackTrace();
+                    Logger.Error(e.getMessage(),e);
 				}
 			}
 		}
@@ -299,7 +299,7 @@ public  class Persistence {
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			Logger.Error(e.getMessage(),e);
 		}
 		return strSche;
 	}

@@ -54,7 +54,7 @@ class PropDescriptor
       }
       Class retType = readMethod.getReturnType();
       if (!this.propType.isAssignableFrom(retType)) {
-        Logger.warn("return type unmatch for get Method and property! : " + classStart.getName() + "." + this.name);
+        Logger.Warn("return type unmatch for get Method and property! : " + classStart.getName() + "." + this.name);
       }
 
     }

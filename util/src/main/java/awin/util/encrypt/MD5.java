@@ -1,5 +1,7 @@
 package awin.util.encrypt;
 
+import awin.logger.Logger;
+
 import java.math.BigInteger;
 import java.security.MessageDigest;
 
@@ -18,7 +20,7 @@ public class MD5 {
             md.update(inputData);
             ret = new String(md.digest());
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.Error(e.getMessage(),e);
         }
         System.out.println("MD5加密后:" + ret);
         return ret;

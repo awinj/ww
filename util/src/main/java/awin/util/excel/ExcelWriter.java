@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 
+import awin.logger.Logger;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -100,7 +101,7 @@ public class ExcelWriter {
 	    	workbook.write(out);
 			out.close();
 		} catch (IOException e) {
-            e.printStackTrace();
+			Logger.Error(e.getMessage(),e);
 			throw e;
 		}
     }

@@ -1,6 +1,7 @@
 package win.auth.login.ctrl;
 
 import awin.dao.exception.DAOException;
+import awin.logger.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -99,7 +100,7 @@ public class LoginController  {
             modelAndView.addObject("navs",ret);
             return modelAndView;
         } catch (DAOException e) {
-            e.printStackTrace();
+            Logger.Error(e.getMessage(),e);
             return null;
         }
     }

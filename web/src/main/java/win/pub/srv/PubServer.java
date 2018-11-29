@@ -4,6 +4,7 @@ import awin.bean.SuperVO;
 import awin.bean.VOState;
 import awin.dao.BaseDAO;
 import awin.dao.exception.DAOException;
+import awin.logger.Logger;
 import win.pub.vo.AggVO;
 import win.pub.vo.MutiAggVO;
 import win.pub.vo.QueryData;
@@ -109,7 +110,7 @@ public class PubServer implements IVOServer {
             queryData.setData(data);
             queryData.setCount(count);
         } catch (DAOException e) {
-            e.printStackTrace();
+            Logger.Error(e.getMessage(),e);
         }
         return queryData;
     }
@@ -119,7 +120,7 @@ public class PubServer implements IVOServer {
         try {
             return  getDao().queryByWhere(c,where);
         } catch (DAOException e) {
-            e.printStackTrace();
+            Logger.Error(e.getMessage(),e);
             return null;
         }
     }
