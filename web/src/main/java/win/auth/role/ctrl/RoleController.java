@@ -45,7 +45,7 @@ public class RoleController extends BaseController<RoleAggVO> {
     @ResponseBody
     public String availableRole()
     {
-        List<RoleVO> datas=getServer().queryData(RoleVO.class,"dr='N'");
+        List<RoleVO> datas=getServer().queryByWhere(RoleVO.class,"dr='N'");
         return new TableUtil().transHtml4Data(datas,new RoleMapMeta());
     }
 

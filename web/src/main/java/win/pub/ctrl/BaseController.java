@@ -9,6 +9,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.servlet.ModelAndView;
 import win.pub.srv.PubServer;
 import win.pub.vo.AggVO;
+import win.pub.vo.BusinessException;
 import win.pub.vo.QueryData;
 import win.pub.vo.Result;
 
@@ -34,19 +35,14 @@ public abstract class BaseController<T extends AggVO>{
 
     public <T extends SuperVO> String  queryData(Class<T> c,String condition, Integer index ,Integer pageSize)
     {
-        //TODO 将查询条件组装放到dao层，并参数化，防止sql注入
-        StringBuffer where=new StringBuffer("1=1 ");
+        // 将查询条件组装放到dao层，并参数化，防止sql注入
         Map<String,Object> con= JsonUtil.jsonToBean(condition, HashMap.class);
-        if(con!=null)
-        {
-            for(String key : con.keySet())
-            {
-                Object val=con.get(key);
-                if(val!=null&&val.toString().trim().length()>0)
-                    where.append(" and ").append(key).append("='"+val+"'");
-            }
+        QueryData queryData= null;
+        try {
+            queryData = getServer().queryData(c,con,index,pageSize);
+        } catch (BusinessException e) {
+            throw new RuntimeException("数据查询异常");
         }
-        QueryData queryData=getServer().queryData(c,where.toString(),index,pageSize);
         return JsonUtil.beanToJson(queryData);
     }
 
@@ -65,9 +61,7 @@ public abstract class BaseController<T extends AggVO>{
             result.setData(ret);
             result.setMsg("保存成功");
         } catch (DAOException e) {
-            Logger.Error(e.getMessage(),e);
-            result.setCode("0");
-            result.setMsg("保存失败");
+            handle(result,e);
         }
         return  result;
     }
@@ -78,9 +72,8 @@ public abstract class BaseController<T extends AggVO>{
     }
 
 
-    protected Result handle(Exception e)
+    protected Result handle(Result result,Exception e)
     {
-        Result result=createResult();
         result.setStatue(1);
         result.setMsg(e.getMessage());
         return result;

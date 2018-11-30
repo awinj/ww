@@ -1,6 +1,7 @@
 package awin.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import awin.bean.SuperVO;
 import awin.dao.exception.DAOException;
@@ -79,15 +80,15 @@ public class BaseDAO {
 	/**
 	 *分页查询
 	 * @param c 查询的数据类型
-	 * @param whereSql where 子句
+	 * @param con 查询条件
 	 * @param index 页码从0开始
 	 * @param pageSize 每页数据条数
 	 * @param <T>
 	 * @return 实体集合
 	 * @throws DAOException
 	 */
-	public <T extends SuperVO> List<T> queryByPager(Class<T> c,String whereSql,Integer index,Integer pageSize) throws DAOException {
-		return getResultSetUtil().toBeanList(c,getPersistence().queryByPager(c,whereSql,index,pageSize));
+	public <T extends SuperVO> List<T> queryByPager(Class<T> c, Map<String,Object> con, Integer index, Integer pageSize) throws DAOException {
+		return getResultSetUtil().toBeanList(c,getPersistence().queryByPager(c,con,index,pageSize));
 	}
 
 
@@ -108,8 +109,8 @@ public class BaseDAO {
 	 * @param <T>
 	 * @return
 	 */
-	public <T extends SuperVO> Integer queryCount(Class<T> c,String whereSql) throws DAOException {
-        return getResultSetUtil().firstToInt(getPersistence().queryCount(c,whereSql));
+	public <T extends SuperVO> Integer queryCount(Class<T> c,Map<String,Object> con) throws DAOException {
+        return getResultSetUtil().firstToInt(getPersistence().queryCount(c,con));
 	}
 	/**
 	 *

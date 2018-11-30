@@ -6,10 +6,12 @@ import awin.dao.BaseDAO;
 import awin.dao.exception.DAOException;
 import awin.logger.Logger;
 import win.pub.vo.AggVO;
+import win.pub.vo.BusinessException;
 import win.pub.vo.MutiAggVO;
 import win.pub.vo.QueryData;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * //TODO 保持事务
@@ -101,21 +103,38 @@ public class PubServer implements IVOServer {
     }
 
 
-    public <T extends SuperVO> QueryData  queryData(Class<T> c,String where, Integer index ,Integer pageSize)
-    {
+    /**
+     *分页查询
+     * @param c 查询的数据类型
+     * @param con 查询条件
+     * @param index 页码从0开始
+     * @param pageSize 每页数据条数
+     * @param <T>
+     * @return 实体集合
+     * @throws DAOException
+     */
+    public <T extends SuperVO> QueryData  queryData(Class<T> c, Map<String,Object> con, Integer index , Integer pageSize) throws BusinessException {
         QueryData queryData=new QueryData();
         try {
-            List data=getDao().queryByPager(c,where,index-1,pageSize);//前台从第一页开始，数据库从第0页开始
-            Integer count=getDao().queryCount(c,where);
+            List data=getDao().queryByPager(c,con,index-1,pageSize);//前台从第一页开始，数据库从第0页开始
+            Integer count=getDao().queryCount(c,con);
             queryData.setData(data);
             queryData.setCount(count);
         } catch (DAOException e) {
             Logger.Error(e.getMessage(),e);
+            throw new BusinessException("数据查询异常");
         }
         return queryData;
     }
 
-    public <T extends SuperVO> List<T> queryData(Class<T> c,String where)
+    /**
+     *  其中where不能是从界面数据拼接得到的字符串，这样会存在sql注入漏洞
+     * @param c
+     * @param where 不能与界面数据有关，一般用于固定条件查询，例如 dr='N'
+     * @param <T>
+     * @return
+     */
+    public <T extends SuperVO> List<T> queryByWhere(Class<T> c,String where)
     {
         try {
             return  getDao().queryByWhere(c,where);
