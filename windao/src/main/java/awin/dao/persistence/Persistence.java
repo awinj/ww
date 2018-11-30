@@ -40,7 +40,7 @@ public  class Persistence {
 				 vo.setAttrValue(vo.getPrimaryKey(),pk);
 			 }
 			 PreparedStatement stmt =getBasicConnection().getConnection().prepareStatement(sql);
-			 Logger.Info("insertsql:"+sql);
+			 Logger.Debug("insertsql:"+sql);
 			 stmt.clearParameters();
 
 			 SQLParameter parameter = getSQLParam(vo, columns, type);
@@ -58,7 +58,7 @@ public  class Persistence {
 		 try {
 			 String sql= new UpdateString().update(vo.getTableName()).set(vo.getAttrNames(),vo.getAttrValues()).
 					 where(vo.getPrimaryKey()+"='"+vo.getAttrValue(vo.getPrimaryKey())+"'").toString();
-			 Logger.Info("updatesql:"+sql);
+			 Logger.Debug("updatesql:"+sql);
 			 Statement stmt =getBasicConnection().getConnection().createStatement();
 			 return stmt.executeUpdate(sql);
 		 } catch (Exception e) {
@@ -70,7 +70,7 @@ public  class Persistence {
 	 {
 		 try {
 			 String sql=new DeleteString().deleteFrom(vo.getTableName()).where(vo.getPrimaryKey()+"='"+vo.getAttrValue(vo.getPrimaryKey())+"'").toString();
-			 Logger.Info("deletesql:"+sql);
+			 Logger.Debug("deletesql:"+sql);
 			 Statement stmt =getBasicConnection().getConnection().createStatement();
 			 return stmt.executeUpdate(sql);
 		 } catch (Exception e) {
@@ -87,7 +87,7 @@ public  class Persistence {
 		{
 			try {
 				String sql=new SelectString().select(vo.getAttrNames()).from(vo.getTableName()).where(vo.getPrimaryKey()+"='"+pk+"'").toString();
-				Logger.Info("queryByPk sql:"+sql);
+				Logger.Debug("queryByPk sql:"+sql);
 				return query(sql);
 			} catch (Exception e) {
 				throw new DAOException(e.getMessage(),e);
@@ -109,7 +109,7 @@ public  class Persistence {
 	{
 		try {
 			Statement stmt =getBasicConnection().getConnection().createStatement();
-			Logger.Info("query sql:"+sql);
+			Logger.Debug("query sql:"+sql);
 			return stmt.executeQuery(sql);
 		} catch (Exception e) {
 			throw new DAOException(e.getMessage(),e);
@@ -120,7 +120,7 @@ public  class Persistence {
 	{
 		try {
 			PreparedStatement stmt =getBasicConnection().getConnection().prepareStatement(sql);
-			Logger.Info("query sql:"+sql);
+			Logger.Debug("query sql:"+sql);
 			DBUtil.setStatementParameter(stmt, parameter);//j将参数传入到语句中
 			return stmt.executeQuery();
 		} catch (Exception e) {
@@ -135,7 +135,7 @@ public  class Persistence {
 		 {
 			 try {
 				 String sql=new SelectString().select(vo.getAttrNames()).from(vo.getTableName()).where(where).toString();
-				 Logger.Info("queryByWhere sql:"+sql);
+				 Logger.Debug("queryByWhere sql:"+sql);
 				 return query(sql);
 			 } catch (Exception e) {
 				 throw new DAOException(e.getMessage(),e);
@@ -169,7 +169,7 @@ public  class Persistence {
 			try {
 				String tmptable=new SelectString().select(vo.getAttrNames()).append(" ,rownum as rowno").from(vo.getTableName()).where(where.toString()).toString();
 				String sql=new SelectString().select(vo.getAttrNames()).from("("+tmptable+") t").where("t.rowno >"+index*pageSize+" and t.rowno <=" +(index+1)*pageSize).toString();
-				Logger.Info("queryByPager sql:"+sql);
+				Logger.Debug("queryByPager sql:"+sql);
 				return query(sql,parameter);
 			} catch (FromParaNullException e) {
 				throw new DAOException(e.getMessage(),e);
@@ -218,7 +218,7 @@ public  class Persistence {
          {
              try {
                  String sql=new SelectString().select(" count(1) ").from(vo.getTableName()).where(where.toString()).toString();
-				 Logger.Info("queryCount sql:"+sql);
+				 Logger.Debug("queryCount sql:"+sql);
                  return query(sql,parameter);
              } catch (FromParaNullException e) {
                  throw new DAOException(e.getMessage(),e);
