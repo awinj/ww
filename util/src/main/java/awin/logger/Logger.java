@@ -11,7 +11,7 @@ public class Logger {
 
         String path=Logger.class.getResource("").getPath();
         PropertyConfigurator.configure(path+"/log4j.properties");
-        logger=org.apache.log4j.Logger.getLogger(Logger.class);
+        logger=org.apache.log4j.Logger.getLogger("anonymous");
     }
 
 

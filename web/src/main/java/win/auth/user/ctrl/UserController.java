@@ -46,8 +46,8 @@ public class UserController extends BaseController<UserAggVO> {
 
     @Override
     @RequestMapping(value = "delete",method = RequestMethod.POST)
-    public Result delete(@RequestBody List<String> pks) {
-        return super.delete(pks);
+    public Result delete(@RequestBody List<UserAggVO> aggVOs) {
+        return super.delete(aggVOs);
     }
 
     @Override

@@ -43,8 +43,8 @@ public class PowerController extends BaseController<PowerAggVO> {
 
     @Override
     @RequestMapping(value = "delete",method = RequestMethod.POST)
-    public Result delete(@RequestBody List<String> pks) {
-        return super.delete(pks);
+    public Result delete(@RequestBody List<PowerAggVO> aggVOs) {
+        return super.delete(aggVOs);
     }
 
     @Override

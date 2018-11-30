@@ -51,8 +51,9 @@ public class RoleController extends BaseController<RoleAggVO> {
 
     @Override
     @RequestMapping(value = "delete",method = RequestMethod.POST)
-    public Result delete(@RequestBody List<String> pks) {
-        return super.delete(pks);
+    @ResponseBody
+    public Result delete(@RequestBody List<RoleAggVO> aggVOs) {
+        return super.delete(aggVOs);
     }
 
     @Override

@@ -54,7 +54,7 @@ public abstract class BaseController<T extends AggVO>{
 
     public Result save(T aggVO)
     {
-        Result result=new Result();
+        Result result=createResult();
         try {
              AggVO ret=getServer().save(aggVO);
             result.setCode("1");
@@ -66,9 +66,21 @@ public abstract class BaseController<T extends AggVO>{
         return  result;
     }
 
-    public Result delete(List<String> pks)
+    public Result delete(List<T> aggVOs)
     {
-        return null;
+        Result result=createResult();
+        try {
+            for (T aggVO : aggVOs)
+            {
+                getServer().delete(aggVO);
+            }
+            result.setMsg("删除成功");
+        } catch (DAOException e) {
+            Logger.Error(e.getMessage(),e);
+            handle(result,e);
+        }
+
+        return result;
     }
 
 
