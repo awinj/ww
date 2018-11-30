@@ -26,6 +26,16 @@ public class BaseDAO {
 
 	/**
 	 *
+	 * @param vo 插入的数据
+	 * @return	返回插入数据的主键
+	 * @throws DAOException
+	 */
+	public String[] insert(SuperVO[] vo) throws DAOException {
+		return getPersistence().insert(vo);
+	}
+
+	/**
+	 *
 	 * @param vo 更新的数据
 	 * @return	返回受影响的行数
 	 * @throws DAOException
@@ -34,6 +44,25 @@ public class BaseDAO {
 		return getPersistence().update(vo);
 	}
 
+	/**
+	 * 根据主键删除数据
+	 * @param vo
+	 * @return
+	 * @throws DAOException
+	 */
+	public int delete(SuperVO vo) throws DAOException {
+		return getPersistence().delete(vo);
+	}
+
+	/**
+	 * 批量根据主键删除数据
+	 * @param vo
+	 * @return
+	 * @throws DAOException
+	 */
+	public int delete(SuperVO[] vo) throws DAOException {
+		return getPersistence().delete(vo);
+	}
 	/**
 	 *
 	 * @param c 查询类型

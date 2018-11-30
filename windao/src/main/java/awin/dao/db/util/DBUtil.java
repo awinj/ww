@@ -91,6 +91,16 @@ public class DBUtil {
 		}
 	}
 
+	public static void setStatementParameter(PreparedStatement statement,SQLParameter[] params) throws SQLException {
+		if (statement == null || params == null)
+			throw new IllegalArgumentException("不能传入空的SQLParameter!");
+		for(int i=0;i<params.length;i++)
+		{
+			setStatementParameter(statement,params[i]);
+			statement.addBatch();
+		}
+	}
+
 	public static int getDbType(Connection con) {
 		try {
 			return getDbType(con.getMetaData());

@@ -25,34 +25,81 @@ public  class Persistence {
 	{
 		return new BasicConnection();
 	}
-	
-	 public String insert(IORM vo) throws DAOException
-	 {
-		 try
-		 {
-             Map<String, Integer> type=getColmnTypes(vo.getTableName());
-			 String[] columns=getValidNames(vo,type);
-			 String sql= new InsertString().insert(vo.getTableName()).values(columns);
-			 Object pk=vo.getAttrValue(vo.getPrimaryKey());
-			 if(pk==null||pk.toString().length()<=0)
-			 {
-                 pk= Generator.genUniqueVal();
-				 vo.setAttrValue(vo.getPrimaryKey(),pk);
-			 }
-			 PreparedStatement stmt =getBasicConnection().getConnection().prepareStatement(sql);
-			 Logger.Debug("insertsql:"+sql);
-			 stmt.clearParameters();
 
-			 SQLParameter parameter = getSQLParam(vo, columns, type);
-			 DBUtil.setStatementParameter(stmt, parameter);//j将参数传入到语句中
-			 stmt.executeUpdate();
-			 return pk.toString();
-		 }
-		 catch(Exception e)
-		 {
-			 throw new DAOException(e.getMessage(),e);
-		 }
-	 }
+
+	 public String insert(IORM vo) throws DAOException
+	{
+		try
+		{
+			Map<String, Integer> type=getColmnTypes(vo.getTableName());
+			String[] columns=getValidNames(vo,type);
+			String sql= new InsertString().insert(vo.getTableName()).values(columns);
+			Object pk=vo.getAttrValue(vo.getPrimaryKey());
+			if(pk==null||pk.toString().length()<=0)
+			{
+				pk= Generator.genUniqueVal();
+				vo.setAttrValue(vo.getPrimaryKey(),pk);
+			}
+			PreparedStatement stmt =getBasicConnection().getConnection().prepareStatement(sql);
+			Logger.Debug("insertsql:"+sql);
+			stmt.clearParameters();
+
+			SQLParameter parameter = getSQLParam(vo, columns, type);
+			DBUtil.setStatementParameter(stmt, parameter);//j将参数传入到语句中
+			stmt.executeUpdate();
+			return pk.toString();
+		}
+		catch(Exception e)
+		{
+			throw new DAOException(e.getMessage(),e);
+		}
+	}
+
+
+	/**
+	 * 批量新增
+	 * @param vos
+	 * @return
+	 * @throws DAOException
+	 */
+	public String[] insert(IORM[] vos) throws DAOException
+	{
+		try
+		{
+			Map<String, Integer> type=getColmnTypes(vos[0].getTableName());
+			String[] columns=getValidNames(vos[0],type);
+			String sql= new InsertString().insert(vos[0].getTableName()).values(columns);
+			String[] retPks=new String[vos.length];
+			for(int i=0;i<vos.length;i++)
+			{
+				Object pk=vos[i].getAttrValue(vos[i].getPrimaryKey());
+				if(pk==null||pk.toString().length()<=0)
+				{
+					pk= Generator.genUniqueVal();
+					vos[i].setAttrValue(vos[i].getPrimaryKey(),pk);
+				}
+				retPks[i]=(String) pk;
+			}
+			PreparedStatement stmt =getBasicConnection().getConnection().prepareStatement(sql);
+			Logger.Debug("insertsql:"+sql);
+			stmt.clearParameters();
+
+			SQLParameter[] parameters=new SQLParameter[vos.length];
+			for(int i=0;i<vos.length;i++)
+			{
+				SQLParameter parameter = getSQLParam(vos[i], columns, type);
+				parameters[i]=parameter;
+			}
+
+			DBUtil.setStatementParameter(stmt, parameters);//j将参数传入到语句中
+			stmt.executeUpdate();
+			return retPks;
+		}
+		catch(Exception e)
+		{
+			throw new DAOException(e.getMessage(),e);
+		}
+	}
 	 
 	 public int update(IORM vo) throws DAOException {
 		 try {
@@ -69,14 +116,37 @@ public  class Persistence {
 	 public int delete(IORM vo)throws DAOException
 	 {
 		 try {
-			 String sql=new DeleteString().deleteFrom(vo.getTableName()).where(vo.getPrimaryKey()+"='"+vo.getAttrValue(vo.getPrimaryKey())+"'").toString();
+			 String sql=new DeleteString().deleteFrom(vo.getTableName()).where(vo.getPrimaryKey()+"=?").toString();
 			 Logger.Debug("deletesql:"+sql);
-			 Statement stmt =getBasicConnection().getConnection().createStatement();
-			 return stmt.executeUpdate(sql);
+			 PreparedStatement stmt=getBasicConnection().getConnection().prepareStatement(sql);
+			 SQLParameter parameter=new SQLParameter();
+			 parameter.addParam(vo.getAttrValue(vo.getPrimaryKey()));
+			 DBUtil.setStatementParameter(stmt, parameter);//j将参数传入到语句中
+			 return stmt.executeUpdate();
 		 } catch (Exception e) {
 			 throw new DAOException(e.getMessage(),e);
 		 }
 	 }
+
+	public int delete(IORM[] vos)throws DAOException
+	{
+		try {
+			String sql=new DeleteString().deleteFrom(vos[0].getTableName()).where(vos[0].getPrimaryKey()+"=?").toString();
+			Logger.Debug("deletesql:"+sql);
+			PreparedStatement stmt=getBasicConnection().getConnection().prepareStatement(sql);
+			SQLParameter[] parameters=new SQLParameter[vos.length];
+			for(int i=0;i<vos.length;i++)
+			{
+				parameters[i].addParam(vos[i].getAttrValue(vos[i].getPrimaryKey()));
+//				stmt.setString(1,(String)vos[i].getAttrValue(vos[i].getPrimaryKey()));
+//				stmt.addBatch();
+			}
+			DBUtil.setStatementParameter(stmt, parameters);//j将参数传入到语句中
+			return stmt.executeUpdate();
+		} catch (Exception e) {
+			throw new DAOException(e.getMessage(),e);
+		}
+	}
 	 
 	 public ResultSet query(Class c) throws DAOException {
 		 return queryByWhere(c,null);
@@ -183,7 +253,7 @@ public  class Persistence {
 	 }
 
 	/**
-	 * 转为为   key1 like '?' and key2 like '?'
+	 * 转为为   key1 like ? and key2 like ?
 	 * val 添加到 parameter 变量中
 	 * @param con key-val
 	 * @param where 待初始化的条件变量
@@ -199,7 +269,7 @@ public  class Persistence {
                 Object val=con.get(key);
                 if(val!=null&&val.toString().trim().length()>0)
                 {
-                    where.append(" and ").append(key).append(" like '?'");
+                    where.append(" and ").append(key).append(" like ?");
                     parameter.addParam(val);
                 }
             }
@@ -378,4 +448,7 @@ public  class Persistence {
 		}
 		return params;
 	}
+
+
+
 }
