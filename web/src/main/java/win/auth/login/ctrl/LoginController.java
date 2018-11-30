@@ -46,7 +46,7 @@ public class LoginController  {
                 HttpSession session = request.getSession();
                 session.setAttribute("pk_user",pk_user);
 //                response.addCookie(CookieUtil.createTicket(model.getUserName()));
-                return new ModelAndView("redirect:index");
+                return new ModelAndView("redirect:user/index");
             }
             catch (BusinessException e)
             {
