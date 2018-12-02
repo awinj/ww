@@ -92,7 +92,7 @@ public  class Persistence {
 			}
 
 			DBUtil.setStatementParameter(stmt, parameters);//j将参数传入到语句中
-			stmt.executeUpdate();
+			stmt.executeBatch();
 			return retPks;
 		}
 		catch(Exception e)
@@ -127,6 +127,29 @@ public  class Persistence {
 			 throw new DAOException(e.getMessage(),e);
 		 }
 	 }
+
+
+	 public int executeUpdate(String sql) throws DAOException {
+		 try {
+			 Statement stmt =getBasicConnection().getConnection().createStatement();
+			 return stmt.executeUpdate(sql);
+		 } catch (Exception e) {
+			Logger.Error(e.getMessage(),e);
+			 throw new DAOException(e.getMessage(),e);
+		 }
+	 }
+
+	public int executeUpdate(String sql,SQLParameter parameter) throws DAOException {
+		try {
+			PreparedStatement stmt =getBasicConnection().getConnection().prepareStatement(sql);
+			if(parameter!=null)
+				DBUtil.setStatementParameter(stmt, parameter);//j将参数传入到语句中
+			return stmt.executeUpdate();
+		} catch (Exception e) {
+			Logger.Error(e.getMessage(),e);
+			throw new DAOException(e.getMessage(),e);
+		}
+	}
 
 	public int delete(IORM[] vos)throws DAOException
 	{
@@ -215,6 +238,19 @@ public  class Persistence {
 		 {
 			 throw new DAOException("暂不支持本类型:"+String.valueOf(c));
 		 }
+	 }
+
+
+	 public int deleteByWhere(Class c,String where) throws DAOException {
+		 IORM vo=BeanHelper.createBean(c);
+		 String table=vo.getTableName();
+		 return executeUpdate("delete from "+table+" where "+where);
+	 }
+
+	 public int deleteByWhere(Class c,String where,SQLParameter parameter) throws DAOException {
+		 IORM vo=BeanHelper.createBean(c);
+		 String table=vo.getTableName();
+		 return executeUpdate("delete from "+table+" where "+where,parameter);
 	 }
 
 	/**

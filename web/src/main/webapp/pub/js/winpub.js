@@ -87,7 +87,7 @@ function loadTable(id, layfilter, cols) {
                     break;
                 case 'delete':
                     var datas = checkStatus.data;
-                    if(datas==null||datas.length!=1)
+                    if(datas==null||datas.length<1)
                     {
                         layer.alert('请至少选中一条数据', {icon: 0});
                         return ;

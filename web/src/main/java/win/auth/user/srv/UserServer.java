@@ -2,14 +2,16 @@ package win.auth.user.srv;
 
 import awin.dao.exception.DAOException;
 import awin.dao.persistence.type.SQLParameter;
-import win.auth.power.vo.PowerVO;
+import awin.logger.Logger;
 import win.auth.user.vo.UserRoleVO;
 import win.auth.user.vo.UserVO;
 import win.pub.model.PageModel;
 import win.pub.srv.IChildrenQuery;
 import win.pub.srv.IVOQuery;
 import win.pub.srv.PubServer;
+import win.pub.vo.BusinessException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,10 +42,6 @@ public class UserServer extends PubServer implements IVOQuery<UserVO>,IChildrenQ
         return null;
     }
 
-    public List<UserVO> query(PageModel model)
-    {
-        return null;
-    }
 
 
 
@@ -67,6 +65,34 @@ public class UserServer extends PubServer implements IVOQuery<UserVO>,IChildrenQ
     {
         return null;
     }
+
+
+    public boolean assign(String pk_user, List<String> roles) throws BusinessException {
+        if (pk_user == null)
+            throw new BusinessException("未选择用户");
+        try {
+            SQLParameter parameter = new SQLParameter();
+            parameter.addParam(pk_user);
+            //先将用户已有的角色删除
+            getDao().deleteByWhere(UserRoleVO.class," pk_user=?",parameter);
+            List<UserRoleVO> userRoleVOs = new ArrayList<UserRoleVO>();
+            if (roles != null&&roles.size()>0) {
+                for (String role : roles) {
+                    UserRoleVO userRoleVO = new UserRoleVO();
+                    userRoleVO.setPk_user(pk_user);
+                    userRoleVO.setPk_role(role);
+                    userRoleVOs.add(userRoleVO);
+                }
+            }
+            //再新增此次分配的角色
+            getDao().insert(userRoleVOs.toArray(new UserRoleVO[0]));
+        } catch (DAOException e) {
+            Logger.Error(e.getMessage(), e);
+            throw new BusinessException(e.getMessage(), e);
+        }
+        return true;
+    }
+
 
 //    public List<PowerVO> getPowerPowerByUser(String userName) throws DAOException {
 //        SQLParameter parameter=new SQLParameter();

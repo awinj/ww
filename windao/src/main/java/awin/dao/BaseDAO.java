@@ -3,7 +3,9 @@ package awin.dao;
 import java.util.List;
 import java.util.Map;
 
+import awin.bean.IORM;
 import awin.bean.SuperVO;
+import awin.bean.util.BeanHelper;
 import awin.dao.exception.DAOException;
 import awin.dao.persistence.Persistence;
 import awin.dao.persistence.ResultSetUtil;
@@ -131,10 +133,30 @@ public class BaseDAO {
 		return getResultSetUtil().firstToInt(getPersistence().query(sql));
 	}
 
+	public int update(String sql) throws DAOException {
+		return getPersistence().executeUpdate(sql);
+	}
+
+	public int update(String sql,SQLParameter parameter) throws DAOException {
+		return getPersistence().executeUpdate(sql,parameter);
+	}
+
+	public <T extends SuperVO> int deleteByWhere(Class<T> c,String where) throws DAOException {
+		IORM vo= BeanHelper.createBean(c);
+		String table=vo.getTableName();
+		return getPersistence().executeUpdate("delete from "+table+" where "+where);
+	}
+
+	public <T extends SuperVO> int deleteByWhere(Class<T> c,String where,SQLParameter parameter) throws DAOException {
+		IORM vo=BeanHelper.createBean(c);
+		String table=vo.getTableName();
+		return getPersistence().executeUpdate("delete from "+table+" where "+where,parameter);
+	}
+
 	/**
 	 * 查询符合条件的数据的条数
 	 * @param c 类型
-	 * @param whereSql whereSql
+	 * @param con 查询条件
 	 * @param <T>
 	 * @return
 	 */

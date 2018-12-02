@@ -11,12 +11,12 @@ import java.util.List;
  */
 public interface IVOQuery<P extends SuperVO> {
 
-    /**
-     *
-     * @param model 分页模型
-     * @return
-     */
-     List<P> query(PageModel model);
+//    /**
+//     *
+//     * @param model 分页模型
+//     * @return
+//     */
+//     List<P> query(PageModel model);
 
     P queryByPk(String pk);
 

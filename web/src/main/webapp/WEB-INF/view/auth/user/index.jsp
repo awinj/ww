@@ -94,7 +94,7 @@
     <div class="layui-btn-container">
             <div title="增加" class="layui-inline" lay-event="add"><i class="layui-icon layui-icon-add-1"></i></div>
             <div title="修改" class="layui-inline" lay-event="update"><i class="layui-icon layui-icon-edit"></i></div>
-            <div title="分配" class="layui-inline" lay-event="assigne"><i>分配</i>分配</div>
+            <div title="分配" class="layui-inline" lay-event="assign"><i>分配</i>分配</div>
             <div title="删除" class="layui-inline" lay-event="delete"><i class="layui-icon layui-icon-delete"></i></div>
     </div>
 </script>
@@ -154,7 +154,13 @@
         if(result!=null)
             layer.msg(result.msg);
     };
-    function doElse(event,data) {
+    function doElse(event,datas) {
+//assign
+        if(datas==null||datas.length!=1)
+        {
+            layer.alert('请选中一条数据', {icon: 0});
+            return ;
+        }
 
         var result=httpPost("/ww/auth/role/availableRole",null,"html");
         layer.open({
@@ -162,15 +168,17 @@
             content: result,
             area:  '40%',
         });
-        $("input[name='refchk']:checked").each(function () {
-            var eleid=$(this).prop("id");
-            if(eleid!='selecAll')
-            {
-                selectPks.push($(this).val());
-                if($(this).parent()!=null&&$(this).parent().next()!=null)
-                    selectNames.push($(this).parent().next().html());
-            }
-        });
+        var pk_user=datas[0].pk_user;
+        $(".tree_ok").click(function () {
+            var selectPks = [];
+            $("input[name='refchk']:checked").each(function () {
+                var eleid = $(this).prop("id");
+                if (eleid != 'selecAll') {
+                    selectPks.push($(this).val());
+                }
+            });
+            httpPost("/ww/auth/user/assign",JSON.stringify({pk_user: pk_user,roles:selectPks}));
+        })
     }
 
 </script>

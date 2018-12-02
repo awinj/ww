@@ -97,11 +97,6 @@ public abstract class BaseController<T extends AggVO>{
         return result;
     }
 
-    PubServer server;
-    protected PubServer getServer()
-    {
-        if(server==null)
-            server=new PubServer();
-        return server;
-    }
+    protected abstract PubServer getServer();
+
 }
