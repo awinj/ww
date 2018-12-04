@@ -1,5 +1,6 @@
 package win.auth.user.srv;
 
+import awin.bean.SuperVO;
 import awin.dao.exception.DAOException;
 import awin.dao.persistence.type.SQLParameter;
 import awin.logger.Logger;
@@ -29,8 +30,6 @@ public class UserServer extends PubServer implements IVOQuery<UserVO>,IChildrenQ
     {
 
     }
-
-
 
 
 

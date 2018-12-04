@@ -28,7 +28,7 @@ public class PubServer implements IVOServer {
     }
 
     public SuperVO save(SuperVO vo) throws DAOException {
-//        if(vo.getStatus()== VOState.ADD)
+
         if (vo == null)
             throw new RuntimeException("待保存的数据为空");
         String pkval = (String) vo.getAttrValue(vo.getPrimaryKey());
@@ -36,7 +36,6 @@ public class PubServer implements IVOServer {
             pkval = getDao().insert(vo);
             vo.setAttrValue(vo.getPrimaryKey(), pkval);
         }
-//        else if(vo.getStatus()== VOState.EDIT)
         else {
             getDao().update(vo);
         }

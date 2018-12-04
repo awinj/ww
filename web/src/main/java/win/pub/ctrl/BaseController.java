@@ -22,7 +22,8 @@ import java.util.Map;
  */
 public abstract class BaseController<T extends AggVO>{
 
-
+    private static final int faltcode=0;
+    private static final int sucesscode=1;
 
 
     public ModelAndView index()
@@ -57,7 +58,6 @@ public abstract class BaseController<T extends AggVO>{
         Result result=createResult();
         try {
              AggVO ret=getServer().save(aggVO);
-            result.setCode("1");
             result.setData(ret);
             result.setMsg("保存成功");
         } catch (DAOException e) {
@@ -86,7 +86,7 @@ public abstract class BaseController<T extends AggVO>{
 
     protected Result handle(Result result,Exception e)
     {
-        result.setStatue(1);
+        result.setStatue(faltcode);
         result.setMsg(e.getMessage());
         return result;
     }
@@ -94,6 +94,7 @@ public abstract class BaseController<T extends AggVO>{
     protected Result createResult()
     {
         Result result=new Result();
+        result.setStatue(sucesscode);
         return result;
     }
 
