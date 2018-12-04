@@ -161,7 +161,6 @@
             layer.alert('请选中一条数据', {icon: 0});
             return ;
         }
-
         var result=httpPost("/ww/auth/role/availableRole",null,"html");
         layer.open({
             type:1,
@@ -169,7 +168,7 @@
             area:  '40%',
         });
         var pk_user=datas[0].pk_user;
-        $(".tree_ok").click(function () {
+        $(".table_ok").click(function () {
             var selectPks = [];
             $("input[name='refchk']:checked").each(function () {
                 var eleid = $(this).prop("id");
@@ -177,7 +176,13 @@
                     selectPks.push($(this).val());
                 }
             });
-            httpPost("/ww/auth/user/assign",JSON.stringify({pk_user: pk_user,roles:selectPks}));
+            result=httpPost("/ww/auth/user/assign",JSON.stringify({pk_user: pk_user,roles:selectPks}));
+            if(result!=null)
+            {
+                layer.msg(result.msg);
+                closelayer();
+            }
+
         })
     }
 

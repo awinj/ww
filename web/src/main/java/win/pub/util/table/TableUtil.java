@@ -38,8 +38,8 @@ public class TableUtil {
         }
         html.append("</tbody></table>");
 
-        html.append("<input class='tree_ok' type='button' value='确认' />");
-        html.append(        "    <input class='tree_cancel' type='button' value='取消' onclick='closelayer()' >");
+        html.append("<input class='table_ok' type='button' value='确认' />");
+        html.append(        "    <input class='table_cancel' type='button' value='取消' onclick='closelayer()' >");
         return html.toString();
     }
 }
