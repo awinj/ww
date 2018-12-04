@@ -10,6 +10,8 @@ import win.pub.model.PageModel;
 import win.pub.srv.IChildrenQuery;
 import win.pub.srv.IVOQuery;
 import win.pub.srv.PubServer;
+import win.pub.util.EncryptPassword;
+import win.pub.vo.AggVO;
 import win.pub.vo.BusinessException;
 
 import java.util.ArrayList;
@@ -32,10 +34,17 @@ public class UserServer extends PubServer implements IVOQuery<UserVO>,IChildrenQ
     }
 
 
+    @Override
+    public SuperVO save(SuperVO vo) throws DAOException {
 
-
-
-
+        if(vo instanceof UserVO)
+        {
+            //如果保存数据密码为空，则设置为默认密码；
+            if(((UserVO) vo).getPassword()==null||((UserVO) vo).getPassword().length()<1)
+                ((UserVO) vo).setPassword(EncryptPassword.defaultPassword);
+        }
+        return super.save(vo);
+    }
 
     public UserVO queryByPk(String pk) {
         return null;
