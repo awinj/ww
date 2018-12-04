@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.util.Properties;
 
 import awin.dao.db.DataSource;
+import awin.dao.db.util.DBConsts;
 import awin.dao.exception.ConnectionException;
 import awin.logger.Logger;
 import org.apache.commons.dbcp.BasicDataSource;
@@ -18,7 +19,7 @@ public  class BasicConnection {
 		DataSource ds=new DataSource();
 		ds.setIpAddress("127.0.0.1");
 //		ds.setIpAddress("192.168.0.105");
-		ds.setUserName("ww");
+		ds.setUserName("rpt");
 		ds.setPassword("1");
 		ds.setPort("1521");
 		ds.setDataName("orcl");
@@ -39,20 +40,23 @@ public  class BasicConnection {
 		ds.setPassword(password);
 		ds.setPort("1521");
 		ds.setDataName("orcl");
-		ds.setDataType(1);
+		ds.setDataType(DBConsts.ORACLE);
 		init(ds);
 	}
 
 	private void init(DataSource ds)  {
 		Properties p = new Properties();
-		if(ds.getDataType() == 1){
+		//oracle
+		if(ds.getDataType() == DBConsts.ORACLE){
 			p.setProperty("url", "jdbc:oracle:thin:@"+ds.getIpAddress()+":"+ds.getPort()+":"+ds.getDataName());
-			p.setProperty("driverClassName", "oracle.jdbc.OracleDriver");
-		}else if(ds.getDataType()==2){
-			p.setProperty("driverClassName", "com.mysql.jdbc.Driver");
+			p.setProperty("driverClassName", DBConsts.JDBC_ORACLE);
+		}
+		else if(ds.getDataType()==DBConsts.MYSQL){   // mysql
+			p.setProperty("driverClassName", DBConsts.JDBC_MYSQL);
 			p.setProperty("url", "jdbc:mysql://"+ds.getIpAddress()+":"+ds.getPort()+"/"+ds.getDataName());
-		}else if (ds.getDataType() == 3){
-			p.setProperty("driverClassName", "com.microsoft.sqlserver.jdbc.SQLServerDriver");
+		}
+		else if (ds.getDataType() == DBConsts.SQLSERVER){  // sqlserver
+			p.setProperty("driverClassName", DBConsts.JDBC_SQLSERVER);
 			p.setProperty("url", "jdbc:sqlserver://"+ds.getIpAddress()+":"+ds.getPort()+"; DatabaseName="+ds.getDataName());
 		}
 		p.setProperty("username", ds.getUserName());

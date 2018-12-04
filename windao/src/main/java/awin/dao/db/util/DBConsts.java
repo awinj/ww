@@ -14,6 +14,7 @@ public interface DBConsts {
 	public final static int HSQL = 5;
 	public final static int OSCAR = 6;
 	public final static int POSTGRESQL = 7;
+	public final static int MYSQL=8;
 	public final static int UNKOWNDATABASE = -1;
 	public final static String DEFAULT_DATABASE_ID = "default_database";
 
@@ -25,6 +26,7 @@ public interface DBConsts {
 	public final static String INFORMIX_NAME = "INFORMIX";
 	public final static String OSCAR_NAME = "OSCAR";
 	public final static String POSTGRESQL_NAME = "POSTGRESQL";
+	public final static String MYSQL_NAME="MYSQL";
 	public final static String UNKOWN_NAME = "UNKOWN";
 
 	// JDBC驱动
@@ -33,6 +35,7 @@ public interface DBConsts {
 	public final static String JDBC_DB2_APP = "COM.ibm.db2.jdbc.app.DB2Driver";
 	public final static String JDBC_ORACLE = "oracle.jdbc.driver.OracleDriver";
 	public final static String JDBC_SYBASE = "com.sybase.jdbc.SybDriver";
+	public final static String JDBC_MYSQL="com.mysql.jdbc.Driver";
 
 	// ConnectionDriver
 	public static final String URL_PREFIX = "jdbc:ufsoft:jdbcDriver";

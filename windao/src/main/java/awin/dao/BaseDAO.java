@@ -96,14 +96,14 @@ public class BaseDAO {
 	}
 
 	/**
-	 *
+	 *一般用于固定条件查询，例如 dr='N'
 	 * @param c 查询的类型
 	 * @param whereSql where 子句
 	 * @param <T>
 	 * @return 实体集合
 	 * @throws DAOException
 	 */
-	public <T extends SuperVO> List<T> queryByWhere(Class<T> c,String whereSql) throws  DAOException {
+	public   <T extends SuperVO> List<T> queryByWhere(Class<T> c,String whereSql) throws  DAOException {
 
 		return getResultSetUtil().toBeanList(c, getPersistence().queryByWhere(c,whereSql));
 	}

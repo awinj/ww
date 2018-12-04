@@ -27,6 +27,12 @@ public  class Persistence {
 	}
 
 
+	/**
+	 * 新增数据
+	 * @param vo
+	 * @return
+	 * @throws DAOException
+	 */
 	 public String insert(IORM vo) throws DAOException
 	{
 		try
@@ -100,19 +106,36 @@ public  class Persistence {
 			throw new DAOException(e.getMessage(),e);
 		}
 	}
-	 
+
+	/**
+	 * 更新数据
+	 * @param vo
+	 * @return
+	 * @throws DAOException
+	 */
 	 public int update(IORM vo) throws DAOException {
 		 try {
-			 String sql= new UpdateString().update(vo.getTableName()).set(vo.getAttrNames(),vo.getAttrValues()).
+             Map<String, Integer> type=getColmnTypes(vo.getTableName());
+             String[] columns=getValidNames(vo,type);
+			 String sql= new UpdateString().update(vo.getTableName()).set(columns).
 					 where(vo.getPrimaryKey()+"='"+vo.getAttrValue(vo.getPrimaryKey())+"'").toString();
-			 Logger.Debug("updatesql:"+sql);
-			 Statement stmt =getBasicConnection().getConnection().createStatement();
-			 return stmt.executeUpdate(sql);
+             PreparedStatement stmt =getBasicConnection().getConnection().prepareStatement(sql);
+             Logger.Debug("updatesql:"+sql);
+             stmt.clearParameters();
+             SQLParameter parameter = getSQLParam(vo,columns , type);
+             DBUtil.setStatementParameter(stmt, parameter);//j将参数传入到语句中
+             return stmt.executeUpdate();
 		 } catch (Exception e) {
 			 throw new DAOException(e.getMessage(),e);
 		 }
 	 }
-	 
+
+	/**
+	 * 根据主键删除数据
+	 * @param vo
+	 * @return
+	 * @throws DAOException
+	 */
 	 public int delete(IORM vo)throws DAOException
 	 {
 		 try {
@@ -129,6 +152,12 @@ public  class Persistence {
 	 }
 
 
+	/**
+	 * 执行更新或删除语句，一般用于固定语句，例如 delete from table where dr='Y'
+	 * @param sql
+	 * @return
+	 * @throws DAOException
+	 */
 	 public int executeUpdate(String sql) throws DAOException {
 		 try {
 			 Statement stmt =getBasicConnection().getConnection().createStatement();
@@ -139,6 +168,13 @@ public  class Persistence {
 		 }
 	 }
 
+	/**
+	 * 执行更新或删除语句
+	 * @param sql
+	 * @param parameter
+	 * @return
+	 * @throws DAOException
+	 */
 	public int executeUpdate(String sql,SQLParameter parameter) throws DAOException {
 		try {
 			PreparedStatement stmt =getBasicConnection().getConnection().prepareStatement(sql);
@@ -151,6 +187,12 @@ public  class Persistence {
 		}
 	}
 
+	/**
+	 * 根据主键批量删除数据
+	 * @param vos
+	 * @return
+	 * @throws DAOException
+	 */
 	public int delete(IORM[] vos)throws DAOException
 	{
 		try {
@@ -170,10 +212,24 @@ public  class Persistence {
 			throw new DAOException(e.getMessage(),e);
 		}
 	}
-	 
+
+	/**
+	 * 查询c的所有数据
+	 * @param c
+	 * @return
+	 * @throws DAOException
+	 */
 	 public ResultSet query(Class c) throws DAOException {
 		 return queryByWhere(c,null);
 	 }
+
+	/**
+	 * 根据主键值查询数据
+	 * @param c
+	 * @param pk
+	 * @return
+	 * @throws DAOException
+	 */
 	public ResultSet queryByPk(Class c,String pk) throws DAOException {
 		IORM vo= BeanHelper.createBean(c);
 		if(vo!=null)
@@ -209,6 +265,7 @@ public  class Persistence {
 		}
 	}
 
+
 	public ResultSet query(String sql,SQLParameter parameter) throws DAOException
 	{
 		try {
@@ -221,6 +278,14 @@ public  class Persistence {
 		}
 	}
 
+
+	/**
+	 * 一般用于固定条件查询，例如 dr='N'
+	 * @param c
+	 * @param where
+	 * @return
+	 * @throws DAOException
+	 */
 	 public ResultSet queryByWhere(Class c,String where)throws DAOException
 	 {
          IORM vo=BeanHelper.createBean(c);
@@ -240,6 +305,14 @@ public  class Persistence {
 		 }
 	 }
 
+	/**
+	 * 根据条件查询vo类对应的表数据
+	 * @param c
+	 * @param where
+	 * @param parameter
+	 * @return
+	 * @throws DAOException
+	 */
     public ResultSet queryByWhere(Class c,String where,SQLParameter parameter)throws DAOException
     {
         IORM vo=BeanHelper.createBean(c);
@@ -260,7 +333,14 @@ public  class Persistence {
     }
 
 
-	 public int deleteByWhere(Class c,String where) throws DAOException {
+	/**
+	 * 慎重使用,有sql注入的风险
+	 * @param c
+	 * @param where 固定的条件，如果由变量拼接参数，请调用queryByWhere(Class c,String where,SQLParameter parameter) 方法
+	 * @return
+	 * @throws DAOException
+	 */
+	 private int deleteByWhere(Class c,String where) throws DAOException {
 		 IORM vo=BeanHelper.createBean(c);
 		 String table=vo.getTableName();
 		 return executeUpdate("delete from "+table+" where "+where);
@@ -331,7 +411,13 @@ public  class Persistence {
         }
 	}
 
-
+	/**
+	 * 根据条件查询数据库包含数据的数量
+	 * @param c vo类名
+	 * @param con 条件map
+	 * @return
+	 * @throws DAOException
+	 */
 	public ResultSet queryCount(Class c,Map<String,Object> con) throws DAOException {
 
 		 StringBuilder where=new StringBuilder();

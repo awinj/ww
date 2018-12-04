@@ -8,7 +8,8 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import java.io.IOException;
 
 /**
- * Created by aWin on 2018-11-19.
+ * json  序列化
+ * @author aWin
  */
 public class BooleanExtSerializer extends JsonSerializer<BooleanExt> {
 
