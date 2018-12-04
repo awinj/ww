@@ -44,4 +44,11 @@
             </list>
         </property>
     </bean>
+
+    <bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver">
+        <property name="maxUploadSize" value="38000000" /><!-- 上传最大文件限制 -->
+        <property name="maxInMemorySize" value="4096" /><!-- 读取文件到内存中的最大字节数，默认1024字节 -->
+        <property name="defaultEncoding" value="utf-8" />
+    </bean>
+
 </beans>
