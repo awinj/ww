@@ -4,6 +4,7 @@ import win.pub.vo.BusinessException;
 
 /**
  * Created by aWin on 2018-09-07.
+ * 登陆模型
  */
 public class LoginModel {
 

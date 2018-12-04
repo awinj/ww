@@ -71,6 +71,10 @@ public class LoginController {
         return "index";
     }
 
+    /**
+     * 菜单栏
+     * @return
+     */
     @RequestMapping("/nav")
     public ModelAndView nav() {
         try {
