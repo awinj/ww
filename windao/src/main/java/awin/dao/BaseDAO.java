@@ -109,6 +109,19 @@ public class BaseDAO {
 	}
 
 	/**
+	 *
+	 * @param c 查询的类型
+	 * @param whereSql where 子句
+	 * @param <T>
+	 * @return 实体集合
+	 * @throws DAOException
+	 */
+	public <T extends SuperVO> List<T> queryByWhere(Class<T> c,String whereSql,SQLParameter parameter) throws  DAOException {
+
+		return getResultSetUtil().toBeanList(c, getPersistence().queryByWhere(c,whereSql,parameter));
+	}
+
+	/**
 	 *分页查询
 	 * @param c 查询的数据类型
 	 * @param con 查询条件

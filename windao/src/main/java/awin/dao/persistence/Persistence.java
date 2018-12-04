@@ -240,6 +240,25 @@ public  class Persistence {
 		 }
 	 }
 
+    public ResultSet queryByWhere(Class c,String where,SQLParameter parameter)throws DAOException
+    {
+        IORM vo=BeanHelper.createBean(c);
+        if(vo!=null)
+        {
+            try {
+                String sql=new SelectString().select(vo.getAttrNames()).from(vo.getTableName()).where(where).toString();
+                Logger.Debug("queryByWhere sql:"+sql);
+                return query(sql,parameter);
+            } catch (Exception e) {
+                throw new DAOException(e.getMessage(),e);
+            }
+        }
+        else
+        {
+            throw new DAOException("暂不支持本类型:"+String.valueOf(c));
+        }
+    }
+
 
 	 public int deleteByWhere(Class c,String where) throws DAOException {
 		 IORM vo=BeanHelper.createBean(c);
