@@ -1,5 +1,7 @@
 package awin.util.parse;
 
+import awin.logger.Logger;
+
 import java.io.StringWriter;
 
 import javax.xml.bind.JAXBContext;
@@ -31,7 +33,7 @@ public class BeanToXml {
 		javax.xml.bind.Marshaller fd= context.createMarshaller();
 		fd.marshal(obj, writer);
 		} catch (JAXBException e) {
-			e.printStackTrace();
+			Logger.Error(e.getMessage(),e);
 			return SERVER_GENERAL_ERROR_MESSAGE+e.getMessage()+e.getCause();
 		}
 		return writer.toString();
@@ -49,7 +51,7 @@ public class BeanToXml {
 		javax.xml.bind.Marshaller fd= context.createMarshaller();
 		fd.marshal(obj, writer);
 		} catch (JAXBException e) {
-			e.printStackTrace();
+			Logger.Error(e.getMessage(),e);
 			return SERVER_GENERAL_ERROR_MESSAGE+e.getMessage()+e.getCause();
 		}
 		String ret= writer.toString();

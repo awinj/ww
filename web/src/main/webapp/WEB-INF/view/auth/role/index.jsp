@@ -85,28 +85,21 @@
     ];
     loadQueryPanl('#querypanl',query_cols);
 
+    function doDelete(selecteddata) {
+        var result=httpPost('/ww/auth/role/delete',JSON.stringify(selecteddata));
+        if(result!=null)
+            layer.msg(result.msg);
+    };
 
     function doSave(data) {
         var aggVO={
             parentVO:data
         };
+        var result=httpPost('/ww/auth/role/save',JSON.stringify(aggVO));
+        if(result!=null)
+            layer.msg(result.msg);
 
-        $.ajax({
-            url:'/ww/auth/role/save',
-            type:'post',
-            dataType:'json',
-            contentType:'application/json;charset=UTF-8',
-            data:JSON.stringify(aggVO),
-            success:function (result) {
-                layer.msg("保存成功");
-            },
-            error:function (result) {
-                layer.msg("保存失败");
-            }
-        });
-
-    }
-
+    };
 
 </script>
 <%@ include file="../../pub/htmlend.jsp" %>

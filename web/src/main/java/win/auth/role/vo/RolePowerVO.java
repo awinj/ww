@@ -27,4 +27,29 @@ public class RolePowerVO extends SuperVO {
     public String getParentPk() {
         return "pk_role";
     }
+
+
+    public String getPk_role_power() {
+        return pk_role_power;
+    }
+
+    public void setPk_role_power(String pk_role_power) {
+        this.pk_role_power = pk_role_power;
+    }
+
+    public String getPk_role() {
+        return pk_role;
+    }
+
+    public void setPk_role(String pk_role) {
+        this.pk_role = pk_role;
+    }
+
+    public String getPk_power() {
+        return pk_power;
+    }
+
+    public void setPk_power(String pk_power) {
+        this.pk_power = pk_power;
+    }
 }

@@ -1,5 +1,7 @@
 package awin.dao.persistence.type;
 
+import awin.logger.Logger;
+
 import java.io.*;
 
 /**
@@ -49,7 +51,7 @@ public class BlobParamType implements SQLParamType {
                 baos.flush();
                 bytes = baos.toByteArray();
             } catch (IOException e) {
-                e.printStackTrace();
+                Logger.Error(e.getMessage(),e);
             }
         }
         return bytes;

@@ -1,5 +1,7 @@
 package awin.util.properties;
 
+import awin.logger.Logger;
+
 import java.io.*;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -23,13 +25,13 @@ public class PropertiesTool {
 			return value;
 
 		} catch (IOException e) {
-			e.printStackTrace();
+			Logger.Error(e.getMessage(),e);
 		} finally {
 			if (in != null)
 				try {
 					in.close();
 				} catch (IOException e) {
-					e.printStackTrace();
+					Logger.Error(e.getMessage(),e);
 				}
 		}
 		return null;
@@ -52,13 +54,13 @@ public class PropertiesTool {
 				map.put(strKey, strValue);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			Logger.Error(e.getMessage(),e);
 		} finally {
 			if (in != null)
 				try {
 					in.close();
 				} catch (IOException e) {
-					e.printStackTrace();
+					Logger.Error(e.getMessage(),e);
 				}
 		}
 		return map;

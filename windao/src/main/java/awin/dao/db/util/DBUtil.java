@@ -23,6 +23,12 @@ public class DBUtil {
 		return c.compareTo(d) < 0;
 	}
 
+	/**
+	 * 将参数附加到预执行语句中
+	 * @param statement
+	 * @param params
+	 * @throws SQLException
+	 */
 	public static void setStatementParameter(PreparedStatement statement,
 			SQLParameter params) throws SQLException {
 		if (statement == null || params == null)
@@ -91,6 +97,16 @@ public class DBUtil {
 		}
 	}
 
+	public static void setStatementParameter(PreparedStatement statement,SQLParameter[] params) throws SQLException {
+		if (statement == null || params == null)
+			throw new IllegalArgumentException("不能传入空的SQLParameter!");
+		for(int i=0;i<params.length;i++)
+		{
+			setStatementParameter(statement,params[i]);
+			statement.addBatch();
+		}
+	}
+
 	public static int getDbType(Connection con) {
 		try {
 			return getDbType(con.getMetaData());
@@ -117,6 +133,8 @@ public class DBUtil {
 			return DBConsts.SYBASE_NAME;
 		if (dbType == DBConsts.POSTGRESQL)
 			return DBConsts.POSTGRESQL_NAME;
+		if(dbType==DBConsts.MYSQL)
+			return DBConsts.MYSQL_NAME;
 		return DBConsts.UNKOWN_NAME;
 
 	}

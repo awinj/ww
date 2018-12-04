@@ -1,7 +1,9 @@
 package win.auth.login.model;
 
+
 /**
- * Created by aWin on 2018-09-07.
+ * 修改密码模型
+ * @author aWin
  */
 public class ChangePswdModel {
 

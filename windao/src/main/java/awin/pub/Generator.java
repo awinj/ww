@@ -4,6 +4,7 @@ package awin.pub;
 import awin.util.date.DateUtil;
 
 /**
+ * 主键生成器
  * Created by aWin on 2018-11-12.
  */
 public class Generator {

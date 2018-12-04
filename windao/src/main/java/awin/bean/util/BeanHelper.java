@@ -2,6 +2,7 @@ package awin.bean.util;
 
 import awin.bean.IORM;
 import awin.lang.BooleanExt;
+import awin.logger.Logger;
 
 import java.lang.reflect.Method;
 import java.util.*;
@@ -272,9 +273,9 @@ public class BeanHelper {
         try {
             return c.newInstance();
         } catch (InstantiationException e) {
-            e.printStackTrace();
+            Logger.Error(e.getMessage(),e);
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            Logger.Error(e.getMessage(),e);
         }
         return null;
     }

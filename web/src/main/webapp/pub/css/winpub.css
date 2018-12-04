@@ -62,7 +62,7 @@
 .node div{
     overflow: hidden;
 }
-.tree_ok{
+.tree_ok,.table_ok{
     display: inline-block;
     height: 38px;
     line-height: 38px;
@@ -78,7 +78,7 @@
     float: right;
     margin: 20px 30px 20px 0;
 }
-.tree_cancel
+.tree_cancel,.table_cancel
 {
     display: inline-block;
     height: 38px;

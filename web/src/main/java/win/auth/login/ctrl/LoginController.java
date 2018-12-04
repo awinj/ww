@@ -1,6 +1,7 @@
 package win.auth.login.ctrl;
 
 import awin.dao.exception.DAOException;
+import awin.logger.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,46 +27,34 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("auth")
-public class LoginController  {
+public class LoginController {
 
-    private LoginServer loginServer=new LoginServer();
+    private LoginServer loginServer = new LoginServer();
 
     @RequestMapping("login")
-    public ModelAndView login(HttpServletRequest request, HttpServletResponse response, @ModelAttribute LoginModel model)
-    {
-        if("GET".equals(request.getMethod()))
-        {
+    public ModelAndView login(HttpServletRequest request, HttpServletResponse response, @ModelAttribute LoginModel model) {
+        //get 表明是初次加载而不是点击登陆
+        if ("GET".equals(request.getMethod())) {
             return new ModelAndView("auth/login");
-        }
-        else
-        {
-            try
-            {
-                String pk_user=loginServer.login(model); //返回登陆用户的主键
+        } else {
+            try {
+                String pk_user = loginServer.login(model); //返回登陆用户的主键
                 HttpSession session = request.getSession();
-                session.setAttribute("pk_user",pk_user);
-//                response.addCookie(CookieUtil.createTicket(model.getUserName()));
-                return new ModelAndView("redirect:index");
-            }
-            catch (BusinessException e)
-            {
+                session.setAttribute("pk_user", pk_user);
+                return new ModelAndView("redirect:user/index");
+            } catch (BusinessException e) {
                 model.setMsg(e.getMessage());
-                return new ModelAndView("auth/login","model",model);
+                return new ModelAndView("auth/login", "model", model);
             }
         }
-
     }
 
     @RequestMapping("/logout")
-    public String logout(HttpServletRequest request,HttpServletResponse response,String userName)
-    {
+    public String logout(HttpServletRequest request, HttpServletResponse response, String userName) {
         Cookie[] cookies = request.getCookies();
-        if(cookies!=null&&cookies.length>0)
-        {
-            for(int i=0;i<cookies.length;i++)
-            {
-                if(CookieUtil.TICKET.equals(cookies[i].getName()))
-                {
+        if (cookies != null && cookies.length > 0) {
+            for (int i = 0; i < cookies.length; i++) {
+                if (CookieUtil.TICKET.equals(cookies[i].getName())) {
                     cookies[i].setValue(null);
                     cookies[i].setMaxAge(0);//立即过期
                     cookies[i].setHttpOnly(true);
@@ -78,11 +67,14 @@ public class LoginController  {
     }
 
     @RequestMapping("/index")
-    public String index()
-    {
+    public String index() {
         return "index";
     }
 
+    /**
+     * 菜单栏
+     * @return
+     */
     @RequestMapping("/nav")
     public ModelAndView nav() {
         try {
@@ -91,19 +83,18 @@ public class LoginController  {
             List<PowerVO> powers = loginServer.getPowerByUser("1");
             TreeInitialize<PowerVO> treeInitialize = new TreeInitialize<PowerVO>();
             List<TreeNode<PowerVO>> ret = treeInitialize.trans2Tree(powers);
-            ret=new ArrayList<TreeNode<PowerVO>>();
-            PowerVO powerVO=new PowerVO();
+            ret = new ArrayList<TreeNode<PowerVO>>();
+            PowerVO powerVO = new PowerVO();
             powerVO.setPowerName("wsw");
-            TreeNode<PowerVO> node=new TreeNode<PowerVO>(powerVO);
+            TreeNode<PowerVO> node = new TreeNode<PowerVO>(powerVO);
             ret.add(node);
-            modelAndView.addObject("navs",ret);
+            modelAndView.addObject("navs", ret);
             return modelAndView;
         } catch (DAOException e) {
-            e.printStackTrace();
+            Logger.Error(e.getMessage(), e);
             return null;
         }
     }
-
 
 
 }

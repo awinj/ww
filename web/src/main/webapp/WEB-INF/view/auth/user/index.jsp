@@ -94,7 +94,7 @@
     <div class="layui-btn-container">
             <div title="增加" class="layui-inline" lay-event="add"><i class="layui-icon layui-icon-add-1"></i></div>
             <div title="修改" class="layui-inline" lay-event="update"><i class="layui-icon layui-icon-edit"></i></div>
-            <div title="分配" class="layui-inline" lay-event="assigne"><i>分配</i>分配</div>
+            <div title="分配" class="layui-inline" lay-event="assign"><i>分配</i>分配</div>
             <div title="删除" class="layui-inline" lay-event="delete"><i class="layui-icon layui-icon-delete"></i></div>
     </div>
 </script>
@@ -144,43 +144,46 @@
         var aggVO={
             parentVO:data
         };
-
-//        $.ajax({
-//            url:'/ww/auth/user/save',
-//            type:'post',
-//            dataType:'json',
-//            contentType:'application/json;charset=UTF-8',
-//            data:JSON.stringify(aggVO),
-//            success:function (result) {
-//                layer.msg("保存成功");
-//            },
-//            error:function (result) {
-//                layer.msg("保存失败");
-//            }
-//        });
         var result=httpPost('/ww/auth/user/save',JSON.stringify(aggVO));
         if(result!=null)
             layer.msg(result.msg);
+    };
 
-    }
-
-    function doElse(event,data) {
-
+    function doDelete(selecteddata) {
+        var result=httpPost('/ww/auth/user/delete',JSON.stringify(selecteddata));
+        if(result!=null)
+            layer.msg(result.msg);
+    };
+    function doElse(event,datas) {
+//assign
+        if(datas==null||datas.length!=1)
+        {
+            layer.alert('请选中一条数据', {icon: 0});
+            return ;
+        }
         var result=httpPost("/ww/auth/role/availableRole",null,"html");
         layer.open({
             type:1,
             content: result,
             area:  '40%',
         });
-        $("input[name='refchk']:checked").each(function () {
-            var eleid=$(this).prop("id");
-            if(eleid!='selecAll')
+        var pk_user=datas[0].pk_user;
+        $(".table_ok").click(function () {
+            var selectPks = [];
+            $("input[name='refchk']:checked").each(function () {
+                var eleid = $(this).prop("id");
+                if (eleid != 'selecAll') {
+                    selectPks.push($(this).val());
+                }
+            });
+            result=httpPost("/ww/auth/user/assign",JSON.stringify({pk_user: pk_user,roles:selectPks}));
+            if(result!=null)
             {
-                selectPks.push($(this).val());
-                if($(this).parent()!=null&&$(this).parent().next()!=null)
-                    selectNames.push($(this).parent().next().html());
+                layer.msg(result.msg);
+                closelayer();
             }
-        });
+
+        })
     }
 
 </script>

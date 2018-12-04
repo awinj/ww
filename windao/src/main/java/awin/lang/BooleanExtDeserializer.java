@@ -7,8 +7,11 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 
 import java.io.IOException;
 
+
+
 /**
- * Created by aWin on 2018-11-19.
+ * json 反序列化
+ * @author aWin
  */
 public class BooleanExtDeserializer extends JsonDeserializer<BooleanExt> {
     public BooleanExt deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {

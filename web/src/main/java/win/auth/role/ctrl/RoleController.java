@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import win.auth.role.srv.RoleServer;
 import win.auth.role.vo.RoleAggVO;
 import win.auth.role.vo.RoleMapMeta;
 import win.auth.role.vo.RoleVO;
@@ -45,14 +46,15 @@ public class RoleController extends BaseController<RoleAggVO> {
     @ResponseBody
     public String availableRole()
     {
-        List<RoleVO> datas=getServer().queryData(RoleVO.class,"dr='N'");
+        List<RoleVO> datas=getServer().queryByWhere(RoleVO.class,"dr='N'");
         return new TableUtil().transHtml4Data(datas,new RoleMapMeta());
     }
 
     @Override
     @RequestMapping(value = "delete",method = RequestMethod.POST)
-    public Result delete(@RequestBody List<String> pks) {
-        return super.delete(pks);
+    @ResponseBody
+    public Result delete(@RequestBody List<RoleAggVO> aggVOs) {
+        return super.delete(aggVOs);
     }
 
     @Override
@@ -60,5 +62,15 @@ public class RoleController extends BaseController<RoleAggVO> {
     @ResponseBody       //如果不作为ResponseBody的话，则会报404
     public Result save(@RequestBody RoleAggVO aggVO) {
         return super.save(aggVO);
+    }
+
+
+    RoleServer server;
+    @Override
+    protected RoleServer getServer()
+    {
+        if(server==null)
+            server=new RoleServer();
+        return server;
     }
 }

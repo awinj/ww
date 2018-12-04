@@ -1,5 +1,7 @@
 package awin.dao.persistence.type;
 
+import awin.logger.Logger;
+
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
@@ -25,7 +27,7 @@ public class ClobParamType  implements  SQLParamType{
             this.s = s;
             length = s.getBytes("iso8859-1").length;
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            Logger.Error(e.getMessage(),e);
         }
     }
 

@@ -86,25 +86,20 @@
 
 
     function doSave(data) {
-        var aggVO={
-            parentVO:data
+        var aggVO = {
+            parentVO: data
         };
 
-        $.ajax({
-            url:'/ww/auth/power/save',
-            type:'post',
-            dataType:'json',
-            contentType:'application/json;charset=UTF-8',
-            data:JSON.stringify(aggVO),
-            success:function (result) {
-                layer.msg("保存成功");
-            },
-            error:function (result) {
-                layer.msg("保存失败");
-            }
-        });
+        var result = httpPost('/ww/auth/power/save', JSON.stringify(aggVO));
+        if (result != null)
+            layer.msg(result.msg);
+    };
 
-    }
+    function doDelete(selecteddata) {
+        var result=httpPost('/ww/auth/power/delete',JSON.stringify(selecteddata));
+        if(result!=null)
+            layer.msg(result.msg);
+    };
 
 
 </script>

@@ -49,7 +49,21 @@ public class UpdateString extends SqlString {
             }
         }
         getSql().deleteCharAt(getSql().length()-1);
-//        getSql().substring(0,getSql().length()-1);//去除最后的逗号
+        return this;
+    }
+
+    public UpdateString set(String[] field)throws UpdateParaNullException
+    {
+        if(isNullOrEmpty(field))
+        {
+            throw new UpdateParaNullException();
+        }
+        getSql().append("set ");
+        for(int i=0;i<field.length;i++)
+        {
+            getSql().append(field[i]).append(" =? ,");//参数化
+        }
+        getSql().deleteCharAt(getSql().length()-1);
         return this;
     }
 

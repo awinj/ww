@@ -1,4 +1,6 @@
 package awin.util.remote;
+import awin.logger.Logger;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -42,16 +44,16 @@ public class HttpClient {
                 result = sbf.toString();
             }
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+            Logger.Error(e.getMessage(),e);
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.Error(e.getMessage(),e);
         } finally {
             // 关闭资源
             if (null != br) {
                 try {
                     br.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Logger.Error(e.getMessage(),e);
                 }
             }
 
@@ -59,7 +61,7 @@ public class HttpClient {
                 try {
                     is.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Logger.Error(e.getMessage(),e);
                 }
             }
 
@@ -116,30 +118,30 @@ public class HttpClient {
                 result = sbf.toString();
             }
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+            Logger.Error(e.getMessage(),e);
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.Error(e.getMessage(),e);
         } finally {
             // 关闭资源
             if (null != br) {
                 try {
                     br.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Logger.Error(e.getMessage(),e);
                 }
             }
             if (null != os) {
                 try {
                     os.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Logger.Error(e.getMessage(),e);
                 }
             }
             if (null != is) {
                 try {
                     is.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Logger.Error(e.getMessage(),e);
                 }
             }
             // 断开与远程地址url的连接

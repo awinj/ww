@@ -1,8 +1,11 @@
 package awin.dao;
 
 import java.util.List;
+import java.util.Map;
 
+import awin.bean.IORM;
 import awin.bean.SuperVO;
+import awin.bean.util.BeanHelper;
 import awin.dao.exception.DAOException;
 import awin.dao.persistence.Persistence;
 import awin.dao.persistence.ResultSetUtil;
@@ -25,6 +28,16 @@ public class BaseDAO {
 
 	/**
 	 *
+	 * @param vo 插入的数据
+	 * @return	返回插入数据的主键
+	 * @throws DAOException
+	 */
+	public String[] insert(SuperVO[] vo) throws DAOException {
+		return getPersistence().insert(vo);
+	}
+
+	/**
+	 *
 	 * @param vo 更新的数据
 	 * @return	返回受影响的行数
 	 * @throws DAOException
@@ -33,6 +46,25 @@ public class BaseDAO {
 		return getPersistence().update(vo);
 	}
 
+	/**
+	 * 根据主键删除数据
+	 * @param vo
+	 * @return
+	 * @throws DAOException
+	 */
+	public int delete(SuperVO vo) throws DAOException {
+		return getPersistence().delete(vo);
+	}
+
+	/**
+	 * 批量根据主键删除数据
+	 * @param vo
+	 * @return
+	 * @throws DAOException
+	 */
+	public int delete(SuperVO[] vo) throws DAOException {
+		return getPersistence().delete(vo);
+	}
 	/**
 	 *
 	 * @param c 查询类型
@@ -64,6 +96,19 @@ public class BaseDAO {
 	}
 
 	/**
+	 *一般用于固定条件查询，例如 dr='N'
+	 * @param c 查询的类型
+	 * @param whereSql where 子句
+	 * @param <T>
+	 * @return 实体集合
+	 * @throws DAOException
+	 */
+	public   <T extends SuperVO> List<T> queryByWhere(Class<T> c,String whereSql) throws  DAOException {
+
+		return getResultSetUtil().toBeanList(c, getPersistence().queryByWhere(c,whereSql));
+	}
+
+	/**
 	 *
 	 * @param c 查询的类型
 	 * @param whereSql where 子句
@@ -71,23 +116,23 @@ public class BaseDAO {
 	 * @return 实体集合
 	 * @throws DAOException
 	 */
-	public <T extends SuperVO> List<T> queryByWhere(Class<T> c,String whereSql) throws  DAOException {
+	public <T extends SuperVO> List<T> queryByWhere(Class<T> c,String whereSql,SQLParameter parameter) throws  DAOException {
 
-		return getResultSetUtil().toBeanList(c, getPersistence().queryByWhere(c,whereSql));
+		return getResultSetUtil().toBeanList(c, getPersistence().queryByWhere(c,whereSql,parameter));
 	}
 
 	/**
 	 *分页查询
 	 * @param c 查询的数据类型
-	 * @param whereSql where 子句
+	 * @param con 查询条件
 	 * @param index 页码从0开始
 	 * @param pageSize 每页数据条数
 	 * @param <T>
 	 * @return 实体集合
 	 * @throws DAOException
 	 */
-	public <T extends SuperVO> List<T> queryByPager(Class<T> c,String whereSql,Integer index,Integer pageSize) throws DAOException {
-		return getResultSetUtil().toBeanList(c,getPersistence().queryByPager(c,whereSql,index,pageSize));
+	public <T extends SuperVO> List<T> queryByPager(Class<T> c, Map<String,Object> con, Integer index, Integer pageSize) throws DAOException {
+		return getResultSetUtil().toBeanList(c,getPersistence().queryByPager(c,con,index,pageSize));
 	}
 
 
@@ -101,15 +146,35 @@ public class BaseDAO {
 		return getResultSetUtil().firstToInt(getPersistence().query(sql));
 	}
 
+	public int update(String sql) throws DAOException {
+		return getPersistence().executeUpdate(sql);
+	}
+
+	public int update(String sql,SQLParameter parameter) throws DAOException {
+		return getPersistence().executeUpdate(sql,parameter);
+	}
+
+	public <T extends SuperVO> int deleteByWhere(Class<T> c,String where) throws DAOException {
+		IORM vo= BeanHelper.createBean(c);
+		String table=vo.getTableName();
+		return getPersistence().executeUpdate("delete from "+table+" where "+where);
+	}
+
+	public <T extends SuperVO> int deleteByWhere(Class<T> c,String where,SQLParameter parameter) throws DAOException {
+		IORM vo=BeanHelper.createBean(c);
+		String table=vo.getTableName();
+		return getPersistence().executeUpdate("delete from "+table+" where "+where,parameter);
+	}
+
 	/**
 	 * 查询符合条件的数据的条数
 	 * @param c 类型
-	 * @param whereSql whereSql
+	 * @param con 查询条件
 	 * @param <T>
 	 * @return
 	 */
-	public <T extends SuperVO> Integer queryCount(Class<T> c,String whereSql) throws DAOException {
-        return getResultSetUtil().firstToInt(getPersistence().queryCount(c,whereSql));
+	public <T extends SuperVO> Integer queryCount(Class<T> c,Map<String,Object> con) throws DAOException {
+        return getResultSetUtil().firstToInt(getPersistence().queryCount(c,con));
 	}
 	/**
 	 *

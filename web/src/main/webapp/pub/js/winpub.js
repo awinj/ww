@@ -83,12 +83,24 @@ function loadTable(id, layfilter, cols) {
                         layer.alert('请选中一条数据修改', {icon: 0});
                         return ;
                     }
-
                     doUpdate(selectedData[0]);
                     break;
                 case 'delete':
-                    var data = checkStatus.data;
-                    doDelete(null,data);
+                    var datas = checkStatus.data;
+                    if(datas==null||datas.length<1)
+                    {
+                        layer.alert('请至少选中一条数据', {icon: 0});
+                        return ;
+                    }
+                    var aggvo=[];
+                    for(var index in datas)
+                    {
+                        aggvo.push({
+                            parentVO:datas[index]
+                        })
+                    }
+                    doDelete(aggvo);
+                    table.reload('data_table');
                     break;
                 default : doElse(obj.event,checkStatus.data);
             };
@@ -108,7 +120,6 @@ function loadTable(id, layfilter, cols) {
         });
         //监听提交
         form.on('submit(form_save)', function(data){
-            // layer.msg(JSON.stringify(data.field));
             doSave(data.field);
             closelayer();
             table.reload("data_table");
@@ -189,8 +200,8 @@ function loadQueryPanl(id,cols) {
 
 
 
-function doDelete(title,selectedData) {
-    layer.alert(JSON.stringify(selectedData));
+function doDelete(selectedPks) {
+
 }
 
 

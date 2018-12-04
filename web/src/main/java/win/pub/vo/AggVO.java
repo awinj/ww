@@ -12,8 +12,6 @@ public  class AggVO<P extends SuperVO,C extends SuperVO> {
 
     private P parentVO;
 
-
-
     private List<C> childrenVO;
 
 

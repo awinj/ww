@@ -3,6 +3,7 @@ package awin.dao.persistence;
 import awin.bean.util.BeanHelper;
 import awin.dao.exception.BaseException;
 import awin.dao.exception.DAOException;
+import awin.logger.Logger;
 import awin.util.parse.ParseUtil;
 
 import java.sql.ResultSet;
@@ -16,6 +17,14 @@ import java.util.List;
  */
 public class ResultSetUtil {
 
+    /**
+     * 将数据集转化为实体集合
+     * @param c 类型
+     * @param rs 数据集
+     * @param <T> 泛型
+     * @return
+     * @throws DAOException
+     */
     public <T> List<T> toBeanList(Class<T> c, ResultSet rs) throws DAOException {
         List<T> list = new ArrayList<T>();
         try {
@@ -46,13 +55,21 @@ public class ResultSetUtil {
         } catch (SQLException e) {
             throw new DAOException(e.getMessage(), e);
         } catch (InstantiationException e) {
-            e.printStackTrace();
+            Logger.Error(e.getMessage(),e);
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            Logger.Error(e.getMessage(),e);
         }
         return list;
     }
 
+    /**
+     * 将数据集的第一行转化为实体
+     * @param c 类型
+     * @param rs 数据集
+     * @param <T> 泛型
+     * @return
+     * @throws DAOException
+     */
     public <T> T firstToBean(Class<T> c, ResultSet rs) throws DAOException {
         try {
             while (rs.next()) {
@@ -109,6 +126,12 @@ public class ResultSetUtil {
         return ParseUtil.parseInt(firstToObject(rs));
     }
 
+    /**
+     * 返回数据集的第一行第一列
+     * @param rs
+     * @return
+     * @throws DAOException
+     */
     public Object firstToObject(ResultSet rs) throws DAOException {
         try {
             while (rs.next()) {

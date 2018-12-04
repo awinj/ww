@@ -25,65 +25,218 @@ public  class Persistence {
 	{
 		return new BasicConnection();
 	}
-	
-	 public String insert(IORM vo) throws DAOException
-	 {
-		 try
-		 {
-             Map<String, Integer> type=getColmnTypes(vo.getTableName());
-			 String[] columns=getValidNames(vo,type);
-			 String sql= new InsertString().insert(vo.getTableName()).values(columns);
-			 Object pk=vo.getAttrValue(vo.getPrimaryKey());
-			 if(pk==null||pk.toString().length()<=0)
-			 {
-                 pk= Generator.genUniqueVal();
-				 vo.setAttrValue(vo.getPrimaryKey(),pk);
-			 }
-			 PreparedStatement stmt =getBasicConnection().getConnection().prepareStatement(sql);
-			 stmt.clearParameters();
 
-			 SQLParameter parameter = getSQLParam(vo, columns, type);
-			 DBUtil.setStatementParameter(stmt, parameter);//j将参数传入到语句中
-			 stmt.executeUpdate();
-			 return pk.toString();
-		 }
-		 catch(Exception e)
-		 {
-			 throw new DAOException(e.getMessage(),e);
-		 }
-	 }
-	 
+
+	/**
+	 * 新增数据
+	 * @param vo
+	 * @return
+	 * @throws DAOException
+	 */
+	 public String insert(IORM vo) throws DAOException
+	{
+		try
+		{
+			Map<String, Integer> type=getColmnTypes(vo.getTableName());
+			String[] columns=getValidNames(vo,type);
+			String sql= new InsertString().insert(vo.getTableName()).values(columns);
+			Object pk=vo.getAttrValue(vo.getPrimaryKey());
+			if(pk==null||pk.toString().length()<=0)
+			{
+				pk= Generator.genUniqueVal();
+				vo.setAttrValue(vo.getPrimaryKey(),pk);
+			}
+			PreparedStatement stmt =getBasicConnection().getConnection().prepareStatement(sql);
+			Logger.Debug("insertsql:"+sql);
+			stmt.clearParameters();
+
+			SQLParameter parameter = getSQLParam(vo, columns, type);
+			DBUtil.setStatementParameter(stmt, parameter);//j将参数传入到语句中
+			stmt.executeUpdate();
+			return pk.toString();
+		}
+		catch(Exception e)
+		{
+			throw new DAOException(e.getMessage(),e);
+		}
+	}
+
+
+	/**
+	 * 批量新增
+	 * @param vos
+	 * @return
+	 * @throws DAOException
+	 */
+	public String[] insert(IORM[] vos) throws DAOException
+	{
+		try
+		{
+			Map<String, Integer> type=getColmnTypes(vos[0].getTableName());
+			String[] columns=getValidNames(vos[0],type);
+			String sql= new InsertString().insert(vos[0].getTableName()).values(columns);
+			String[] retPks=new String[vos.length];
+			for(int i=0;i<vos.length;i++)
+			{
+				Object pk=vos[i].getAttrValue(vos[i].getPrimaryKey());
+				if(pk==null||pk.toString().length()<=0)
+				{
+					pk= Generator.genUniqueVal();
+					vos[i].setAttrValue(vos[i].getPrimaryKey(),pk);
+				}
+				retPks[i]=(String) pk;
+			}
+			PreparedStatement stmt =getBasicConnection().getConnection().prepareStatement(sql);
+			Logger.Debug("insertsql:"+sql);
+			stmt.clearParameters();
+
+			SQLParameter[] parameters=new SQLParameter[vos.length];
+			for(int i=0;i<vos.length;i++)
+			{
+				SQLParameter parameter = getSQLParam(vos[i], columns, type);
+				parameters[i]=parameter;
+			}
+
+			DBUtil.setStatementParameter(stmt, parameters);//j将参数传入到语句中
+			stmt.executeBatch();
+			return retPks;
+		}
+		catch(Exception e)
+		{
+			throw new DAOException(e.getMessage(),e);
+		}
+	}
+
+	/**
+	 * 更新数据
+	 * @param vo
+	 * @return
+	 * @throws DAOException
+	 */
 	 public int update(IORM vo) throws DAOException {
 		 try {
-			 String sql= new UpdateString().update(vo.getTableName()).set(vo.getAttrNames(),vo.getAttrValues()).
+             Map<String, Integer> type=getColmnTypes(vo.getTableName());
+             String[] columns=getValidNames(vo,type);
+			 String sql= new UpdateString().update(vo.getTableName()).set(columns).
 					 where(vo.getPrimaryKey()+"='"+vo.getAttrValue(vo.getPrimaryKey())+"'").toString();
-			 Statement stmt =getBasicConnection().getConnection().createStatement();
-			 return stmt.executeUpdate(sql);
+             PreparedStatement stmt =getBasicConnection().getConnection().prepareStatement(sql);
+             Logger.Debug("updatesql:"+sql);
+             stmt.clearParameters();
+             SQLParameter parameter = getSQLParam(vo,columns , type);
+             DBUtil.setStatementParameter(stmt, parameter);//j将参数传入到语句中
+             return stmt.executeUpdate();
 		 } catch (Exception e) {
 			 throw new DAOException(e.getMessage(),e);
 		 }
 	 }
-	 
+
+	/**
+	 * 根据主键删除数据
+	 * @param vo
+	 * @return
+	 * @throws DAOException
+	 */
 	 public int delete(IORM vo)throws DAOException
 	 {
 		 try {
-			 String sql=new DeleteString().deleteFrom(vo.getTableName()).where(vo.getPrimaryKey()+"='"+vo.getAttrValue(vo.getPrimaryKey())+"'").toString();
-			 Statement stmt =getBasicConnection().getConnection().createStatement();
-			 return stmt.executeUpdate(sql);
+			 String sql=new DeleteString().deleteFrom(vo.getTableName()).where(vo.getPrimaryKey()+"=?").toString();
+			 Logger.Debug("deletesql:"+sql);
+			 PreparedStatement stmt=getBasicConnection().getConnection().prepareStatement(sql);
+			 SQLParameter parameter=new SQLParameter();
+			 parameter.addParam(vo.getAttrValue(vo.getPrimaryKey()));
+			 DBUtil.setStatementParameter(stmt, parameter);//j将参数传入到语句中
+			 return stmt.executeUpdate();
 		 } catch (Exception e) {
 			 throw new DAOException(e.getMessage(),e);
 		 }
 	 }
-	 
+
+
+	/**
+	 * 执行更新或删除语句，一般用于固定语句，例如 delete from table where dr='Y'
+	 * @param sql
+	 * @return
+	 * @throws DAOException
+	 */
+	 public int executeUpdate(String sql) throws DAOException {
+		 try {
+			 Statement stmt =getBasicConnection().getConnection().createStatement();
+			 return stmt.executeUpdate(sql);
+		 } catch (Exception e) {
+			Logger.Error(e.getMessage(),e);
+			 throw new DAOException(e.getMessage(),e);
+		 }
+	 }
+
+	/**
+	 * 执行更新或删除语句
+	 * @param sql
+	 * @param parameter
+	 * @return
+	 * @throws DAOException
+	 */
+	public int executeUpdate(String sql,SQLParameter parameter) throws DAOException {
+		try {
+			PreparedStatement stmt =getBasicConnection().getConnection().prepareStatement(sql);
+			if(parameter!=null)
+				DBUtil.setStatementParameter(stmt, parameter);//j将参数传入到语句中
+			return stmt.executeUpdate();
+		} catch (Exception e) {
+			Logger.Error(e.getMessage(),e);
+			throw new DAOException(e.getMessage(),e);
+		}
+	}
+
+	/**
+	 * 根据主键批量删除数据
+	 * @param vos
+	 * @return
+	 * @throws DAOException
+	 */
+	public int delete(IORM[] vos)throws DAOException
+	{
+		try {
+			String sql=new DeleteString().deleteFrom(vos[0].getTableName()).where(vos[0].getPrimaryKey()+"=?").toString();
+			Logger.Debug("deletesql:"+sql);
+			PreparedStatement stmt=getBasicConnection().getConnection().prepareStatement(sql);
+			SQLParameter[] parameters=new SQLParameter[vos.length];
+			for(int i=0;i<vos.length;i++)
+			{
+				parameters[i].addParam(vos[i].getAttrValue(vos[i].getPrimaryKey()));
+//				stmt.setString(1,(String)vos[i].getAttrValue(vos[i].getPrimaryKey()));
+//				stmt.addBatch();
+			}
+			DBUtil.setStatementParameter(stmt, parameters);//j将参数传入到语句中
+			return stmt.executeUpdate();
+		} catch (Exception e) {
+			throw new DAOException(e.getMessage(),e);
+		}
+	}
+
+	/**
+	 * 查询c的所有数据
+	 * @param c
+	 * @return
+	 * @throws DAOException
+	 */
 	 public ResultSet query(Class c) throws DAOException {
 		 return queryByWhere(c,null);
 	 }
+
+	/**
+	 * 根据主键值查询数据
+	 * @param c
+	 * @param pk
+	 * @return
+	 * @throws DAOException
+	 */
 	public ResultSet queryByPk(Class c,String pk) throws DAOException {
 		IORM vo= BeanHelper.createBean(c);
 		if(vo!=null)
 		{
 			try {
 				String sql=new SelectString().select(vo.getAttrNames()).from(vo.getTableName()).where(vo.getPrimaryKey()+"='"+pk+"'").toString();
+				Logger.Debug("queryByPk sql:"+sql);
 				return query(sql);
 			} catch (Exception e) {
 				throw new DAOException(e.getMessage(),e);
@@ -105,16 +258,19 @@ public  class Persistence {
 	{
 		try {
 			Statement stmt =getBasicConnection().getConnection().createStatement();
+			Logger.Debug("query sql:"+sql);
 			return stmt.executeQuery(sql);
 		} catch (Exception e) {
 			throw new DAOException(e.getMessage(),e);
 		}
 	}
 
+
 	public ResultSet query(String sql,SQLParameter parameter) throws DAOException
 	{
 		try {
 			PreparedStatement stmt =getBasicConnection().getConnection().prepareStatement(sql);
+			Logger.Debug("query sql:"+sql);
 			DBUtil.setStatementParameter(stmt, parameter);//j将参数传入到语句中
 			return stmt.executeQuery();
 		} catch (Exception e) {
@@ -122,6 +278,14 @@ public  class Persistence {
 		}
 	}
 
+
+	/**
+	 * 一般用于固定条件查询，例如 dr='N'
+	 * @param c
+	 * @param where
+	 * @return
+	 * @throws DAOException
+	 */
 	 public ResultSet queryByWhere(Class c,String where)throws DAOException
 	 {
          IORM vo=BeanHelper.createBean(c);
@@ -129,6 +293,7 @@ public  class Persistence {
 		 {
 			 try {
 				 String sql=new SelectString().select(vo.getAttrNames()).from(vo.getTableName()).where(where).toString();
+				 Logger.Debug("queryByWhere sql:"+sql);
 				 return query(sql);
 			 } catch (Exception e) {
 				 throw new DAOException(e.getMessage(),e);
@@ -141,25 +306,76 @@ public  class Persistence {
 	 }
 
 	/**
+	 * 根据条件查询vo类对应的表数据
+	 * @param c
+	 * @param where
+	 * @param parameter
+	 * @return
+	 * @throws DAOException
+	 */
+    public ResultSet queryByWhere(Class c,String where,SQLParameter parameter)throws DAOException
+    {
+        IORM vo=BeanHelper.createBean(c);
+        if(vo!=null)
+        {
+            try {
+                String sql=new SelectString().select(vo.getAttrNames()).from(vo.getTableName()).where(where).toString();
+                Logger.Debug("queryByWhere sql:"+sql);
+                return query(sql,parameter);
+            } catch (Exception e) {
+                throw new DAOException(e.getMessage(),e);
+            }
+        }
+        else
+        {
+            throw new DAOException("暂不支持本类型:"+String.valueOf(c));
+        }
+    }
+
+
+	/**
+	 * 慎重使用,有sql注入的风险
+	 * @param c
+	 * @param where 固定的条件，如果由变量拼接参数，请调用queryByWhere(Class c,String where,SQLParameter parameter) 方法
+	 * @return
+	 * @throws DAOException
+	 */
+	 private int deleteByWhere(Class c,String where) throws DAOException {
+		 IORM vo=BeanHelper.createBean(c);
+		 String table=vo.getTableName();
+		 return executeUpdate("delete from "+table+" where "+where);
+	 }
+
+	 public int deleteByWhere(Class c,String where,SQLParameter parameter) throws DAOException {
+		 IORM vo=BeanHelper.createBean(c);
+		 String table=vo.getTableName();
+		 return executeUpdate("delete from "+table+" where "+where,parameter);
+	 }
+
+	/**
 	 *
 	 * @param c VO 类
 	 * @param index 页码
 	 * @param pageSize 每页条数
 	 * @return
 	 */
-	 public ResultSet queryByPager(Class c,String where,Integer index,Integer pageSize) throws DAOException {
+	 public ResultSet queryByPager(Class c,Map<String,Object> con,Integer index,Integer pageSize) throws DAOException {
 		if(index==null)
 			index=0;
 		 if(pageSize==null)
 		 	pageSize=10;
 
-		  IORM vo=BeanHelper.createBean(c);
+		 StringBuilder where=new StringBuilder();
+		 SQLParameter parameter=new SQLParameter();
+		 initWhereParaByCon(con, where, parameter);
+		 IORM vo=BeanHelper.createBean(c);
 		if(vo!=null)
 		{
 			try {
-				String tmptable=new SelectString().select(vo.getAttrNames()).append(" ,rownum as rowno").from(vo.getTableName()).where(where).toString();
+				String tmptable=new SelectString().select(vo.getAttrNames()).append(" ,rownum as rowno").from(vo.getTableName()).where(where.toString()).toString();
 				String sql=new SelectString().select(vo.getAttrNames()).from("("+tmptable+") t").where("t.rowno >"+index*pageSize+" and t.rowno <=" +(index+1)*pageSize).toString();
-				return query(sql);
+				Logger.Debug("queryByPager sql:"+sql);
+				return query(sql,parameter);
 			} catch (FromParaNullException e) {
 				throw new DAOException(e.getMessage(),e);
 			}
@@ -171,14 +387,50 @@ public  class Persistence {
 
 	 }
 
+	/**
+	 * 转为为   key1 like ? and key2 like ?
+	 * val 添加到 parameter 变量中
+	 * @param con key-val
+	 * @param where 待初始化的条件变量
+	 * @param parameter 待初始化的参数变量
+	 */
+	private void initWhereParaByCon(Map<String, Object> con, StringBuilder where, SQLParameter parameter) {
+		where=new StringBuilder("1=1 ");
+		parameter.clearParams();
+		if(con!=null)
+        {
+            for(String key : con.keySet())
+            {
+                Object val=con.get(key);
+                if(val!=null&&val.toString().trim().length()>0)
+                {
+                    where.append(" and ").append(key).append(" like ?");
+                    parameter.addParam(val);
+                }
+            }
+        }
+	}
 
-	 public ResultSet queryCount(Class c,String where) throws DAOException {
-         IORM vo=BeanHelper.createBean(c);
+	/**
+	 * 根据条件查询数据库包含数据的数量
+	 * @param c vo类名
+	 * @param con 条件map
+	 * @return
+	 * @throws DAOException
+	 */
+	public ResultSet queryCount(Class c,Map<String,Object> con) throws DAOException {
+
+		 StringBuilder where=new StringBuilder();
+		 SQLParameter parameter=new SQLParameter();
+		initWhereParaByCon(con, where, parameter);
+
+		IORM vo=BeanHelper.createBean(c);
          if(vo!=null)
          {
              try {
-                 String sql=new SelectString().select(" count(1) ").from(vo.getTableName()).where(where).toString();
-                 return query(sql);
+                 String sql=new SelectString().select(" count(1) ").from(vo.getTableName()).where(where.toString()).toString();
+				 Logger.Debug("queryCount sql:"+sql);
+                 return query(sql,parameter);
              } catch (FromParaNullException e) {
                  throw new DAOException(e.getMessage(),e);
              }
@@ -255,7 +507,7 @@ public  class Persistence {
 						rsColumns.close();
 					}
 				} catch (SQLException e) {
-                    e.printStackTrace();
+                    Logger.Error(e.getMessage(),e);
 				}
 			}
 		}
@@ -299,7 +551,7 @@ public  class Persistence {
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			Logger.Error(e.getMessage(),e);
 		}
 		return strSche;
 	}
@@ -337,4 +589,7 @@ public  class Persistence {
 		}
 		return params;
 	}
+
+
+
 }
