@@ -15,11 +15,11 @@ public  class BasicConnection {
 
 	private BasicDataSource dataSource;
 
-	public BasicConnection()  {
+	private BasicConnection()  {
 		DataSource ds=new DataSource();
 		ds.setIpAddress("127.0.0.1");
 //		ds.setIpAddress("192.168.0.105");
-		ds.setUserName("rpt");
+		ds.setUserName("ww");
 		ds.setPassword("1");
 		ds.setPort("1521");
 		ds.setDataName("orcl");
@@ -27,13 +27,21 @@ public  class BasicConnection {
 		init(ds);
 	}
 
-	public BasicConnection(DataSource ds)  {
+	private static BasicConnection single;
+	public static BasicConnection getInstance()
+	{
+		if(single==null)
+			single= new BasicConnection();
+		return single;
+	}
+
+	private BasicConnection(DataSource ds)  {
 		init(ds);
 	}
 
 
-	
-	public BasicConnection(String url, String userName, String password) throws Exception {
+
+	private BasicConnection(String url, String userName, String password) throws Exception {
 		DataSource ds=new DataSource();
 		ds.setIpAddress(url);
 		ds.setUserName(userName);
@@ -45,6 +53,7 @@ public  class BasicConnection {
 	}
 
 	private void init(DataSource ds)  {
+		//// FIXME: 2018-12-06 连接数不够的bug
 		Properties p = new Properties();
 		//oracle
 		if(ds.getDataType() == DBConsts.ORACLE){

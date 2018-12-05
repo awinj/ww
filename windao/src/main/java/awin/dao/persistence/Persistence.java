@@ -23,7 +23,7 @@ public  class Persistence {
 	
 	public BasicConnection getBasicConnection()
 	{
-		return new BasicConnection();
+		return  BasicConnection.getInstance();
 	}
 
 
