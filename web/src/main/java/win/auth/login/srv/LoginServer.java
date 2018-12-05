@@ -73,9 +73,9 @@ public class LoginServer {
         sql.append("     on auth_user_role.pk_role = auth_role.pk_role      ");
         sql.append("  inner join auth_user                                  ");
         sql.append("     on auth_user.pk_user = auth_user_role.pk_user      ");
-        sql.append(" where   username=?                                     ");
-        getDao().query(PowerVO.class, sql.toString(), parameter);
-        return null;
+        sql.append(" where   auth_user.pk_user=?                            ");
+        List<PowerVO> powers=getDao().query(PowerVO.class, sql.toString(), parameter);
+        return powers;
     }
 
 }

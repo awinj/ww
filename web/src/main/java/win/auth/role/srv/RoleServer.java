@@ -36,18 +36,18 @@ public class RoleServer extends PubServer implements IVOQuery<RoleVO>,IChildrenQ
             SQLParameter parameter = new SQLParameter();
             parameter.addParam(pk_role);
             //先将角色已有的功能删除
-            getDao().deleteByWhere(RolePowerVO.class," pk_user=?",parameter);
-            List<RolePowerVO> userRoleVOs = new ArrayList<RolePowerVO>();
+            getDao().deleteByWhere(RolePowerVO.class," pk_role=?",parameter);
+            List<RolePowerVO> rolePowerVOs = new ArrayList<RolePowerVO>();
             if (powers != null) {
                 for (String power : powers) {
-                    RolePowerVO userRoleVO = new RolePowerVO();
-                    userRoleVO.setPk_power(power);
-                    userRoleVO.setPk_role(pk_role);
-                    userRoleVOs.add(userRoleVO);
+                    RolePowerVO rolePowerVO = new RolePowerVO();
+                    rolePowerVO.setPk_power(power);
+                    rolePowerVO.setPk_role(pk_role);
+                    rolePowerVOs.add(rolePowerVO);
                 }
             }
             //再新增此次分配的角色
-            getDao().insert(userRoleVOs.toArray(new RolePowerVO[0]));
+            getDao().insert(rolePowerVOs.toArray(new RolePowerVO[0]));
         } catch (DAOException e) {
             Logger.Error(e.getMessage(), e);
             throw new BusinessException(e.getMessage(), e);

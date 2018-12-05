@@ -48,9 +48,40 @@
                 <label class="layui-form-label">路径</label>
                 <div class="layui-input-block">
                     <input name="url" class="layui-input" type="text" placeholder="请输入路径" value=""
-                           autocomplete="off" lay-verify="url"/>
+                           autocomplete="off" />
                 </div>
         </div>
+
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">是否文件夹</label>
+            <div class="layui-input-inline">
+                <input name="isDir" title="是" type="radio" checked="" value="Y" />
+                <input name="isDir" title="否" type="radio" value="N" />
+            </div>
+        </div>
+
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">父目录</label>
+            <div class="layui-input-inline">
+                <select name="pk_parent">
+                    <option value="">请选择</option>
+                    <option value="ww201812052327031001" selected="">陶瓷藏品</option>
+                    <option value="ww201812052327421001">互动交流</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-hide">
+            <label class="layui-form-label">路由</label>
+            <div class="layui-input-inline">
+                <input name="route" class="layui-input" type="text" placeholder="请输入路径" value=""
+                       autocomplete="off" />
+            </div>
+        </div>
+
+
         <div class="layui-form-item">
             <label class="layui-form-label">备注</label>
             <div class="layui-input-block">

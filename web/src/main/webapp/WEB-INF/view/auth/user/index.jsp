@@ -161,7 +161,7 @@
             layer.alert('请选中一条数据', {icon: 0});
             return ;
         }
-        var result=httpPost("/ww/auth/role/availableRole",null,"html");
+        var result=httpPost("/ww/auth/user/availableRole",null,"html");
         layer.open({
             type:1,
             content: result,

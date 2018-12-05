@@ -2071,7 +2071,7 @@ a cite {
     position: absolute;
     right: 10px;
     top: 50%;
-    margin-top: -3px;
+    margin-top: 15px;
     cursor: pointer;
     border-width: 6px;
     border-top-color: #c2c2c2;
@@ -2155,7 +2155,7 @@ a cite {
 }
 
 :root .layui-form-selected .layui-edge {
-    margin-top: -9px \0/ IE9
+    margin-top: 9px ;
 }
 
 .layui-form-selectup dl {

@@ -51,6 +51,7 @@
     <div class="layui-btn-container">
         <div title="增加"  class="layui-inline" lay-event="add"><i class="layui-icon layui-icon-add-1"></i></div>
         <div title="修改"  class="layui-inline" lay-event="update"><i class="layui-icon layui-icon-edit"></i></div>
+        <div title="分配" class="layui-inline" lay-event="assign"><i>分配</i>分配</div>
         <div title="删除"  class="layui-inline" lay-event="delete"><i class="layui-icon layui-icon-delete"></i></div>
     </div>
 </script>
@@ -100,6 +101,38 @@
             layer.msg(result.msg);
 
     };
+
+    function doElse(event,datas) {
+//assign
+        if(datas==null||datas.length!=1)
+        {
+            layer.alert('请选中一条数据', {icon: 0});
+            return ;
+        }
+        var result=httpPost("/ww/auth/role/availablePower",null,"html");
+        layer.open({
+            type:1,
+            content: result,
+            area:  '40%',
+        });
+        var pk_role=datas[0].pk_role;
+        $(".table_ok").click(function () {
+            var selectPks = [];
+            $("input[name='refchk']:checked").each(function () {
+                var eleid = $(this).prop("id");
+                if (eleid != 'selecAll') {
+                    selectPks.push($(this).val());
+                }
+            });
+            result=httpPost("/ww/auth/role/assign",JSON.stringify({pk_role: pk_role,powers:selectPks}));
+            if(result!=null)
+            {
+                layer.msg(result.msg);
+                closelayer();
+            }
+
+        })
+    }
 
 </script>
 <%@ include file="../../pub/htmlend.jsp" %>

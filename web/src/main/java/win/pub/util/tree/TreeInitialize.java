@@ -1,5 +1,7 @@
 package win.pub.util.tree;
 
+import awin.util.parse.ParseUtil;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,16 +23,16 @@ public class TreeInitialize<T extends ITree> {
         if (datas == null || datas.size() < 1)
             return null;
         for (T data : datas) {
-            map.put(data.route() + data.id(), new TreeNode<T>(data));
+            map.put(ParseUtil.parseString(data.route()) + ParseUtil.parseString(data.id()), new TreeNode<T>(data));
         }
         for (T data : datas) {
-            String key = data.route() + data.id();
+            String key = ParseUtil.parseString(data.route()) + ParseUtil.parseString(data.id());
             TreeNode<T> node = map.get(key);
-            TreeNode<T> parentNode = map.get(data.route());
+            TreeNode<T> parentNode = map.get(ParseUtil.parseString(data.route()));
             //如果是根节点，直接放入map;可通过data.route()的值为空为根节点
-            if (isNullOrEmpty(data.route())) {
+            if (isNullOrEmpty(ParseUtil.parseString(data.route()))) {
                 //在树中放如节点
-                trees.put(data.id(), node);
+                trees.put(ParseUtil.parseString(data.id()), node);
             } else if (parentNode != null) {
                 parentNode.addChild(node);
                 node.setParentNode(parentNode);

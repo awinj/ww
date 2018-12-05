@@ -59,13 +59,7 @@ public class PowerController extends BaseController<PowerAggVO> {
     }
 
 
-    @RequestMapping("availablePower")
-    @ResponseBody
-    public String availablePower()
-    {
-        List<PowerVO> datas=getServer().queryByWhere(PowerVO.class,"dr='N'");
-        return new TableUtil().transHtml4Data(datas,new PowerMapMeta());
-    }
+
     PowerServer server;
     @Override
     protected PowerServer getServer()

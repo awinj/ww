@@ -1,21 +1,25 @@
 package win.auth.role.ctrl;
 
+import awin.logger.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import win.auth.power.vo.PowerMapMeta;
+import win.auth.power.vo.PowerVO;
 import win.auth.role.srv.RoleServer;
 import win.auth.role.vo.RoleAggVO;
-import win.auth.role.vo.RoleMapMeta;
 import win.auth.role.vo.RoleVO;
-import win.auth.user.vo.UserVO;
 import win.pub.ctrl.BaseController;
 import win.pub.util.table.TableUtil;
+import win.pub.vo.BusinessException;
 import win.pub.vo.Result;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by aWin on 2018-11-14.
@@ -42,13 +46,7 @@ public class RoleController extends BaseController<RoleAggVO> {
         return super.queryData(RoleVO.class,condition,index,pageSize);
     }
 
-    @RequestMapping("availableRole")
-    @ResponseBody
-    public String availableRole()
-    {
-        List<RoleVO> datas=getServer().queryByWhere(RoleVO.class,"dr='N'");
-        return new TableUtil().transHtml4Data(datas,new RoleMapMeta());
-    }
+
 
     @Override
     @RequestMapping(value = "delete",method = RequestMethod.POST)
@@ -64,6 +62,28 @@ public class RoleController extends BaseController<RoleAggVO> {
         return super.save(aggVO);
     }
 
+    @RequestMapping("availablePower")
+    @ResponseBody
+    public String availablePower()
+    {
+        List<PowerVO> datas=getServer().queryByWhere(PowerVO.class,"dr='N'");
+        return new TableUtil().transHtml4Data(datas,new PowerMapMeta());
+    }
+
+    @RequestMapping(value = "assign",method = RequestMethod.POST)
+    @ResponseBody
+    public Result assign(@RequestBody Map<String,Object> map)
+    {
+        Result result=createResult();
+        try {
+            getServer().assign((String)map.get("pk_role"),(ArrayList<String>)map.get("powers"));
+            result.setMsg("分配成功");
+        } catch (BusinessException e) {
+            Logger.Error(e.getMessage(),e);
+            handle(result,e);
+        }
+        return result;
+    }
 
     RoleServer server;
     @Override

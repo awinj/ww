@@ -2,24 +2,22 @@ package win.auth.user.ctrl;
 
 import awin.logger.Logger;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import win.auth.login.pub.LoginUtil;
+import win.auth.role.vo.RoleMapMeta;
+import win.auth.role.vo.RoleVO;
 import win.auth.user.srv.UserServer;
 import win.auth.user.vo.UserAggVO;
 import win.auth.user.vo.UserVO;
 import win.pub.ctrl.BaseController;
-import win.pub.vo.AggVO;
+import win.pub.util.table.TableUtil;
 import win.pub.vo.BusinessException;
-import win.pub.vo.QueryData;
 import win.pub.vo.Result;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -62,6 +60,13 @@ public class UserController extends BaseController<UserAggVO> {
         return super.save(aggVO);
     }
 
+    @RequestMapping("availableRole")
+    @ResponseBody
+    public String availableRole()
+    {
+        List<RoleVO> datas=getServer().queryByWhere(RoleVO.class,"dr='N'");
+        return new TableUtil().transHtml4Data(datas,new RoleMapMeta());
+    }
 
     @RequestMapping(value = "assign",method = RequestMethod.POST)
     @ResponseBody
@@ -70,6 +75,7 @@ public class UserController extends BaseController<UserAggVO> {
         Result result=createResult();
         try {
             getServer().assign((String)map.get("pk_user"),(ArrayList<String>)map.get("roles"));
+            result.setMsg("分配成功");
         } catch (BusinessException e) {
             Logger.Error(e.getMessage(),e);
             handle(result,e);

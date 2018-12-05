@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import win.auth.login.model.LoginModel;
 import win.auth.login.pub.CookieUtil;
+import win.auth.login.pub.LoginUtil;
 import win.auth.login.srv.LoginServer;
 import win.auth.power.vo.PowerVO;
 import win.pub.util.tree.TreeInitialize;
@@ -80,14 +81,14 @@ public class LoginController {
         try {
             ModelAndView modelAndView = new ModelAndView("pub/nav");
 
-            List<PowerVO> powers = loginServer.getPowerByUser("1");
+            List<PowerVO> powers = loginServer.getPowerByUser(LoginUtil.getUserID());
             TreeInitialize<PowerVO> treeInitialize = new TreeInitialize<PowerVO>();
             List<TreeNode<PowerVO>> ret = treeInitialize.trans2Tree(powers);
-            ret = new ArrayList<TreeNode<PowerVO>>();
-            PowerVO powerVO = new PowerVO();
-            powerVO.setPowerName("wsw");
-            TreeNode<PowerVO> node = new TreeNode<PowerVO>(powerVO);
-            ret.add(node);
+//            ret = new ArrayList<TreeNode<PowerVO>>();
+//            PowerVO powerVO = new PowerVO();
+//            powerVO.setPowerName("wsw");
+//            TreeNode<PowerVO> node = new TreeNode<PowerVO>(powerVO);
+//            ret.add(node);
             modelAndView.addObject("navs", ret);
             return modelAndView;
         } catch (DAOException e) {
