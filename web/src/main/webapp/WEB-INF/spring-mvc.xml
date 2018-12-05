@@ -31,9 +31,7 @@
     <bean id="contentViewResolver" class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
         <property name="viewResolvers">
             <list>
-
                 <ref bean="internalResourceViewResolver"></ref>
-
             </list>
         </property>
         <property name="defaultViews">

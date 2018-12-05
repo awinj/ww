@@ -23,9 +23,6 @@
           <element id="library" level="project" name="Maven: org.springframework:spring-context-support:4.3.3.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-test:4.3.3.RELEASE" />
           <element id="library" level="project" name="Maven: com.alibaba:fastjson:1.2.47" />
-          <element id="library" level="project" name="Maven: com.alibaba.rocketmq:rocketmq-client:3.2.6" />
-          <element id="library" level="project" name="Maven: com.alibaba.rocketmq:rocketmq-common:3.2.6" />
-          <element id="library" level="project" name="Maven: com.alibaba.rocketmq:rocketmq-remoting:3.2.6" />
           <element id="library" level="project" name="Maven: com.alibaba:fastjson:1.2.3" />
           <element id="library" level="project" name="Maven: com.oracle:ojdbc6:12.1.0.1-atlassian-hosted" />
           <element id="library" level="project" name="Maven: commons-dbcp:commons-dbcp:1.2.2" />
