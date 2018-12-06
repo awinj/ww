@@ -23,7 +23,7 @@ public  class BasicConnection {
 		ds.setPassword("1");
 		ds.setPort("1521");
 		ds.setDataName("orcl");
-		ds.setDataType(1);
+		ds.setDataType(DBConsts.ORACLE);
 		init(ds);
 	}
 
