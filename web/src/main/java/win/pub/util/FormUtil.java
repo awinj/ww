@@ -13,23 +13,27 @@ import java.util.*;
 public class FormUtil {
     public static void main(String[] args) {
 
-        String json = "[{'field': 'pk_role', 'title': '主键','type':'key'},\n" +
-                "{'field': 'roleCode', 'title': '角色编码','type':'text'},\n" +
-                "{'field': 'roleName', 'title': '角色名称','type':'text'},\n" +
-                "{'field': 'roleType', 'title': '角色类型','type':'text'},\n" +
-                "{'field': 'memo', 'title': '备注','type':'text'},\n" +
-                "{'field': 'enable', 'title': '是否锁定','type':'boolean'},\n" +
-                "{'field': 'creator', 'title': '创建人','type':'text'},\n" +
-                "{'field': 'creationTime', 'title': '创建时间','type':'time'},\n" +
-                "{'field': 'modifier', 'title': '修改人','type':'text'},\n" +
-                "{'field': 'modifyTime', 'title': '修改时间','type':'time'},\n" +
-                "{'field': 'ts', 'title': '时间戳','type':'time'},\n" +
-                "{'field': 'dr', 'title': '删除标志','type':'boolean'}]\n";
+        String json = "[ {field: 'pk_post', title: '主键', width:80},\n" +
+                "        {field: title, title: '主题', width:80},\n" +
+                "        {field: 'content', title: '内容', width:80},\n" +
+                "        {field: 'photo', title: '图片', width:80},\n" +
+                "        {field: 'photoposi', title: '图片位置', width:80},\n" +
+                "        {field: 'creator', title: '创建人', width:80},\n" +
+                "        {field: 'creationTime', title: '创建时间', width:80},\n" +
+                "        {field: 'modifier', title: '修改人', width:80},\n" +
+                "        {field: 'modifyTime', title: '修改时间', width:80},\n" +
+                "        {field: 'ts', title: '时间戳', width:80},\n" +
+                "        {field: 'dr', title: '删除标志', width:80}]\n";
         System.out.print(createHtml("角色", json));
     }
 
     public static String createHtml(String title, String json) {
 
+        json=json.replaceAll("field","'field'");
+        json=json.replaceAll("title","'title'");
+        json=json.replaceAll("width","'width'");
+        json=json.replaceAll("'","\"");
+        System.out.print(json);
         Map<String, String>[] mapArr = JsonUtil.jsonToBean(json, Map[].class);
         List<String> specil = Arrays.asList("creator", "creationTime", "modifier", "modifyTime", "ts", "dr");
 

@@ -32,7 +32,7 @@ public abstract class BaseController<T extends AggVO>{
         view.setViewName("index");
         return view;
     }
-    public abstract String query(String condition, Integer curr, Integer nums  );
+    public abstract String query(String condition, Integer index, Integer pageSize  );
 
     public <T extends SuperVO> String  queryData(Class<T> c,String condition, Integer index ,Integer pageSize)
     {
