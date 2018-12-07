@@ -19,7 +19,7 @@ public  class BasicConnection {
 		DataSource ds=new DataSource();
 		ds.setIpAddress("127.0.0.1");
 //		ds.setIpAddress("192.168.0.105");
-		ds.setUserName("ww");
+		ds.setUserName("rpt");
 		ds.setPassword("1");
 		ds.setPort("1521");
 		ds.setDataName("orcl");
@@ -28,6 +28,11 @@ public  class BasicConnection {
 	}
 
 	private static BasicConnection single;
+
+	/**
+	 * 单例模式，确保连接都是由single来管理。暂不考虑并发情况
+	 * @return
+	 */
 	public static BasicConnection getInstance()
 	{
 		if(single==null)
@@ -53,7 +58,6 @@ public  class BasicConnection {
 	}
 
 	private void init(DataSource ds)  {
-		//// FIXME: 2018-12-06 连接数不够的bug
 		Properties p = new Properties();
 		//oracle
 		if(ds.getDataType() == DBConsts.ORACLE){
@@ -70,9 +74,18 @@ public  class BasicConnection {
 		}
 		p.setProperty("username", ds.getUserName());
 		p.setProperty("password", ds.getPassword());
-		p.setProperty("maxActive", "10");
-		p.setProperty("maxIdle", "20");
-		p.setProperty("maxWait", "100");
+		p.setProperty("maxActive", "30");//最大连接数量
+		p.setProperty("minIdle","2");//最小空闲连接
+		p.setProperty("maxIdle", "20");//最大空闲连接
+		p.setProperty("initialSize","10");//初始化连接数
+		p.setProperty("removeAbandoned","true");// 是否自动回收超时连接
+		p.setProperty("removeAbandonedTimeout","300");//超时时间(以秒数为单位)
+		p.setProperty("maxWait","200");//超时等待时间以毫秒为单位 1000等于60秒
+		p.setProperty("timeBetweenEvictionRunsMillis","10000");//在空闲连接回收器线程运行期间休眠的时间值,以毫秒为单位，每10s运行一次回收
+		p.setProperty("numTestsPerEvictionRun","4");//在每次空闲连接回收器线程(如果有)运行时检查的连接数量，每次检查4个连接是否需要回收
+		p.setProperty("minEvictableIdleTimeMillis","10000");//连接在池中保持空闲而不被空闲连接回收器线程,以毫秒为单位
+//		p.setProperty("testOnBorrow","true");//指明是否在从池中取出连接前进行检验,如果检验失败,则从池中去除连接并尝试取出另一个.
+//		p.setProperty("validationQuery","select 1 from dual");//检查连接是否可用的语句
 		try {
 			dataSource = (BasicDataSource) BasicDataSourceFactory.createDataSource(p);
 		}

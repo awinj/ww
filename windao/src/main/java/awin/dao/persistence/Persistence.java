@@ -17,15 +17,50 @@ import awin.dao.persistence.type.SQLParameter;
 import awin.dao.sql.util.*;
 import awin.logger.Logger;
 import awin.pub.Generator;
+import sun.rmi.runtime.Log;
 
 public  class Persistence {
 
+
+	private Connection con;
+
+	private PreparedStatement prepStatement = null;
+	private PreparedStatement getPrepStatement(String sql) throws DAOException {
+		if(prepStatement!=null)
+			closeStmt(prepStatement);
+		try {
+			this.prepStatement = this.con.prepareStatement(sql);
+			return prepStatement;
+		} catch (SQLException e) {
+			throw new DAOException(e.getMessage(),e);
+		}
+	}
+
+	private Statement statement = null;
+	private Statement getStatement() throws DAOException {
+		if(statement!=null)
+			closeStmt(statement);
+		try {
+			this.statement = con.createStatement();
+			return statement;
+		} catch (SQLException e) {
+			throw new DAOException(e.getMessage(),e);
+		}
+	}
+
 	
-	public BasicConnection getBasicConnection()
+	private BasicConnection getBasicConnection()
 	{
 		return  BasicConnection.getInstance();
 	}
 
+	public Persistence() throws DAOException {
+		try {
+			con=BasicConnection.getInstance().getConnection();
+		} catch (ConnectionException e) {
+			throw new DAOException("数据库连接失败");
+		}
+	}
 
 	/**
 	 * 新增数据
@@ -46,13 +81,14 @@ public  class Persistence {
 				pk= Generator.genUniqueVal();
 				vo.setAttrValue(vo.getPrimaryKey(),pk);
 			}
-			PreparedStatement stmt =getBasicConnection().getConnection().prepareStatement(sql);
+			PreparedStatement stmt =getPrepStatement(sql);
 			Logger.Debug("insertsql:"+sql);
 			stmt.clearParameters();
 
 			SQLParameter parameter = getSQLParam(vo, columns, type);
 			DBUtil.setStatementParameter(stmt, parameter);//j将参数传入到语句中
 			stmt.executeUpdate();
+
 			return pk.toString();
 		}
 		catch(Exception e)
@@ -86,7 +122,7 @@ public  class Persistence {
 				}
 				retPks[i]=(String) pk;
 			}
-			PreparedStatement stmt =getBasicConnection().getConnection().prepareStatement(sql);
+			PreparedStatement stmt =getPrepStatement(sql);
 			Logger.Debug("insertsql:"+sql);
 			stmt.clearParameters();
 
@@ -99,6 +135,7 @@ public  class Persistence {
 
 			DBUtil.setStatementParameter(stmt, parameters);//j将参数传入到语句中
 			stmt.executeBatch();
+
 			return retPks;
 		}
 		catch(Exception e)
@@ -119,12 +156,15 @@ public  class Persistence {
              String[] columns=getValidNames(vo,type);
 			 String sql= new UpdateString().update(vo.getTableName()).set(columns).
 					 where(vo.getPrimaryKey()+"='"+vo.getAttrValue(vo.getPrimaryKey())+"'").toString();
-             PreparedStatement stmt =getBasicConnection().getConnection().prepareStatement(sql);
+
+             PreparedStatement stmt =getPrepStatement(sql);
              Logger.Debug("updatesql:"+sql);
              stmt.clearParameters();
              SQLParameter parameter = getSQLParam(vo,columns , type);
              DBUtil.setStatementParameter(stmt, parameter);//j将参数传入到语句中
-             return stmt.executeUpdate();
+             int ret= stmt.executeUpdate();
+
+			 return ret;
 		 } catch (Exception e) {
 			 throw new DAOException(e.getMessage(),e);
 		 }
@@ -141,11 +181,14 @@ public  class Persistence {
 		 try {
 			 String sql=new DeleteString().deleteFrom(vo.getTableName()).where(vo.getPrimaryKey()+"=?").toString();
 			 Logger.Debug("deletesql:"+sql);
-			 PreparedStatement stmt=getBasicConnection().getConnection().prepareStatement(sql);
+
+			 PreparedStatement stmt=getPrepStatement(sql);
 			 SQLParameter parameter=new SQLParameter();
 			 parameter.addParam(vo.getAttrValue(vo.getPrimaryKey()));
 			 DBUtil.setStatementParameter(stmt, parameter);//j将参数传入到语句中
-			 return stmt.executeUpdate();
+			 int ret= stmt.executeUpdate();
+
+			 return ret;
 		 } catch (Exception e) {
 			 throw new DAOException(e.getMessage(),e);
 		 }
@@ -160,8 +203,10 @@ public  class Persistence {
 	 */
 	 public int executeUpdate(String sql) throws DAOException {
 		 try {
-			 Statement stmt =getBasicConnection().getConnection().createStatement();
-			 return stmt.executeUpdate(sql);
+			 Statement stmt =getPrepStatement(sql);
+			 int ret= stmt.executeUpdate(sql);
+
+			 return ret;
 		 } catch (Exception e) {
 			Logger.Error(e.getMessage(),e);
 			 throw new DAOException(e.getMessage(),e);
@@ -177,10 +222,12 @@ public  class Persistence {
 	 */
 	public int executeUpdate(String sql,SQLParameter parameter) throws DAOException {
 		try {
-			PreparedStatement stmt =getBasicConnection().getConnection().prepareStatement(sql);
+			PreparedStatement stmt =getPrepStatement(sql);
 			if(parameter!=null)
 				DBUtil.setStatementParameter(stmt, parameter);//j将参数传入到语句中
-			return stmt.executeUpdate();
+			int ret= stmt.executeUpdate();
+
+			return ret;
 		} catch (Exception e) {
 			Logger.Error(e.getMessage(),e);
 			throw new DAOException(e.getMessage(),e);
@@ -198,7 +245,7 @@ public  class Persistence {
 		try {
 			String sql=new DeleteString().deleteFrom(vos[0].getTableName()).where(vos[0].getPrimaryKey()+"=?").toString();
 			Logger.Debug("deletesql:"+sql);
-			PreparedStatement stmt=getBasicConnection().getConnection().prepareStatement(sql);
+			PreparedStatement stmt=getPrepStatement(sql);
 			SQLParameter[] parameters=new SQLParameter[vos.length];
 			for(int i=0;i<vos.length;i++)
 			{
@@ -207,7 +254,9 @@ public  class Persistence {
 //				stmt.addBatch();
 			}
 			DBUtil.setStatementParameter(stmt, parameters);//j将参数传入到语句中
-			return stmt.executeUpdate();
+			int ret= stmt.executeUpdate();
+
+			return ret;
 		} catch (Exception e) {
 			throw new DAOException(e.getMessage(),e);
 		}
@@ -257,9 +306,11 @@ public  class Persistence {
 	public ResultSet query(String sql) throws DAOException
 	{
 		try {
-			Statement stmt =getBasicConnection().getConnection().createStatement();
+			Statement stmt =getStatement();
 			Logger.Debug("query sql:"+sql);
-			return stmt.executeQuery(sql);
+			ResultSet rs= stmt.executeQuery(sql);
+
+			return rs;
 		} catch (Exception e) {
 			throw new DAOException(e.getMessage(),e);
 		}
@@ -269,10 +320,12 @@ public  class Persistence {
 	public ResultSet query(String sql,SQLParameter parameter) throws DAOException
 	{
 		try {
-			PreparedStatement stmt =getBasicConnection().getConnection().prepareStatement(sql);
+			PreparedStatement stmt =getPrepStatement(sql);
 			Logger.Debug("query sql:"+sql);
 			DBUtil.setStatementParameter(stmt, parameter);//j将参数传入到语句中
-			return stmt.executeQuery();
+			ResultSet rs= stmt.executeQuery();
+
+			return rs;
 		} catch (Exception e) {
 			throw new DAOException(e.getMessage(),e);
 		}
@@ -505,6 +558,7 @@ public  class Persistence {
 				try {
 					if (rsColumns != null) {
 						rsColumns.close();
+						closeConnection(con);
 					}
 				} catch (SQLException e) {
                     Logger.Error(e.getMessage(),e);
@@ -519,7 +573,7 @@ public  class Persistence {
 	{
 		if (dbmd == null)
 			try {
-				dbmd = getBasicConnection().getConnection().getMetaData();
+				dbmd = con.getMetaData();
 
 			} catch (Exception e) {
 				Logger.Error("getMetaData 出错",e);
@@ -591,5 +645,41 @@ public  class Persistence {
 	}
 
 
+	public void closeAll() {
+		closeStmt(statement);
+		closeStmt(prepStatement);
+		closeConnection(con);
+	}
+
+	private void closeConnection(Connection con) {
+		try {
+			if (con != null) {
+				con.close();
+				con = null;
+			}
+		} catch (SQLException e) {
+		}
+	}
+	private void closeStmt(Statement stmt) {
+		try {
+			if (stmt != null) {
+				stmt.close();
+				stmt = null;
+			}
+		} catch (SQLException e) {
+		}
+	}
+
+	private void closeRs(ResultSet rs) {
+		try {
+			if (rs != null) {
+				rs.close();
+				rs = null;
+			}
+		}
+		catch (SQLException e)
+		{
+		}
+	}
 
 }

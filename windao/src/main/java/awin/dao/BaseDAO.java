@@ -1,5 +1,7 @@
 package awin.dao;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -23,7 +25,9 @@ public class BaseDAO {
 	 * @throws DAOException
 	 */
 	public String insert(SuperVO vo) throws DAOException {
-		return getPersistence().insert(vo);
+		String pk= getPersistence().insert(vo);
+		getPersistence().closeAll();
+		return pk;
 	}
 
 	/**
@@ -33,7 +37,9 @@ public class BaseDAO {
 	 * @throws DAOException
 	 */
 	public String[] insert(SuperVO[] vo) throws DAOException {
-		return getPersistence().insert(vo);
+		String[] pks =getPersistence().insert(vo);
+		getPersistence().closeAll();
+		return pks;
 	}
 
 	/**
@@ -43,7 +49,9 @@ public class BaseDAO {
 	 * @throws DAOException
 	 */
 	public int update(SuperVO vo) throws DAOException {
-		return getPersistence().update(vo);
+		int i= getPersistence().update(vo);
+		getPersistence().closeAll();
+		return i;
 	}
 
 	/**
@@ -53,7 +61,9 @@ public class BaseDAO {
 	 * @throws DAOException
 	 */
 	public int delete(SuperVO vo) throws DAOException {
-		return getPersistence().delete(vo);
+		int ret= getPersistence().delete(vo);
+		getPersistence().closeAll();
+		return ret;
 	}
 
 	/**
@@ -63,7 +73,9 @@ public class BaseDAO {
 	 * @throws DAOException
 	 */
 	public int delete(SuperVO[] vo) throws DAOException {
-		return getPersistence().delete(vo);
+		int ret= getPersistence().delete(vo);
+		getPersistence().closeAll();
+		return ret;
 	}
 	/**
 	 *
@@ -74,8 +86,12 @@ public class BaseDAO {
 	 */
 	public <T extends SuperVO> List<T> query(Class<T> c) throws  DAOException {
 
-		return getResultSetUtil().toBeanList(c, getPersistence().query(c));
+		ResultSet rs=getPersistence().query(c);
+		List<T> ret= getResultSetUtil().toBeanList(c, rs);
+		close(rs,getPersistence());
+		return ret;
 	}
+
 
 	/**
 	 *	必须为静态的sql,如果通过外界传入的参数进行拼接成的sql，会有sql注入的风险
@@ -86,13 +102,17 @@ public class BaseDAO {
 	 * @throws DAOException
 	 */
 	public <T > List<T> query(Class<T> c,String sql) throws  DAOException {
-
-		return getResultSetUtil().toBeanList(c, getPersistence().query(sql));
+		ResultSet rs=getPersistence().query(sql);
+		List<T> ret= getResultSetUtil().toBeanList(c, rs);
+		close(rs,getPersistence());
+		return ret;
 	}
 
 	public <T > List<T> query(Class<T> c, String sql, SQLParameter parameter) throws  DAOException {
-
-		return getResultSetUtil().toBeanList(c, getPersistence().query(sql,parameter));
+		ResultSet rs=getPersistence().query(sql,parameter);
+		List<T>ret= getResultSetUtil().toBeanList(c, rs);
+		close(rs,getPersistence());
+		return ret;
 	}
 
 	/**
@@ -105,7 +125,10 @@ public class BaseDAO {
 	 */
 	public   <T extends SuperVO> List<T> queryByWhere(Class<T> c,String whereSql) throws  DAOException {
 
-		return getResultSetUtil().toBeanList(c, getPersistence().queryByWhere(c,whereSql));
+		ResultSet rs=getPersistence().queryByWhere(c,whereSql);
+		List<T> ret= getResultSetUtil().toBeanList(c, rs);
+		close(rs,getPersistence());
+		return ret;
 	}
 
 	/**
@@ -118,7 +141,10 @@ public class BaseDAO {
 	 */
 	public <T extends SuperVO> List<T> queryByWhere(Class<T> c,String whereSql,SQLParameter parameter) throws  DAOException {
 
-		return getResultSetUtil().toBeanList(c, getPersistence().queryByWhere(c,whereSql,parameter));
+		ResultSet rs=getPersistence().queryByWhere(c,whereSql,parameter);
+		List<T> ret= getResultSetUtil().toBeanList(c, rs);
+		close(rs,getPersistence());
+		return ret;
 	}
 
 	/**
@@ -132,7 +158,10 @@ public class BaseDAO {
 	 * @throws DAOException
 	 */
 	public <T extends SuperVO> List<T> queryByPager(Class<T> c, Map<String,Object> con, Integer index, Integer pageSize) throws DAOException {
-		return getResultSetUtil().toBeanList(c,getPersistence().queryByPager(c,con,index,pageSize));
+		ResultSet rs=getPersistence().queryByPager(c,con,index,pageSize);
+		List<T> ret= getResultSetUtil().toBeanList(c, rs);
+		close(rs,getPersistence());
+		return ret;
 	}
 
 
@@ -143,27 +172,37 @@ public class BaseDAO {
 	 * @throws DAOException
 	 */
 	public Integer query(String sql) throws DAOException {
-		return getResultSetUtil().firstToInt(getPersistence().query(sql));
+		Integer ret= getResultSetUtil().firstToInt(getPersistence().query(sql));
+		getPersistence().closeAll();
+		return ret;
 	}
 
 	public int update(String sql) throws DAOException {
-		return getPersistence().executeUpdate(sql);
+		int ret= getPersistence().executeUpdate(sql);
+		getPersistence().closeAll();
+		return ret;
 	}
 
 	public int update(String sql,SQLParameter parameter) throws DAOException {
-		return getPersistence().executeUpdate(sql,parameter);
+		int ret= getPersistence().executeUpdate(sql,parameter);
+		getPersistence().closeAll();
+		return ret;
 	}
 
 	public <T extends SuperVO> int deleteByWhere(Class<T> c,String where) throws DAOException {
 		IORM vo= BeanHelper.createBean(c);
 		String table=vo.getTableName();
-		return getPersistence().executeUpdate("delete from "+table+" where "+where);
+		int ret= getPersistence().executeUpdate("delete from "+table+" where "+where);
+		getPersistence().closeAll();
+		return ret;
 	}
 
 	public <T extends SuperVO> int deleteByWhere(Class<T> c,String where,SQLParameter parameter) throws DAOException {
 		IORM vo=BeanHelper.createBean(c);
 		String table=vo.getTableName();
-		return getPersistence().executeUpdate("delete from "+table+" where "+where,parameter);
+		int ret= getPersistence().executeUpdate("delete from "+table+" where "+where,parameter);
+		getPersistence().closeAll();
+		return ret;
 	}
 
 	/**
@@ -174,7 +213,9 @@ public class BaseDAO {
 	 * @return
 	 */
 	public <T extends SuperVO> Integer queryCount(Class<T> c,Map<String,Object> con) throws DAOException {
-        return getResultSetUtil().firstToInt(getPersistence().queryCount(c,con));
+        Integer ret= getResultSetUtil().firstToInt(getPersistence().queryCount(c,con));
+		getPersistence().closeAll();
+		return ret;
 	}
 	/**
 	 *
@@ -193,13 +234,25 @@ public class BaseDAO {
 	 *
 	 * @return 返回持久层实例
 	 */
-	private Persistence getPersistence()
-	{
+	private Persistence getPersistence() throws DAOException {
 		if(persistence==null)
 		{
 			persistence=new Persistence();
 		}
 		return persistence;
 	}
-	
+
+	private void closeResultSet(ResultSet rs) throws DAOException {
+		try {
+			if(rs!=null)
+				rs.close();
+		} catch (SQLException e) {
+			throw new DAOException(e.getMessage(),e);
+		}
+	}
+
+	private void close(ResultSet rs,Persistence p) throws DAOException {
+		closeResultSet(rs);
+		p.closeAll();
+	}
 }
