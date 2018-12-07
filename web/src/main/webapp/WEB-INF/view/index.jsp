@@ -11,6 +11,47 @@
 
 
 
+      <div id="tree" style="display: none">
+        <ul class="wintree" >
+          <li class="node">
+            <div >
+              <div class="extend"><span>+</span></div>
+              <input type="checkbox">
+              <label>根目录</label>
+            </div>
+            <ul  >
+              <li><input type="checkbox"><label>一级目录</label></li>
+              <li><input type="checkbox"><label>一级目录</label></li>
+              <%--<li> <div class="extend"><span>+</span></div><input type="checkbox"><label>一级目录</label></li>--%>
+              <li class="node">
+                <div ><div class="extend"><span>+</span></div><input type="checkbox"><label>一级目录</label></div>
+                <ul  >
+                  <li><input type="checkbox"><label>二级目录</label></li>
+                  <li><input type="checkbox"><label>二级目录</label></li>
+                  <li><input type="checkbox"><label>二级目录</label></li>
+                  <li class="node">
+                    <div ><div class="extend"><span>+</span></div><input type="checkbox"><label>二级目录</label></div>
+                    <ul  >
+                      <li><input type="checkbox"><label>三级目录</label></li>
+                      <li><input type="checkbox"><label>三级目录</label></li>
+                      <li><input type="checkbox"><label>三级目录</label></li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li><input type="checkbox"><label>一级目录</label></li>
+              <li><input type="checkbox"><label>一级目录</label></li>
+            </ul>
+          </li>
+          <li>
+            <input type="checkbox"><label>根目录</label>
+          </li>
+
+
+        </ul>
+        <input class="tree_ok" type="button" value="确认" />
+        <input class="tree_cancel" type="button" value="取消">
+      </div>
 
 
 

@@ -27,7 +27,7 @@
 <body class="layui-layout-body site">
 <div class="layui-layout layui-layout-admin">
 
-    <%@ include file="../../pub/nav.jsp" %>
+    <jsp:include page="/auth/nav"></jsp:include>
     <div class="layui-body">
         <!-- 内容主体区域 -->
         <div class="layui-fluid">

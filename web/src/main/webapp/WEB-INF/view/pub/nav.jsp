@@ -33,7 +33,7 @@
                 </dl>
             </li>
             <c:forEach items="${navs}" var="nav" >
-                <li class="layui-nav-item ">
+                <li class="layui-nav-item layui-nav-itemed">
                     <a class="javascript:;" >${nav.currNode.powerName}<span class="layui-nav-more"></span></a>
                     <dl class="layui-nav-child">
                         <c:forEach items="${nav.childrenNode}" var="node">
