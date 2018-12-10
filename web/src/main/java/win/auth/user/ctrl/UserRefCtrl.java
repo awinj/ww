@@ -6,7 +6,9 @@ import awin.dao.persistence.type.SQLParameter;
 import awin.dao.sql.util.SelectString;
 import awin.logger.Logger;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import win.pub.ctrl.RefController;
 import win.pub.ctrl.WinRefController;
 import win.pub.model.RefModel;
@@ -23,11 +25,18 @@ import java.util.List;
 @RequestMapping("doc/user")
 public class UserRefCtrl extends RefController{
 
-    private String pkval;
-    public RefModel ref(String pkval)
+    @RequestMapping("ref")
+    @ResponseBody
+    public RefModel ref()
     {
-        this.pkval=pkval;
-        return null;
+        return super.refdata();
+    }
+
+    @RequestMapping("disp")
+    @ResponseBody
+    protected String disp(@RequestBody String pkval)
+    {
+        return super.getDispVal(pkval);
     }
 
     protected String[] getTheadData() {
@@ -47,10 +56,8 @@ public class UserRefCtrl extends RefController{
 
 
     protected List<Object> getTbodyData() {
-        SQLParameter parameter=new SQLParameter();
-        parameter.addParam(pkval);
         try {
-            SelectString sql=new SelectString().select(getDbField()).from(getTableName()).where(getDbField()[0]+"=? and dr='N'");
+            SelectString sql=new SelectString().select(getDbField()).from(getTableName()).where(" dr='N'");
             List ret=getServer().query4List(sql.toString());
             return ret;
         } catch (FromParaNullException e) {
@@ -62,10 +69,6 @@ public class UserRefCtrl extends RefController{
         return null;
     }
 
-    protected String getDispVal(String pkval)
-    {
-        return getServer().getValue(getTableName(),getDbField()[1],getDbField()[0],pkval);
-    }
 
     protected String getTitle() {
         return "用户信息";

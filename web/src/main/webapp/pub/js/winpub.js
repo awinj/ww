@@ -163,8 +163,6 @@ function loadTable(id, layfilter, cols) {
            
         });
 
-
-
     });
 }
 
@@ -209,6 +207,7 @@ function doDelete(selectedPks) {
 
 function doAdd() {
     clearForm("#formdiv");//清空表单
+    refreload();//设置参照
     layer.open({
         type:1,
         content: $('#formdiv'),
@@ -220,6 +219,7 @@ function doAdd() {
 function doUpdate(selectedData) {
     clearForm("#formdiv");//清空表单
     setFormValue(selectedData);
+    refreload();//设置参照
     layer.open({
         type:1,
         content: $('#formdiv'),
@@ -233,7 +233,7 @@ function doElse(event,data) {
 }
 
 function clearForm(id) {
-    $(id + " input").not(":radio").not(":checkbox").val("");//清空表单,排除radio，否则导致radio取值取不了
+    $(id + " input").not(":radio").not(":checkbox").val("");//清空表单,排除radio
 }
 
 
@@ -257,4 +257,34 @@ function closelayer() {
 function nodeExtend(obj) {
     var id=obj.id;
     $("#"+id+" ul").toggle();
+}
+
+
+
+
+function refreload() {
+    $("[ref]").each(function () {
+        var selector=$(this);
+        var ref=selector.attr("ref");
+        var pkval=selector.val();
+        var dispval=disp(ref,pkval);
+        $(this).css("display","none");
+        $(this).after('<span onclick="refclick(this,\''+ref+'\',false)"> '+dispval+'</span>');
+    });
+}
+
+
+function disp(ref,pkval) {
+    if(pkval==null||pkval.length<=0)
+        return "";
+    if(ref==null||ref.length<=0)
+        return "";
+    var display=httpPost("/ww/doc/"+ref+"/disp",JSON.stringify(pkval),"text");
+    display="wsw";
+    return display;
+
+};
+
+function refclick(obj,ref,isMuti) {
+    layuiRefdoc(obj,"/ww/doc/"+ref+"/ref",false);
 }

@@ -19,7 +19,7 @@ public  class BasicConnection {
 		DataSource ds=new DataSource();
 		ds.setIpAddress("127.0.0.1");
 //		ds.setIpAddress("192.168.0.105");
-		ds.setUserName("rpt");
+		ds.setUserName("ww");
 		ds.setPassword("1");
 		ds.setPort("1521");
 		ds.setDataName("orcl");
@@ -78,6 +78,7 @@ public  class BasicConnection {
 		p.setProperty("minIdle","2");//最小空闲连接
 		p.setProperty("maxIdle", "20");//最大空闲连接
 		p.setProperty("initialSize","10");//初始化连接数
+		p.setProperty("logAbandoned","true");//被丢弃的数据库连接是否做记录，以便跟踪
 		p.setProperty("removeAbandoned","true");// 是否自动回收超时连接
 		p.setProperty("removeAbandonedTimeout","300");//超时时间(以秒数为单位)
 		p.setProperty("maxWait","200");//超时等待时间以毫秒为单位 1000等于60秒

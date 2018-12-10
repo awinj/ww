@@ -261,6 +261,7 @@ public class BaseDAO {
 	 * @return 返回持久层实例
 	 */
 	private Persistence getPersistence() throws DAOException {
+		//// FIXME: 2018-12-10 如何避免使用同一个dao出现关闭的连接错误
 		if(persistence==null)
 		{
 			persistence=new Persistence();

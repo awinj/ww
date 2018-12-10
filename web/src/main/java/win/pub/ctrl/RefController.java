@@ -17,6 +17,20 @@ public abstract class RefController {
 
     protected abstract String getTitle();
 
+
+    protected abstract String[] getDbField();
+
+    protected abstract String getTableName();
+
+    public abstract RefModel ref();
+
+    protected abstract String disp(String pkval) ;
+
+    protected String getDispVal(String pkval)
+    {
+        return getServer().getValue(getTableName(),getDbField()[1],getDbField()[0],pkval);
+    }
+
     protected  boolean isMuti()
     {
         return false;

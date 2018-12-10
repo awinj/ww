@@ -17,44 +17,10 @@
 
 </head>
 <body>
-    <input class="winref" name="pk_user" disp="dispval('auth_user','userName','pk_user')"
-           onclick="winref(this,'auth_user','userName','pk_user')" value="ww201811271642561001">
+    <input class="winref" name="pk_user" ref="user"   value="ww201811271642561001">
 </body>
 <script type="application/javascript">
 
-    $(document).ready(function () {
-        $(".winref").each(function () {
-            var selector=$(this);
-            var code=selector.attr("disp");
-            var pkval=selector.val();
-            var inputname="input[name=\'"+selector.attr("name")+"\']";
-            code=code.replace("dispval(","dispval('"+pkval+"',");
-            code="var tmp="+code+";return tmp;"//需要拼接返回方法体；
-            var dispval=new Function(code)();
-//            $(this).css("display","none");
-            $(this).after("<span onclick='layuiRefdoc(this,null,false)'>"+dispval+"</span>");
-        })
-    });
 
-    function dispval(pkval,table,column,pkfield) {
-        if(pkval==null||pkval.length<=0)
-            return "";
-        if(table==null||table.length<=0)
-            return "";
-        if(column==null||column.length<=0)
-            return "";
-        if(pkfield==null||pkfield.length<=0)
-            return "";
-        var data={table:table,
-            column:column,
-            pkfield:pkfield,
-            pkval:pkval
-        };
-        var display=httpPost("/ww/pub/val",JSON.stringify(data),"text");
-
-        display="wsw";
-        return display;
-
-    };
 </script>
 </html>

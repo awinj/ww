@@ -58,6 +58,7 @@ public  class Persistence {
 		try {
 			con=BasicConnection.getInstance().getConnection();
 		} catch (ConnectionException e) {
+			Logger.Error(e.getMessage());
 			throw new DAOException("数据库连接失败");
 		}
 	}

@@ -101,7 +101,7 @@
                 <label class="layui-form-label">创建人</label>
                 <div class="layui-input-inline">
                     <input name="creator" class="layui-input" type="text" placeholder="请输入创建人" value=""
-                           autocomplete="off" lay-verify="creator"/>
+                           autocomplete="off" lay-verify="creator" ref="user"/>
                 </div>
             </div>
             <div class="layui-inline">

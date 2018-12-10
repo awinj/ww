@@ -100,11 +100,7 @@ function bootstrapRefdoc(dispfield,pkfield,refdata,isMuti){
     }
  */
 function layuiRefdoc(dispfield,refdata,isMuti) {
-    refdata = {
-        theadData: ["pk","编码", '名称'],
-        tbodyData: [["pk1","01", "德启"], ["pk2","02", "德启"]],
-        title: '公司目录',
-    };
+    refdata = httpPost(refdata);
     var thisObj = $(dispfield);
     console.log(thisObj);
     // var selectedVals=$(pkfield).val();//获取选中的值
