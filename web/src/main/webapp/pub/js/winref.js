@@ -99,7 +99,7 @@ function bootstrapRefdoc(dispfield,pkfield,refdata,isMuti){
         title:'',
     }
  */
-function layuiRefdoc(dispfield,pkfield,refdata,isMuti) {
+function layuiRefdoc(dispfield,refdata,isMuti) {
     refdata = {
         theadData: ["pk","编码", '名称'],
         tbodyData: [["pk1","01", "德启"], ["pk2","02", "德启"]],
@@ -107,7 +107,8 @@ function layuiRefdoc(dispfield,pkfield,refdata,isMuti) {
     };
     var thisObj = $(dispfield);
     console.log(thisObj);
-    var selectedVals=$(pkfield).val();//获取选中的值
+    // var selectedVals=$(pkfield).val();//获取选中的值
+    var selectedVals=$(dispfield).prev().val();
     if(selectedVals.indexOf(",")<0)  //将selectedVals转化为数组
         selectedVals=[selectedVals];
     else
@@ -152,26 +153,33 @@ function layuiRefdoc(dispfield,pkfield,refdata,isMuti) {
     }
     str+="</tbody></table>";
 
-    layer.open({
-        title:refdata.title,
-        content: str,
-        yes: function(index, layero){
-            var selectPks=new Array();
-            var selectNames=new Array();
-            $("input[name='refchk']:checked").each(function () {
-                var eleid=$(this).prop("id");
-                if(eleid!='selecAll')
-                {
-                    selectPks.push($(this).val());
-                    if($(this).parent()!=null&&$(this).parent().next()!=null)
-                        selectNames.push($(this).parent().next().html());
-                }
-            });
-            $(dispfield).val(selectNames);//显示参照框的第一个字段
-            $(pkfield).val(selectPks);//隐藏的pk值为checkbox的value
-            layer.close(index); //如果设定了yes回调，需进行手工关闭
-        }
+    layui.use('layer', function () {
+        var layer=layui.layer;
+        layer.open({
+            title:refdata.title,
+            content: str,
+            yes: function(index, layero){
+                var selectPks=new Array();
+                var selectNames=new Array();
+                $("input[name='refchk']:checked").each(function () {
+                    var eleid=$(this).prop("id");
+                    if(eleid!='selecAll')
+                    {
+                        selectPks.push($(this).val());
+                        if($(this).parent()!=null&&$(this).parent().next()!=null)
+                            selectNames.push($(this).parent().next().html());
+                    }
+                });
+                // $(dispfield).val(selectNames);//显示参照框的第一个字段
+                $(dispfield).html(selectNames);//显示参照框的第一个字段
+                // $(pkfield).val(selectPks);//隐藏的pk值为checkbox的value
+                $(dispfield).prev().val(selectPks);
+                layer.close(index); //如果设定了yes回调，需进行手工关闭
+            }
+        });
     });
+
+
 
 
 

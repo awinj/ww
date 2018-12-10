@@ -1,6 +1,7 @@
 package win.pub.ctrl;
 
 import win.pub.model.RefModel;
+import win.pub.srv.PubServer;
 
 import java.util.List;
 
@@ -21,7 +22,7 @@ public abstract class RefController {
     }
 
 
-    public RefModel ref()
+    public RefModel refdata()
     {
         RefModel model=new RefModel();
         model.setMuti(isMuti());
@@ -29,5 +30,10 @@ public abstract class RefController {
         model.setTheadData(getTheadData());
         model.setTitle(getTitle());
         return model;
+    }
+
+    protected PubServer getServer()
+    {
+        return new PubServer();
     }
 }

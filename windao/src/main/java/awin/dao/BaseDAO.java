@@ -115,6 +115,20 @@ public class BaseDAO {
 		return ret;
 	}
 
+	public  List query4List(String sql, SQLParameter parameter) throws  DAOException {
+		ResultSet rs=getPersistence().query(sql,parameter);
+		List ret= getResultSetUtil().toArrayList(rs);
+		close(rs,getPersistence());
+		return ret;
+	}
+
+	public  List query4List(String sql) throws  DAOException {
+		ResultSet rs=getPersistence().query(sql);
+		List ret= getResultSetUtil().toArrayList(rs);
+		close(rs,getPersistence());
+		return ret;
+	}
+
 	/**
 	 *一般用于固定条件查询，例如 dr='N'
 	 * @param c 查询的类型
@@ -166,13 +180,25 @@ public class BaseDAO {
 
 
 	/**
-	 *  返回int 值
+	 *  返回第一行第一列值
 	 * @param sql sql语句
 	 * @return
 	 * @throws DAOException
 	 */
-	public Integer query(String sql) throws DAOException {
-		Integer ret= getResultSetUtil().firstToInt(getPersistence().query(sql));
+	public Object query4First(String sql) throws DAOException {
+		Object ret= getResultSetUtil().firstToObject(getPersistence().query(sql));
+		getPersistence().closeAll();
+		return ret;
+	}
+
+	/**
+	 *  返回第一行第一列值
+	 * @param sql sql语句
+	 * @return
+	 * @throws DAOException
+	 */
+	public Object query4First(String sql,SQLParameter parameter) throws DAOException {
+		Object ret= getResultSetUtil().firstToObject(getPersistence().query(sql,parameter));
 		getPersistence().closeAll();
 		return ret;
 	}

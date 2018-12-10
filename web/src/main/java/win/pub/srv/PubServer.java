@@ -4,6 +4,7 @@ import awin.bean.SuperVO;
 import awin.bean.VOState;
 import awin.dao.BaseDAO;
 import awin.dao.exception.DAOException;
+import awin.dao.persistence.type.SQLParameter;
 import awin.logger.Logger;
 import win.pub.vo.AggVO;
 import win.pub.vo.BusinessException;
@@ -146,5 +147,15 @@ public class PubServer implements IVOServer {
             Logger.Error(e.getMessage(), e);
             return null;
         }
+    }
+
+
+
+    public List query4List( String sql, SQLParameter parameter) throws  DAOException {
+        return getDao().query4List(sql,parameter);
+    }
+
+    public List query4List( String sql) throws  DAOException {
+        return getDao().query4List(sql);
     }
 }

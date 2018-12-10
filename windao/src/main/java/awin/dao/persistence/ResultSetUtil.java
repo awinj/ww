@@ -88,22 +88,8 @@ public class ResultSetUtil {
      * @param rs 数据集
      * @return 数组
      */
-    public Object[] firstToArray(ResultSet rs) throws BaseException {
-        try
-        {
-            ResultSetMetaData meta = rs.getMetaData();
-            int cols = meta.getColumnCount();
-            Object[] result = new Object[cols];
-
-            for (int i = 0; i < cols; i++) {
-                result[i] = rs.getObject(i + 1);
-            }
-            return result;
-        }
-       catch (Exception e)
-       {
-           throw new BaseException(e.getMessage(),e);
-       }
+    public Object[] firstToArray(ResultSet rs) throws SQLException {
+        return rs.next() ? toArray(rs) : null;
     }
 
     /**
@@ -141,5 +127,31 @@ public class ResultSetUtil {
             throw new DAOException(e.getMessage(), e);
         }
         return null;
+    }
+
+
+    public List toArrayList(ResultSet rs) throws DAOException {
+
+        List result = new ArrayList();
+        try {
+        while (rs.next()) {
+
+                result.add(toArray(rs));
+
+        }
+        } catch (SQLException e) {
+            throw new DAOException(e.getMessage(),e);
+        }
+        return result;
+    }
+
+    public  Object[] toArray(ResultSet rs) throws SQLException {
+        ResultSetMetaData meta = rs.getMetaData();
+        int cols = meta.getColumnCount();
+        Object[] result = new Object[cols];
+        for (int i = 0; i < cols; i++) {
+            result[i] = rs.getObject(i + 1);
+        }
+        return result;
     }
 }

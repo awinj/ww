@@ -1,55 +1,60 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<div id="formdiv" class="formdiv">
-    <fieldset class="layui-elem-field layui-field-title">
-        <legend>角色</legend>
-    </fieldset>
-    <form class="layui-form winadmin" id="formpanl" action="" lay-filter="form_filter">
-        <div class="layui-form-item" layui-hide><label class="layui-form-label">主键</label>
-            <div class="layui-input-inline"><input name="pk_role" class="layui-input" type="text" placeholder="请输入主键"
-                                                   value="" autocomplete="off" lay-verify="pk_role"/></div>
-        </div>
-        <div class="layui-form-item"><label class="layui-form-label">角色编码</label>
-            <div class="layui-input-inline"><input name="roleCode" class="layui-input" type="text" placeholder="请输入角色编码"
-                                                   value="" autocomplete="off" lay-verify="roleCode"/></div>
-        </div>
-        <div class="layui-form-item"><label class="layui-form-label">角色名称</label>
-            <div class="layui-input-inline"><input name="roleName" class="layui-input" type="text" placeholder="请输入角色名称"
-                                                   value="" autocomplete="off" lay-verify="roleName"/></div>
-        </div>
-        <div class="layui-form-item"><label class="layui-form-label">角色类型</label>
-            <div class="layui-input-inline"><input name="roleType" class="layui-input" type="text" placeholder="请输入角色类型"
-                                                   value="" autocomplete="off" lay-verify="roleType"/></div>
-        </div>
-        <div class="layui-form-item"><label class="layui-form-label">备注</label>
-            <div class="layui-input-inline"><input name="memo" class="layui-input" type="text" placeholder="请输入备注"
-                                                   value="" autocomplete="off" lay-verify="memo"/></div>
-        </div>
-        <div class="layui-form-item"><label class="layui-form-label">是否锁定</label>
-            <div class="layui-input-inline"><input name="enable" type="checkbox" lay-skin="switch" lay-text="是|否"
-                                                   value="Y"></div>
-        </div>
-        <div class="layui-form-item">
-            <div class="layui-inline"><label class="layui-form-label">修改人</label>
-                <div class="layui-input-inline"><input name="modifier" class="layui-input" type="text"
-                                                       placeholder="请输入修改人" value="" autocomplete="off"
-                                                       lay-verify="modifier"/></div>
-            </div>
-            <div class="layui-inline"><label class="layui-form-label">修改时间</label>
-                <div class="layui-input-inline"><input name="modifyTime" class="layui-input" type="text"
-                                                       placeholder="yyyy-MM-dd" value="" autocomplete="off"
-                                                       lay-verify="nullOrDate"/></div>
-            </div>
-        </div>
-        <div class="layui-form-item bodydata">
-            <table class="layui-hide" id="bodydata_table" lay-filter="bodydata"></table>
-        </div>
-        <div class="layui-form-item">
-            <div class="layui-input-block ">
-                <button class="layui-btn" lay-submit lay-filter="form_save">保存</button>
-                <button type="button" class="layui-btn layui-btn-primary" lay-filter="form_close"
-                        onclick="closelayer()">取消
-                </button>
-            </div>
-        </div>
-    </form>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>瓷上世界陶瓷数据库-互动交流</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/common.css">
+    <script src="js/jquery-1.11.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="/ww/pub/layui/css/layui.css">
+    <link rel="stylesheet" href="/ww/pub/css/winpub.css">
+    <script src="/ww/pub/layui/layui.js"></script>
+
+    <script src="js/winpub.js"></script>
+    <script src="js/winref.js"></script>
+
+</head>
+<body>
+    <input class="winref" name="pk_user" disp="dispval('auth_user','userName','pk_user')"
+           onclick="winref(this,'auth_user','userName','pk_user')" value="ww201811271642561001">
+</body>
+<script type="application/javascript">
+
+    $(document).ready(function () {
+        $(".winref").each(function () {
+            var selector=$(this);
+            var code=selector.attr("disp");
+            var pkval=selector.val();
+            var inputname="input[name=\'"+selector.attr("name")+"\']";
+            code=code.replace("dispval(","dispval('"+pkval+"',");
+            code="var tmp="+code+";return tmp;"//需要拼接返回方法体；
+            var dispval=new Function(code)();
+//            $(this).css("display","none");
+            $(this).after("<span onclick='layuiRefdoc(this,null,false)'>"+dispval+"</span>");
+        })
+    });
+
+    function dispval(pkval,table,column,pkfield) {
+        if(pkval==null||pkval.length<=0)
+            return "";
+        if(table==null||table.length<=0)
+            return "";
+        if(column==null||column.length<=0)
+            return "";
+        if(pkfield==null||pkfield.length<=0)
+            return "";
+        var data={table:table,
+            column:column,
+            pkfield:pkfield,
+            pkval:pkval
+        };
+        var display=httpPost("/ww/pub/val",JSON.stringify(data),"text");
+
+        display="wsw";
+        return display;
+
+    };
+</script>
+</html>
