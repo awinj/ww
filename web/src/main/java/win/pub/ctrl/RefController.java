@@ -2,6 +2,7 @@ package win.pub.ctrl;
 
 import win.pub.model.RefModel;
 import win.pub.srv.PubServer;
+import win.pub.srv.WinRefServer;
 
 import java.util.List;
 
@@ -32,8 +33,8 @@ public abstract class RefController {
         return model;
     }
 
-    protected PubServer getServer()
+    protected WinRefServer getServer()
     {
-        return new PubServer();
+        return new WinRefServer();
     }
 }

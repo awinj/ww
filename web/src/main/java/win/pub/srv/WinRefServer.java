@@ -6,6 +6,8 @@ import awin.dao.persistence.type.SQLParameter;
 import awin.logger.Logger;
 import awin.util.parse.ParseUtil;
 
+import java.util.List;
+
 /**
  * Created by aWin on 2018-12-10.
  *
@@ -37,4 +39,13 @@ public class WinRefServer {
         return "";
     }
 
+
+
+    public List query4List(String sql, SQLParameter parameter) throws  DAOException {
+        return getDao().query4List(sql,parameter);
+    }
+
+    public List query4List( String sql) throws  DAOException {
+        return getDao().query4List(sql);
+    }
 }

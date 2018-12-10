@@ -150,12 +150,4 @@ public class PubServer implements IVOServer {
     }
 
 
-
-    public List query4List( String sql, SQLParameter parameter) throws  DAOException {
-        return getDao().query4List(sql,parameter);
-    }
-
-    public List query4List( String sql) throws  DAOException {
-        return getDao().query4List(sql);
-    }
 }
