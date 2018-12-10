@@ -28,7 +28,7 @@ public class WinRefServer {
         SQLParameter parameter=new SQLParameter();
         parameter.addParam(pkval);
         try {
-            Object ret=getDao().query(sql.toString(),parameter);
+            Object ret=getDao().query4First(sql.toString(),parameter);
             return ParseUtil.parseString(ret);
         } catch (DAOException e) {
             Logger.Error("参照档案出现异常");
