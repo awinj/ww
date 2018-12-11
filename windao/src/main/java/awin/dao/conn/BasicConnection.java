@@ -19,7 +19,7 @@ public  class BasicConnection {
 		DataSource ds=new DataSource();
 		ds.setIpAddress("127.0.0.1");
 //		ds.setIpAddress("192.168.0.105");
-		ds.setUserName("ww");
+		ds.setUserName("rpt");
 		ds.setPassword("1");
 		ds.setPort("1521");
 		ds.setDataName("orcl");

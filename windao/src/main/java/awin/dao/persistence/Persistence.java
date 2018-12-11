@@ -17,7 +17,6 @@ import awin.dao.persistence.type.SQLParameter;
 import awin.dao.sql.util.*;
 import awin.logger.Logger;
 import awin.pub.Generator;
-import sun.rmi.runtime.Log;
 
 public  class Persistence {
 
@@ -65,9 +64,9 @@ public  class Persistence {
 
 	/**
 	 * 新增数据
-	 * @param vo
-	 * @return
-	 * @throws DAOException
+	 * @param vo vo实例，不为空
+	 * @return 返回主键
+	 * @throws DAOException 异常
 	 */
 	 public String insert(IORM vo) throws DAOException
 	{
@@ -101,9 +100,9 @@ public  class Persistence {
 
 	/**
 	 * 批量新增
-	 * @param vos
-	 * @return
-	 * @throws DAOException
+	 * @param vos 实例，不为空
+	 * @return 返回主键
+	 * @throws DAOException 异常
 	 */
 	public String[] insert(IORM[] vos) throws DAOException
 	{
@@ -147,9 +146,9 @@ public  class Persistence {
 
 	/**
 	 * 更新数据
-	 * @param vo
-	 * @return
-	 * @throws DAOException
+	 * @param vo vo实例，不为空
+	 * @return 更新的行数
+	 * @throws DAOException 异常
 	 */
 	 public int update(IORM vo) throws DAOException {
 		 try {
@@ -163,9 +162,7 @@ public  class Persistence {
              stmt.clearParameters();
              SQLParameter parameter = getSQLParam(vo,columns , type);
              DBUtil.setStatementParameter(stmt, parameter);//j将参数传入到语句中
-             int ret= stmt.executeUpdate();
-
-			 return ret;
+             return stmt.executeUpdate();
 		 } catch (Exception e) {
 			 throw new DAOException(e.getMessage(),e);
 		 }
@@ -173,9 +170,9 @@ public  class Persistence {
 
 	/**
 	 * 根据主键删除数据
-	 * @param vo
-	 * @return
-	 * @throws DAOException
+	 * @param vo vo实例，不为空
+	 * @return 删除的行数
+	 * @throws DAOException 异常
 	 */
 	 public int delete(IORM vo)throws DAOException
 	 {
@@ -187,9 +184,7 @@ public  class Persistence {
 			 SQLParameter parameter=new SQLParameter();
 			 parameter.addParam(vo.getAttrValue(vo.getPrimaryKey()));
 			 DBUtil.setStatementParameter(stmt, parameter);//j将参数传入到语句中
-			 int ret= stmt.executeUpdate();
-
-			 return ret;
+			return stmt.executeUpdate();
 		 } catch (Exception e) {
 			 throw new DAOException(e.getMessage(),e);
 		 }
@@ -198,16 +193,14 @@ public  class Persistence {
 
 	/**
 	 * 执行更新或删除语句，一般用于固定语句，例如 delete from table where dr='Y'
-	 * @param sql
-	 * @return
-	 * @throws DAOException
+	 * @param sql 语句
+	 * @return 影响的行数
+	 * @throws DAOException 异常
 	 */
 	 public int executeUpdate(String sql) throws DAOException {
 		 try {
 			 Statement stmt =getPrepStatement(sql);
-			 int ret= stmt.executeUpdate(sql);
-
-			 return ret;
+			 return stmt.executeUpdate(sql);
 		 } catch (Exception e) {
 			Logger.Error(e.getMessage(),e);
 			 throw new DAOException(e.getMessage(),e);
@@ -216,19 +209,17 @@ public  class Persistence {
 
 	/**
 	 * 执行更新或删除语句
-	 * @param sql
-	 * @param parameter
-	 * @return
-	 * @throws DAOException
+	 * @param sql 语句
+	 * @param parameter 参数
+	 * @return 影响的行数
+	 * @throws DAOException 异常
 	 */
 	public int executeUpdate(String sql,SQLParameter parameter) throws DAOException {
 		try {
 			PreparedStatement stmt =getPrepStatement(sql);
 			if(parameter!=null)
 				DBUtil.setStatementParameter(stmt, parameter);//j将参数传入到语句中
-			int ret= stmt.executeUpdate();
-
-			return ret;
+			return stmt.executeUpdate();
 		} catch (Exception e) {
 			Logger.Error(e.getMessage(),e);
 			throw new DAOException(e.getMessage(),e);
@@ -237,9 +228,9 @@ public  class Persistence {
 
 	/**
 	 * 根据主键批量删除数据
-	 * @param vos
-	 * @return
-	 * @throws DAOException
+	 * @param vos vo实例，不为空
+	 * @return 删除的行数
+	 * @throws DAOException 异常
 	 */
 	public int delete(IORM[] vos)throws DAOException
 	{
@@ -255,9 +246,7 @@ public  class Persistence {
 //				stmt.addBatch();
 			}
 			DBUtil.setStatementParameter(stmt, parameters);//j将参数传入到语句中
-			int ret= stmt.executeUpdate();
-
-			return ret;
+			return stmt.executeUpdate();
 		} catch (Exception e) {
 			throw new DAOException(e.getMessage(),e);
 		}
@@ -265,9 +254,9 @@ public  class Persistence {
 
 	/**
 	 * 查询c的所有数据
-	 * @param c
-	 * @return
-	 * @throws DAOException
+	 * @param c IORM的子类
+	 * @return 结果集
+	 * @throws DAOException 异常
 	 */
 	 public ResultSet query(Class c) throws DAOException {
 		 return queryByWhere(c,null);
@@ -275,10 +264,10 @@ public  class Persistence {
 
 	/**
 	 * 根据主键值查询数据
-	 * @param c
-	 * @param pk
-	 * @return
-	 * @throws DAOException
+	 * @param c IORM的子类
+	 * @param pk 主键值
+	 * @return 数据集
+	 * @throws DAOException 异常
 	 */
 	public ResultSet queryByPk(Class c,String pk) throws DAOException {
 		IORM vo= BeanHelper.createBean(c);
@@ -301,17 +290,15 @@ public  class Persistence {
 	/**
 	 * 必须为静态的sql,如果通过外界传入的参数进行拼接成的sql，会有sql注入的风险
 	 * @param sql 静态的可执行sql查询语句。
-	 * @return
-	 * @throws DAOException
+	 * @return 结果集
+	 * @throws DAOException 异常
 	 */
 	public ResultSet query(String sql) throws DAOException
 	{
 		try {
 			Statement stmt =getStatement();
 			Logger.Debug("query sql:"+sql);
-			ResultSet rs= stmt.executeQuery(sql);
-
-			return rs;
+			return stmt.executeQuery(sql);
 		} catch (Exception e) {
 			throw new DAOException(e.getMessage(),e);
 		}
@@ -324,9 +311,7 @@ public  class Persistence {
 			PreparedStatement stmt =getPrepStatement(sql);
 			Logger.Debug("query sql:"+sql);
 			DBUtil.setStatementParameter(stmt, parameter);//j将参数传入到语句中
-			ResultSet rs= stmt.executeQuery();
-
-			return rs;
+			return stmt.executeQuery();
 		} catch (Exception e) {
 			throw new DAOException(e.getMessage(),e);
 		}
@@ -335,10 +320,10 @@ public  class Persistence {
 
 	/**
 	 * 一般用于固定条件查询，例如 dr='N'
-	 * @param c
-	 * @param where
-	 * @return
-	 * @throws DAOException
+	 * @param c IORM的子类
+	 * @param where  固定的查询条件
+	 * @return 结果集
+	 * @throws DAOException 异常
 	 */
 	 public ResultSet queryByWhere(Class c,String where)throws DAOException
 	 {
@@ -361,11 +346,11 @@ public  class Persistence {
 
 	/**
 	 * 根据条件查询vo类对应的表数据
-	 * @param c
-	 * @param where
-	 * @param parameter
-	 * @return
-	 * @throws DAOException
+	 * @param c IORM的子类
+	 * @param where 条件
+	 * @param parameter 参数
+	 * @return 结果集
+	 * @throws DAOException 异常
 	 */
     public ResultSet queryByWhere(Class c,String where,SQLParameter parameter)throws DAOException
     {
@@ -389,10 +374,10 @@ public  class Persistence {
 
 	/**
 	 * 慎重使用,有sql注入的风险
-	 * @param c
+	 * @param c IORM的子类
 	 * @param where 固定的条件，如果由变量拼接参数，请调用queryByWhere(Class c,String where,SQLParameter parameter) 方法
-	 * @return
-	 * @throws DAOException
+	 * @return 结果集
+	 * @throws DAOException 异常
 	 */
 	 private int deleteByWhere(Class c,String where) throws DAOException {
 		 IORM vo=BeanHelper.createBean(c);
@@ -411,7 +396,7 @@ public  class Persistence {
 	 * @param c VO 类
 	 * @param index 页码
 	 * @param pageSize 每页条数
-	 * @return
+	 * @return 结果集
 	 */
 	 public ResultSet queryByPager(Class c,Map<String,Object> con,Integer index,Integer pageSize) throws DAOException {
 		if(index==null)
@@ -420,8 +405,7 @@ public  class Persistence {
 		 	pageSize=10;
 
 		 StringBuilder where=new StringBuilder();
-		 SQLParameter parameter=new SQLParameter();
-		 initWhereParaByCon(con, where, parameter);
+		 SQLParameter parameter=initWhereParaByCon(con, where);
 		 IORM vo=BeanHelper.createBean(c);
 		if(vo!=null)
 		{
@@ -446,11 +430,10 @@ public  class Persistence {
 	 * val 添加到 parameter 变量中
 	 * @param con key-val
 	 * @param where 待初始化的条件变量
-	 * @param parameter 待初始化的参数变量
 	 */
-	private void initWhereParaByCon(Map<String, Object> con, StringBuilder where, SQLParameter parameter) {
+	private SQLParameter initWhereParaByCon(Map<String, Object> con, StringBuilder where) {
 		where=new StringBuilder("1=1 ");
-		parameter.clearParams();
+		SQLParameter parameter=new SQLParameter();
 		if(con!=null)
         {
             for(String key : con.keySet())
@@ -463,20 +446,20 @@ public  class Persistence {
                 }
             }
         }
+        return parameter;
 	}
 
 	/**
 	 * 根据条件查询数据库包含数据的数量
-	 * @param c vo类名
+	 * @param c vo类名 IORM的子类
 	 * @param con 条件map
-	 * @return
-	 * @throws DAOException
+	 * @return 结果集
+	 * @throws DAOException 异常
 	 */
 	public ResultSet queryCount(Class c,Map<String,Object> con) throws DAOException {
 
 		 StringBuilder where=new StringBuilder();
-		 SQLParameter parameter=new SQLParameter();
-		initWhereParaByCon(con, where, parameter);
+		 SQLParameter parameter=initWhereParaByCon(con, where);
 
 		IORM vo=BeanHelper.createBean(c);
          if(vo!=null)
@@ -503,17 +486,17 @@ public  class Persistence {
 	/**
 	 * 得到有效的列名称
 	 *根据vo的属性与数据库的列名交集为有效的列名。
-	 * @param vo vo
+	 * @param vo vo实例，不为空 vo
 	 * @param types  <列，类型>
 	 * @return 得到有效的列名称
 	 */
 	private String[] getValidNames(final IORM vo, Map types) {
 		String names[] = vo.getAttrNames();
 		List<String> nameList = new ArrayList<String>();
-		for (int i = 0; i < names.length; i++) {
-			if (types.get(names[i].toUpperCase()) != null
-					&& !names[i].equalsIgnoreCase("ts")) {
-				nameList.add(names[i]);
+		for (String name : names) {
+			if (types.get(name.toUpperCase()) != null
+					&& !name.equalsIgnoreCase("ts")) {
+				nameList.add(name);
 			}
 		}
 		return  nameList.toArray(new String[] {});
@@ -582,13 +565,13 @@ public  class Persistence {
 		return dbmd;
 	}
 
-	public int getDBType() {
+	private int getDBType() {
 		return DBUtil.getDbType(getMetaData());
 	}
 
 
 
-	public String getSchema() {
+	private String getSchema() {
 		String strSche = null;
 		try {
 			String schema = getMetaData().getUserName();
@@ -613,7 +596,7 @@ public  class Persistence {
 
 	/**
 	 * 得到参数列表
-	 * @param vo vo
+	 * @param vo vo实例，不为空 vo
 	 * @param names 合法列名
 	 * @param types <列，类型>
 	 * @return 得到参数列表
@@ -621,11 +604,11 @@ public  class Persistence {
 	private SQLParameter getSQLParam(IORM vo, String names[],
 									 Map<String, Integer> types) {
 		SQLParameter params = new SQLParameter();
-		for (int i = 0; i < names.length; i++) {
-			if (names[i].equalsIgnoreCase("ts"))
+		for (String name : names) {
+			if (name.equalsIgnoreCase("ts"))
 				continue;
-			int type = types.get(names[i].toUpperCase());
-			Object value = vo.getAttrValue(names[i]);
+			int type = types.get(name.toUpperCase());
+			Object value = vo.getAttrValue(name);
 			if (value == null) {
 				params.addNullParam(type);
 				continue;
@@ -659,6 +642,7 @@ public  class Persistence {
 				con = null;
 			}
 		} catch (SQLException e) {
+			Logger.Error(e.getMessage());
 		}
 	}
 	private void closeStmt(Statement stmt) {
@@ -668,6 +652,7 @@ public  class Persistence {
 				stmt = null;
 			}
 		} catch (SQLException e) {
+			Logger.Error(e.getMessage());
 		}
 	}
 
@@ -680,6 +665,7 @@ public  class Persistence {
 		}
 		catch (SQLException e)
 		{
+			Logger.Error(e.getMessage());
 		}
 	}
 
