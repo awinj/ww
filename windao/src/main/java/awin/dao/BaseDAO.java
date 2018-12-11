@@ -372,7 +372,7 @@ public class BaseDAO {
      * @param c   类型
      * @param con 查询条件
      * @param <T> SuperVO子类
-     * @return
+     * @return 数据行数
      */
     public <T extends SuperVO> Integer queryCount(Class<T> c, Map<String, Object> con) throws DAOException {
         Persistence persistence = null;
