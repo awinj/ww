@@ -234,6 +234,7 @@ function doElse(event,data) {
 
 function clearForm(id) {
     $(id + " input").not(":radio").not(":checkbox").val("");//清空表单,排除radio
+    $(".refspan").html("");//清空参照的显示值
 }
 
 
@@ -262,6 +263,8 @@ function nodeExtend(obj) {
 
 
 
+//重新加载ref
+//将ref属性的input标签隐藏，并且增加一个用于显示名称的span标签
 function refreload() {
     $("[ref]").each(function () {
         var selector=$(this);
@@ -269,11 +272,11 @@ function refreload() {
         var pkval=selector.val();
         var dispval=disp(ref,pkval);
         $(this).css("display","none");
-        $(this).after('<span onclick="refclick(this,\''+ref+'\',false)"> '+dispval+'</span>');
+        $(this).after('<span class="refspan" onclick="refclick(this,\''+ref+'\',false)"> '+dispval+'</span>');
     });
 }
 
-
+//根据主键值显示ref参照的显示名称
 function disp(ref,pkval) {
     if(pkval==null||pkval.length<=0)
         return "";

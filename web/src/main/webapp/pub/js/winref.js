@@ -90,8 +90,7 @@ function bootstrapRefdoc(dispfield,pkfield,refdata,isMuti){
 
 /**
  *
- * @param dispfield 用于显示的字段
- * @param pkfield 存储pk值的隐藏字段
+ * @param dispfield 用于显示的字段，显示字段的prev必须为对应存放主键的input标签
  * @param ismuti 是否多选
  * @param refdata{
         theadData:[],
@@ -104,7 +103,7 @@ function layuiRefdoc(dispfield,refdata,isMuti) {
     var thisObj = $(dispfield);
     console.log(thisObj);
     // var selectedVals=$(pkfield).val();//获取选中的值
-    var selectedVals=$(dispfield).prev().val();
+    var selectedVals=$(dispfield).prev().val();//获取选中的值
     if(selectedVals.indexOf(",")<0)  //将selectedVals转化为数组
         selectedVals=[selectedVals];
     else
@@ -167,7 +166,7 @@ function layuiRefdoc(dispfield,refdata,isMuti) {
                     }
                 });
                 // $(dispfield).val(selectNames);//显示参照框的第一个字段
-                $(dispfield).html(selectNames);//显示参照框的第一个字段
+                $(dispfield).html(selectNames);//显示参照框的第一个字段，与参照类的取值对应。
                 // $(pkfield).val(selectPks);//隐藏的pk值为checkbox的value
                 $(dispfield).prev().val(selectPks);
                 layer.close(index); //如果设定了yes回调，需进行手工关闭
