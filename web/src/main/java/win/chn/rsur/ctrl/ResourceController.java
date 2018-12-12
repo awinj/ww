@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import win.chn.rsur.srv.ResourceServer;
 import win.chn.rsur.vo.ResourceAggVO;
-import win.chn.rsur.vo.ResourceVO;
+import win.chn.china.vo.ResourceVO;
 import win.pub.ctrl.BaseController;
 import win.pub.vo.Result;
 

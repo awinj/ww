@@ -7,5 +7,5 @@ import win.pub.vo.AggVO;
  *
  * @Description:
  */
-public class ChinaAggVO extends AggVO<ChinaVO,ChinaVO> {
+public class ChinaAggVO extends AggVO<ChinaVO,ResourceVO> {
 }

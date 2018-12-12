@@ -107,4 +107,9 @@ public  class BasicConnection {
 		}
 		return conn;
 	}
+
+	public BasicDataSource getDataSource()
+	{
+		return dataSource;
+	}
 }

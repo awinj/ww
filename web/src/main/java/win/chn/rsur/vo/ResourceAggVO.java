@@ -1,5 +1,6 @@
 package win.chn.rsur.vo;
 
+import win.chn.china.vo.ResourceVO;
 import win.pub.vo.AggVO;
 
 /**
@@ -7,5 +8,5 @@ import win.pub.vo.AggVO;
  *
  * @Description:
  */
-public class ResourceAggVO extends AggVO<ResourceVO,UserResourceVO> {
+public class ResourceAggVO extends AggVO<UserResourceVO,UserResourceVO> {
 }

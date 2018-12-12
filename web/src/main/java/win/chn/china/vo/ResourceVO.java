@@ -1,4 +1,4 @@
-package win.chn.rsur.vo;
+package win.chn.china.vo;
 
 import win.pub.vo.DocVO;
 
@@ -31,9 +31,15 @@ public class ResourceVO extends DocVO {
     }
 
     public String getPermtype() {
+        if(permtype==null||permtype.length()<=0)
+            permtype= PermType.Free;
         return permtype;
     }
 
+    /**
+     *
+     * @param permtype  请使用Permtype的常量
+     */
     public void setPermtype(String permtype) {
         this.permtype = permtype;
     }
