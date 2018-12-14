@@ -19,6 +19,9 @@ public class BaseDAO {
     //	Persistence persistence;
     private ResultSetUtil resultSetUtil;
 
+
+    private boolean isAutoCommit=true;
+
     /**
      * @param vo 插入的数据
      * @throws DAOException 异常
@@ -105,7 +108,7 @@ public class BaseDAO {
         try {
             persistence = createPersistence();
             int ret = persistence.delete(vos);
-            persistence.closeAll();
+            closePersistence(persistence);
             return ret;
         } catch (DAOException e) {
             handleException(e, persistence);
@@ -281,7 +284,7 @@ public class BaseDAO {
         try {
             persistence = createPersistence();
             Object ret = getResultSetUtil().firstToObject(persistence.query(sql));
-            persistence.closeAll();
+            closePersistence(persistence);
             return ret;
         } catch (DAOException e) {
             handleException(e, persistence);
@@ -301,7 +304,7 @@ public class BaseDAO {
         try {
             persistence = createPersistence();
             Object ret = getResultSetUtil().firstToObject(persistence.query(sql, parameter));
-            persistence.closeAll();
+            closePersistence(persistence);
             return ret;
         } catch (DAOException e) {
             handleException(e, persistence);
@@ -314,7 +317,7 @@ public class BaseDAO {
         try {
             persistence = createPersistence();
             int ret = persistence.executeUpdate(sql);
-            persistence.closeAll();
+            closePersistence(persistence);
             return ret;
         } catch (DAOException e) {
             handleException(e, persistence);
@@ -327,7 +330,7 @@ public class BaseDAO {
         try {
             persistence = createPersistence();
             int ret = persistence.executeUpdate(sql, parameter);
-            persistence.closeAll();
+            closePersistence(persistence);
             return ret;
         } catch (DAOException e) {
             handleException(e, persistence);
@@ -343,7 +346,7 @@ public class BaseDAO {
             persistence = createPersistence();
             String table = vo.getTableName();
             int ret = persistence.executeUpdate("delete from " + table + " where " + where);
-            persistence.closeAll();
+            closePersistence(persistence);
             return ret;
         } catch (DAOException e) {
             handleException(e, persistence);
@@ -358,7 +361,7 @@ public class BaseDAO {
         try {
             persistence = createPersistence();
             int ret = persistence.executeUpdate("delete from " + table + " where " + where, parameter);
-            persistence.closeAll();
+            closePersistence(persistence);
             return ret;
         } catch (DAOException e) {
             handleException(e, persistence);
@@ -379,7 +382,7 @@ public class BaseDAO {
         try {
             persistence = createPersistence();
             Integer ret = getResultSetUtil().firstToInt(persistence.queryCount(c, con));
-            persistence.closeAll();
+            closePersistence(persistence);
             return ret;
         } catch (DAOException e) {
             handleException(e, persistence);
@@ -397,11 +400,39 @@ public class BaseDAO {
         return resultSetUtil;
     }
 
+    private int timeout=100;
+
+    public void setTimeout(int timeout)
+    {
+        this.timeout=timeout;
+    }
+
+
+    void setAutoCommit(boolean autoCommit) {
+        isAutoCommit = autoCommit;
+    }
+    private Persistence transPersistence;
+
     /**
      * @return 返回持久层实例
      */
     private Persistence createPersistence() throws DAOException {
-        return new Persistence();
+
+        if(!isAutoCommit)  //如果不是自动提交，将返回同一个persistence。
+        {
+            if(transPersistence==null)
+            {
+                transPersistence=new Persistence();
+                transPersistence.setTimeout(timeout);
+            }
+            return transPersistence;
+        }
+        else    //如果是自动提交，则dao创造新的persitence。
+        {
+            Persistence persistence=new Persistence();
+            persistence.setTimeout(this.timeout);
+            return persistence;
+        }
     }
 
     private void closeResultSet(ResultSet rs) throws DAOException {
@@ -414,8 +445,25 @@ public class BaseDAO {
     }
 
     private void closePersistence(Persistence persistence) {
-        if (persistence != null)
+        //自动提交的时候，才会关闭，不自动提交的时候，需要等到commit或者rollback才会关闭
+        if (persistence != null&&isAutoCommit)
             persistence.closeAll();
+    }
+
+    /**
+     * 当dao添加到事务管理器中时，会采用transPersistence来读写数据库，
+     * 如果没有添加到事务管理器中，将为空。
+     * 同一个dao实例，返回的transPersistence也是同一个，同时也是同一个connection.
+     * 添加到事务管理器中的dao，执行完方法，连接的关闭将由事务管理器控制。
+     * @return 返回的transPersistence
+     */
+    Persistence getTransPersistence() throws DAOException {
+        if(transPersistence==null&&!isAutoCommit)
+        {
+            transPersistence=new Persistence();
+            transPersistence.setTimeout(this.timeout);
+        }
+        return transPersistence;
     }
 
     private void close(ResultSet rs, Persistence p) throws DAOException {

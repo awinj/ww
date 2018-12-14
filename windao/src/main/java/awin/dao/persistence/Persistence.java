@@ -23,12 +23,20 @@ public  class Persistence {
 
 	private Connection con;
 
+	private int timeout=100;
+
+	public void setTimeout(int timeout)
+	{
+		this.timeout=timeout;
+	}
+
 	private PreparedStatement prepStatement = null;
 	private PreparedStatement getPrepStatement(String sql) throws DAOException {
 		if(prepStatement!=null)
 			closeStmt(prepStatement);
 		try {
 			this.prepStatement = this.con.prepareStatement(sql);
+			prepStatement.setQueryTimeout(timeout);
 			return prepStatement;
 		} catch (SQLException e) {
 			throw new DAOException(e.getMessage(),e);
@@ -41,6 +49,7 @@ public  class Persistence {
 			closeStmt(statement);
 		try {
 			this.statement = con.createStatement();
+				statement.setQueryTimeout(timeout);
 			return statement;
 		} catch (SQLException e) {
 			throw new DAOException(e.getMessage(),e);
@@ -55,12 +64,24 @@ public  class Persistence {
 
 	public Persistence() throws DAOException {
 		try {
+			//一个Persistence，一个数据库连接
 			con=BasicConnection.getInstance().getConnection();
 		} catch (ConnectionException e) {
 			Logger.Error(e.getMessage());
 			throw new DAOException("数据库连接失败");
 		}
 	}
+
+	/**
+	 * 同一个Persistence，返回的连接也是同一个
+	 * @return 同一个Persistence，返回的连接也是同一个
+	 */
+	public Connection getConnection()
+	{
+		return con;
+	}
+
+
 
 	/**
 	 * 新增数据
@@ -656,17 +677,6 @@ public  class Persistence {
 		}
 	}
 
-	private void closeRs(ResultSet rs) {
-		try {
-			if (rs != null) {
-				rs.close();
-				rs = null;
-			}
-		}
-		catch (SQLException e)
-		{
-			Logger.Error(e.getMessage());
-		}
-	}
+
 
 }
