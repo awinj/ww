@@ -9,12 +9,17 @@ import java.util.List;
 /**
  * Created by aWin on 2018-12-14.
  *
- * @Description:
+ * @Description: 申明式事务管理类
+ * 使用方法  addToTransaction(dao);  begin();   业务逻辑 ;   commit();  异常：rollback()
  */
 public class TransactionManager {
 
     List<BaseDAO> daos=new ArrayList<BaseDAO>();
 
+    /**
+     * 将需要当作事务处理的dao添加到管理器中，最好只添加一个dao
+     * @param dao basedao
+     */
     public void addToTransaction(BaseDAO dao) {
         if (dao != null) {
             dao.setAutoCommit(false);
@@ -23,6 +28,10 @@ public class TransactionManager {
     }
 
 
+    /**
+     * 表明下面的数据库操作将启用事务
+     * @throws DAOException 异常
+     */
     public void begin() throws DAOException {
         try
         {
@@ -36,10 +45,15 @@ public class TransactionManager {
 
     }
 
+    /**
+     *  提交数据操作
+     * @throws DAOException 异常
+     */
     public void commit() throws DAOException {
 
         try
         {
+            //如果非第一个dao提交发生异常，第一个dao已经提交，此bug待完善。
             for (BaseDAO dao:daos) {
                 dao.getTransPersistence().getConnection().commit();
             }
@@ -60,6 +74,10 @@ public class TransactionManager {
 
     }
 
+    /**
+     * 回滚数据库
+     * @throws DAOException 异常
+     */
     public void rollback() throws DAOException {
 
         try

@@ -400,6 +400,7 @@ public class BaseDAO {
         return resultSetUtil;
     }
 
+    //执行数据库的为100s，如果超过100s将会抛出超时异常
     private int timeout=100;
 
     public void setTimeout(int timeout)
