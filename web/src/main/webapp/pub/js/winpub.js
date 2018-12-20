@@ -120,8 +120,11 @@ function loadTable(id, layfilter, cols) {
         });
         //监听提交
         form.on('submit(form_save)', function(data){
-            doSave(data.field);
-            closelayer();
+            var result=doSave(data.field);
+            if(result!=null&&result.statue==0)
+                layer.msg(result.msg);
+            else
+                closelayer();
             table.reload("data_table");
             return false;
         });
@@ -234,6 +237,7 @@ function doElse(event,data) {
 
 function clearForm(id) {
     $(id + " input").not(":radio").not(":checkbox").val("");//清空表单,排除radio
+    $(id + " textarea").val("");//清空表单,排除radio
     $(".refspan").html("");//清空参照的显示值
 }
 
@@ -271,8 +275,23 @@ function refreload() {
         var ref=selector.attr("ref");
         var pkval=selector.val();
         var dispval=disp(ref,pkval);
+        var disabled=selector.attr("disabled");
+        var next=$(this).next();//用于判断是否已经创建了refspan 便签
+        if(next.length<=0)
+        {
+            if(disabled!=null&&disabled=='disabled'){
+                $(this).after('<span class="refspan" disabled="disabled" > '+dispval+'</span>');
+            }else {
+                $(this).after('<span class="refspan" disabled="disabled" onclick="refclick(this,\''+ref+'\',false)"> '+dispval+'</span>');
+            }
+        }
+        else { //已经存在标签，则重新赋值即可
+            next.html(dispval);
+        }
+
+
         $(this).css("display","none");
-        $(this).after('<span class="refspan" onclick="refclick(this,\''+ref+'\',false)"> '+dispval+'</span>');
+
     });
 }
 

@@ -58,6 +58,7 @@
 </script>
 <script>
     var table_cols=[[
+        {type: 'checkbox', fixed: 'left'},
         {field: 'pk_china', title: '主键',hide:true},
         {field: 'title', title: '标题'},
         {field: 'code', title: '编号'},
@@ -66,16 +67,16 @@
         {field: 'times', title: '年代'},
         {field: 'model', title: '造型'},
         {field: 'num', title: '数量'},
-        {field: 'memo', title: '简介'},
-        {field: 'keyword', title: '关键词'},
-        {field: 'syskeyword', title: '系统关键词'},
+        {field: 'memo', title: '简介',hide:true},
+        {field: 'keyword', title: '关键词',hide:true},
+        {field: 'syskeyword', title: '系统关键词',hide:true},
         {field: 'price', title: '单价'},
-        {field: 'creator', title: '创建人'},
-        {field: 'creationTime', title: '创建时间'},
-        {field: 'modifier', title: '修改人'},
-        {field: 'modifyTime', title: '修改时间'},
-        {field: 'ts', title: '时间戳'},
-        {field: 'dr', title: '删除标志'},
+        {field: 'creator', title: '创建人',hide:true},
+        {field: 'creationTime', title: '创建时间',hide:true},
+        {field: 'modifier', title: '修改人',hide:true},
+        {field: 'modifyTime', title: '修改时间',hide:true},
+        {field: 'ts', title: '时间戳',hide:true},
+        {field: 'dr', title: '删除标志',hide:true},
 
 
     ]];
@@ -99,8 +100,7 @@
             parentVO:data
         };
         var result=httpPost('/ww/chn/china/save',JSON.stringify(aggVO));
-        if(result!=null)
-            layer.msg(result.msg);
+       return result;
     };
 
     function doDelete(selecteddata) {

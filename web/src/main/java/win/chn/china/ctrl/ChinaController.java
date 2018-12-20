@@ -42,6 +42,7 @@ public class ChinaController extends BaseController<ChinaAggVO> {
 
     @Override
     @RequestMapping(value = "delete",method = RequestMethod.POST)
+    @ResponseBody
     public Result delete(@RequestBody List<ChinaAggVO> aggVOs) {
         return super.delete(aggVOs);
     }

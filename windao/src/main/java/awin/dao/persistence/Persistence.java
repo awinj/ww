@@ -425,8 +425,9 @@ public  class Persistence {
 		 if(pageSize==null)
 		 	pageSize=10;
 
-		 StringBuilder where=new StringBuilder();
-		 SQLParameter parameter=initWhereParaByCon(con, where);
+
+		 QueryConditon conditon=initWhereParaByCon(con);
+		 StringBuilder where=conditon.getSqlWhere();
 		 IORM vo=BeanHelper.createBean(c);
 		if(vo!=null)
 		{
@@ -434,7 +435,7 @@ public  class Persistence {
 				String tmptable=new SelectString().select(vo.getAttrNames()).append(" ,rownum as rowno").from(vo.getTableName()).where(where.toString()).toString();
 				String sql=new SelectString().select(vo.getAttrNames()).from("("+tmptable+") t").where("t.rowno >"+index*pageSize+" and t.rowno <=" +(index+1)*pageSize).toString();
 				Logger.Debug("queryByPager sql:"+sql);
-				return query(sql,parameter);
+				return query(sql,conditon.getSqlParameter());
 			} catch (FromParaNullException e) {
 				throw new DAOException(e.getMessage(),e);
 			}
@@ -450,10 +451,9 @@ public  class Persistence {
 	 * 转为为   key1 like ? and key2 like ?
 	 * val 添加到 parameter 变量中
 	 * @param con key-val
-	 * @param where 待初始化的条件变量
 	 */
-	private SQLParameter initWhereParaByCon(Map<String, Object> con, StringBuilder where) {
-		where=new StringBuilder("1=1 ");
+	private QueryConditon initWhereParaByCon(Map<String, Object> con) {
+		StringBuilder where=new StringBuilder("1=1 ");
 		SQLParameter parameter=new SQLParameter();
 		if(con!=null)
         {
@@ -467,8 +467,12 @@ public  class Persistence {
                 }
             }
         }
-        return parameter;
+		QueryConditon conditon=new QueryConditon();
+		conditon.setSqlParameter(parameter);
+		conditon.setSqlWhere(where);
+        return conditon;
 	}
+
 
 	/**
 	 * 根据条件查询数据库包含数据的数量
@@ -479,16 +483,16 @@ public  class Persistence {
 	 */
 	public ResultSet queryCount(Class c,Map<String,Object> con) throws DAOException {
 
-		 StringBuilder where=new StringBuilder();
-		 SQLParameter parameter=initWhereParaByCon(con, where);
 
+		 QueryConditon conditon=initWhereParaByCon(con);
+		StringBuilder where=conditon.getSqlWhere();
 		IORM vo=BeanHelper.createBean(c);
          if(vo!=null)
          {
              try {
                  String sql=new SelectString().select(" count(1) ").from(vo.getTableName()).where(where.toString()).toString();
 				 Logger.Debug("queryCount sql:"+sql);
-                 return query(sql,parameter);
+                 return query(sql,conditon.getSqlParameter());
              } catch (FromParaNullException e) {
                  throw new DAOException(e.getMessage(),e);
              }
@@ -678,5 +682,27 @@ public  class Persistence {
 	}
 
 
+
+	private class QueryConditon
+	{
+		SQLParameter sqlParameter;
+		StringBuilder sqlWhere;
+
+		public SQLParameter getSqlParameter() {
+			return sqlParameter;
+		}
+
+		public void setSqlParameter(SQLParameter sqlParameter) {
+			this.sqlParameter = sqlParameter;
+		}
+
+		public StringBuilder getSqlWhere() {
+			return sqlWhere;
+		}
+
+		public void setSqlWhere(StringBuilder sqlWhere) {
+			this.sqlWhere = sqlWhere;
+		}
+	}
 
 }
