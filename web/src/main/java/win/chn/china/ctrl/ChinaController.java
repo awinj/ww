@@ -9,9 +9,12 @@ import org.springframework.web.servlet.ModelAndView;
 import win.chn.china.srv.ChinaServer;
 import win.chn.china.vo.ChinaAggVO;
 import win.chn.china.vo.ChinaVO;
+import win.chn.china.vo.ResourceVO;
 import win.pub.ctrl.BaseController;
+import win.pub.vo.QueryData;
 import win.pub.vo.Result;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -55,11 +58,15 @@ public class ChinaController extends BaseController<ChinaAggVO> {
     }
 
     @RequestMapping("chinarsur")
-    public ModelAndView chinarsus(String pk_china)
+    @ResponseBody
+    public List<ResourceVO> chinarsus(String pk_china)
     {
-        ModelAndView view=new ModelAndView();
-        view.setViewName("chn/china/chinarsur");
-        return view;
+        QueryData queryData=new QueryData();
+        ResourceVO resourceVO=new ResourceVO();
+        List<ResourceVO> data=new ArrayList<ResourceVO>();
+        data.add(resourceVO);
+        queryData.setData(data);
+        return data;
     }
 
     protected ChinaServer getServer() {

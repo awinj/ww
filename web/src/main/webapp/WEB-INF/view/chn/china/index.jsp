@@ -110,6 +110,8 @@
     function doUpdate(selectedData) {
         clearForm("#formdiv");//清空表单
         setFormValue(selectedData);
+
+
         refreload();//设置参照
         layer.open({
             type:1,

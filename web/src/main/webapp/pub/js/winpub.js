@@ -106,7 +106,7 @@ function loadTable(id, layfilter, cols) {
             };
         });
 
-        table.exportFile(tableinstance.config.id, 1); //data 为该实例中的任意数量的数据
+        // table.exportFile(tableinstance.config.id, 1); //data 为该实例中的任意数量的数据
 
 
         form.on('submit(data_search)', function(data){
@@ -239,13 +239,34 @@ function clearForm(id) {
     $(id + " input").not(":radio").not(":checkbox").val("");//清空表单,排除radio
     $(id + " textarea").val("");//清空表单,排除radio
     $(".refspan").html("");//清空参照的显示值
+
+
+    //表体
+    var body=httpPost("/ww/chn/china/chinarsur?",'123');
+    layui.use(['table'], function () {
+        var table = layui.table;
+        table.render({
+            id:'bodydata',
+            elem:'bodydata_table',
+            data:body
+        })
+    });
 }
 
 
 function setFormValue(data){
+    //表头
     layui.use(['form'], function () {
         var form = layui.form;
         form.val("form_filter", data);
+    });
+    //表体
+    var body=httpPost("/ww/chn/china/chinarsur?",'123');
+    layui.use(['table'], function () {
+        var table = layui.table;
+        table.reload({
+            data:body
+        })
     });
 
 }
@@ -309,4 +330,14 @@ function disp(ref,pkval) {
 
 function refclick(obj,ref,isMuti) {
     layuiRefdoc(obj,"/ww/doc/"+ref+"/ref",false);
+}
+
+
+
+function addrow(th) {
+    var this_table=$(th).parent().parent().parent();
+    var template=this_table.find("tbody template").first().html();
+    template='<tr>'+template+'</tr>';
+    this_table.find("tbody template").last().after(template);
+
 }
