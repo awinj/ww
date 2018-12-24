@@ -15,7 +15,7 @@
 /*.treenode{*/
     /*overflow: hidden;*/
 /*}*/
-.wintree label ,input{
+.wintree label ,.wintree input{
     display: block;
     float: left;
 

@@ -95,6 +95,30 @@
     loadQueryPanl('#querypanl',query_cols);
 
 
+
+    function doAdd() {
+        clearForm("#formdiv");//清空表单
+        refreload();//设置参照
+        layer.open({
+            type:1,
+            content: $('#formdiv'),
+            area:   ['90%', '90%'],
+        });
+    }
+
+
+    function doUpdate(selectedData) {
+        clearForm("#formdiv");//清空表单
+        setFormValue(selectedData);
+        refreload();//设置参照
+        layer.open({
+            type:1,
+            content: $('#formdiv'),
+            area:  ['90%', '90%'],
+        });
+    }
+
+
     function doSave(data) {
         var aggVO={
             parentVO:data

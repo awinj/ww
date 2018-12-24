@@ -54,7 +54,13 @@ public class ChinaController extends BaseController<ChinaAggVO> {
         return super.save(aggVO);
     }
 
-
+    @RequestMapping("chinarsur")
+    public ModelAndView chinarsus(String pk_china)
+    {
+        ModelAndView view=new ModelAndView();
+        view.setViewName("chn/china/chinarsur");
+        return view;
+    }
 
     protected ChinaServer getServer() {
         return new ChinaServer();
