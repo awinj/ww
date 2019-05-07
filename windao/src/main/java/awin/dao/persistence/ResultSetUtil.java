@@ -1,10 +1,10 @@
 package awin.dao.persistence;
 
-import awin.bean.util.BeanHelper;
 import awin.dao.exception.BaseException;
 import awin.dao.exception.DAOException;
 import awin.logger.Logger;
 import awin.util.parse.ParseUtil;
+import awin.util.reflect.BeanHelper;
 
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;

@@ -1,6 +1,7 @@
 package awin.bean;
 
-import awin.bean.util.BeanHelper;
+
+import awin.util.reflect.BeanHelper;
 
 import java.util.HashMap;
 import java.util.HashSet;

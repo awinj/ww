@@ -22,21 +22,20 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
+        <module name="mybatisdao" />
         <module name="util" />
         <module name="web" />
         <module name="windao" />
         <module name="winwf" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="almq" target="1.6" />
-      <module name="leadata" target="1.5" />
-      <module name="mq" target="1.6" />
-      <module name="util" target="1.5" />
-      <module name="web" target="1.5" />
-      <module name="windao" target="1.5" />
-      <module name="winwf" target="1.5" />
-      <module name="ww" target="1.6" />
+    <bytecodeTargetLevel target="1.8">
+      <module name="mybatisdao" target="1.8" />
+      <module name="util" target="1.8" />
+      <module name="web" target="1.8" />
+      <module name="windao" target="1.8" />
+      <module name="winwf" target="1.8" />
+      <module name="ww" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

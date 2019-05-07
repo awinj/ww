@@ -7,12 +7,12 @@ import java.util.Map;
 
 import awin.bean.IORM;
 import awin.bean.SuperVO;
-import awin.bean.util.BeanHelper;
 import awin.dao.exception.DAOException;
 import awin.dao.persistence.Persistence;
 import awin.dao.persistence.ResultSetUtil;
 import awin.dao.persistence.type.SQLParameter;
 import awin.logger.Logger;
+import awin.util.reflect.BeanHelper;
 
 public class BaseDAO {
 

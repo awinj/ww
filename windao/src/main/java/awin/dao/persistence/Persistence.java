@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import awin.bean.IORM;
-import awin.bean.util.BeanHelper;
 import awin.dao.conn.BasicConnection;
 import awin.dao.db.util.DBConsts;
 import awin.dao.db.util.DBUtil;
@@ -17,6 +16,7 @@ import awin.dao.persistence.type.SQLParameter;
 import awin.dao.sql.util.*;
 import awin.logger.Logger;
 import awin.pub.Generator;
+import awin.util.reflect.BeanHelper;
 
 public  class Persistence {
 
@@ -290,7 +290,7 @@ public  class Persistence {
 	 * @return 数据集
 	 * @throws DAOException 异常
 	 */
-	public ResultSet queryByPk(Class c,String pk) throws DAOException {
+	public ResultSet queryByPk(Class<? extends IORM> c,String pk) throws DAOException {
 		IORM vo= BeanHelper.createBean(c);
 		if(vo!=null)
 		{
@@ -346,9 +346,9 @@ public  class Persistence {
 	 * @return 结果集
 	 * @throws DAOException 异常
 	 */
-	 public ResultSet queryByWhere(Class c,String where)throws DAOException
+	 public ResultSet queryByWhere(Class<? extends IORM> c,String where)throws DAOException
 	 {
-         IORM vo=BeanHelper.createBean(c);
+         IORM vo= BeanHelper.createBean(c);
 		 if(vo!=null)
 		 {
 			 try {
@@ -373,7 +373,7 @@ public  class Persistence {
 	 * @return 结果集
 	 * @throws DAOException 异常
 	 */
-    public ResultSet queryByWhere(Class c,String where,SQLParameter parameter)throws DAOException
+    public ResultSet queryByWhere(Class<? extends IORM> c,String where,SQLParameter parameter)throws DAOException
     {
         IORM vo=BeanHelper.createBean(c);
         if(vo!=null)
@@ -400,13 +400,13 @@ public  class Persistence {
 	 * @return 结果集
 	 * @throws DAOException 异常
 	 */
-	 private int deleteByWhere(Class c,String where) throws DAOException {
+	 private int deleteByWhere(Class<? extends IORM> c,String where) throws DAOException {
 		 IORM vo=BeanHelper.createBean(c);
 		 String table=vo.getTableName();
 		 return executeUpdate("delete from "+table+" where "+where);
 	 }
 
-	 public int deleteByWhere(Class c,String where,SQLParameter parameter) throws DAOException {
+	 public int deleteByWhere(Class<? extends IORM> c,String where,SQLParameter parameter) throws DAOException {
 		 IORM vo=BeanHelper.createBean(c);
 		 String table=vo.getTableName();
 		 return executeUpdate("delete from "+table+" where "+where,parameter);
@@ -419,7 +419,7 @@ public  class Persistence {
 	 * @param pageSize 每页条数
 	 * @return 结果集
 	 */
-	 public ResultSet queryByPager(Class c,Map<String,Object> con,Integer index,Integer pageSize) throws DAOException {
+	 public ResultSet queryByPager(Class<? extends IORM> c,Map<String,Object> con,Integer index,Integer pageSize) throws DAOException {
 		if(index==null)
 			index=0;
 		 if(pageSize==null)
@@ -481,7 +481,7 @@ public  class Persistence {
 	 * @return 结果集
 	 * @throws DAOException 异常
 	 */
-	public ResultSet queryCount(Class c,Map<String,Object> con) throws DAOException {
+	public ResultSet queryCount(Class<? extends IORM> c,Map<String,Object> con) throws DAOException {
 
 
 		 QueryConditon conditon=initWhereParaByCon(con);
