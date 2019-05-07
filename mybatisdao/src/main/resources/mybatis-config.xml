@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <settings>
+        <setting name="cacheEnabled" value="true"/>
+        <setting name="lazyLoadingEnabled" value="false"/>
+        <setting name="aggressiveLazyLoading" value="true"/>
+        <!--<setting name="logImpl" value="LOG4J"/>-->
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+    </settings>
+
+    <plugins>
+        <plugin interceptor="awin.base.pager.PagerInterceptor">
+            <property name="limit" value="10"/>
+            <property name="dbType" value="mysql"/>
+        </plugin>
+    </plugins>
+
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="oracle.jdbc.driver.OracleDriver"/>
+                <property name="url" value="jdbc:oracle:thin:@127.0.0.1:1521/orcl"/>
+                <property name="username" value="nc"/>
+                <property name="password" value="1"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <!--<mapper resource="BaseMapper.xml"/>-->
+        <!--<mapper class="tk.mybatis.mapper.mapper.CountryMapper"/>-->
+        <!--<mapper url="file:///var/mappers/AuthorMapper.xml"/>-->
+        <!--<package name="org.mybatis.builder"/>-->
+        <mapper resource="UserMapper.xml" />
+        <!--<mapper class="UserMapper"></mapper>-->
+    </mappers>
+</configuration>
